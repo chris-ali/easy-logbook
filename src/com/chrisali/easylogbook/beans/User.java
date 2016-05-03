@@ -24,22 +24,22 @@ public class User implements Serializable {
 	@NotBlank
 	@Size(min=5, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class}) 
 	@Pattern(regexp="^\\w{5,}$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	private String  username;
+	private String username;
 	
 	@NotBlank
 	@Size(min=5, max= 100, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	private String  name;
+	private String name;
 	
 	@NotBlank(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	@Pattern(regexp="^\\S+$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	@Size(min=5, max=20, groups={FormValidationGroup.class})
-	private String  password;
+	private String password;
 	
 	@ValidEmail(min=6, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	private String  email;
+	private String email;
 	
 	private boolean enabled;
-	private String  authority;
+	private String authority;
 	
 	public User() {}
 	

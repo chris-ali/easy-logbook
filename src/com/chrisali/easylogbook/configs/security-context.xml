@@ -16,10 +16,9 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	
-	<security:http use-expressions="true"
-		access-denied-page="/accessdenied">
-	
+	<security:http use-expressions="true" access-denied-page="/accessdenied">
 		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/resources/**" access="permitAll" />
 		<security:intercept-url pattern="/login" access="!isAuthenticated()" />
 		<security:intercept-url pattern="/**" access="denyAll" />
 		

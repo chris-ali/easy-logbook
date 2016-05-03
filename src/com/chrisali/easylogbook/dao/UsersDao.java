@@ -24,7 +24,7 @@ public class UsersDao extends AbstractDao {
 	
 	public void createOrUpdate(User user) {
 		Transaction tx = null;
-		session = sessionFactory.getCurrentSession();
+		session = sessionFactory.openSession();
 		try {
 			tx = session.beginTransaction();
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -40,7 +40,7 @@ public class UsersDao extends AbstractDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
-		List<User> users = getSession().createCriteria("from User").list();
+		List<User> users = getSession().createQuery("from User").list();
 		
 		closeSession();
 		
