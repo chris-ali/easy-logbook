@@ -69,9 +69,10 @@ public class LogbookDao extends AbstractDao {
 		}
 	}
 	
-	public boolean delete(int id) {
-		Query query = getSession().createQuery("delete from Logbook where id=:id");
+	public boolean delete(String username, int id) {
+		Query query = getSession().createQuery("delete from Logbook where id=:id and username=:username");
 		query.setLong("id", id);
+		query.setString("username", username);
 		
 		boolean isDeleted = (query.executeUpdate() == 1);
 		closeSession();

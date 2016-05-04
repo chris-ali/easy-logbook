@@ -17,7 +17,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.User;
+import com.chrisali.easylogbook.dao.LogbookDao;
 import com.chrisali.easylogbook.dao.UsersDao;
 
 @ActiveProfiles("test")
@@ -25,10 +27,13 @@ import com.chrisali.easylogbook.dao.UsersDao;
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
 									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UsersDaoTests {
+public class LogbookDaoTests {
 	
 	@Autowired
 	private UsersDao usersDao;
+	
+	@Autowired
+	private LogbookDao logbookDao;
 	
 	@Autowired
 	private DataSource dataSource;
@@ -41,13 +46,25 @@ public class UsersDaoTests {
 	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@caveofprogramming.com", 
 									true, "ROLE_USER");
 	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@caveofprogramming.com", 
-									false, "user");
+									true, "user");
+	
+	private Logbook logbook1 = new Logbook(user1, "MyLogbook");
+	private Logbook logbook2 = new Logbook(user2, "MyLogbook");
+	private Logbook logbook3 = new Logbook(user2, "MyLogbook");
+	private Logbook logbook4 = new Logbook(user3, "MyLogbook");
+	private Logbook logbook5 = new Logbook(user4, "MyLogbook");
 	
 	private void addTestData() {
 		usersDao.createOrUpdate(user1);
 		usersDao.createOrUpdate(user2);
 		usersDao.createOrUpdate(user3);
 		usersDao.createOrUpdate(user4);
+		
+		logbookDao.createOrUpdate(logbook1);
+		logbookDao.createOrUpdate(logbook2);
+		logbookDao.createOrUpdate(logbook3);
+		logbookDao.createOrUpdate(logbook4);
+		logbookDao.createOrUpdate(logbook5);
 	}
 	
 	@Before
@@ -64,60 +81,76 @@ public class UsersDaoTests {
 	public void testCreateRetrieve() {
 		usersDao.createOrUpdate(user1);
 		
+		
 		List<User> users1 = usersDao.getAllUsers();
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
 		usersDao.createOrUpdate(user2);
+		
+		logbookDao.createOrUpdate(logbook1);
+		logbookDao.createOrUpdate(logbook2);
+		
+		List<Logbook> logbookList1 = logbookDao.getLogbooks();
+		
+		assertEquals("Two logbooks should be created and retrieved", 2, logbookList1.size());
+		
 		usersDao.createOrUpdate(user3);
 		usersDao.createOrUpdate(user4);
 		
+		logbookDao.createOrUpdate(logbook3);
+		logbookDao.createOrUpdate(logbook4);
+		logbookDao.createOrUpdate(logbook5);
+
+		List<Logbook> logbookList2 = logbookDao.getLogbooks();
 		List<User> users2 = usersDao.getAllUsers();
 		
+		assertEquals("Five logbooks should be created and retrieved", 5, logbookList2.size());
 		assertEquals("Four users should be created and retrieved", 4, users2.size());
+		
+		List<Logbook> logbooksUser2 = logbookDao.getLogbooks(user2.getUsername());
+		
+		assertEquals("Two logbooks should belong to user2", 2, logbooksUser2.size());
+		
+		Logbook logbook = logbookDao.getLogbook(user1.getUsername(), logbook1.getId());
+		assertEquals("User 1's retrieved aircraft should match logbook1", logbook, logbook1);
 	}
 	
 	@Test
 	public void testExists() {
 		addTestData();
 		
-		assertTrue("User should exist in database", usersDao.exists(user2.getUsername()));
-		assertFalse("User should not exist in database", usersDao.exists("notAUser"));
+		assertTrue("Logbook should exist in database", logbookDao.exists(user3.getUsername(), logbook4.getId()));
+		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookDao.exists(user3.getUsername(), 123456));
 	}
 	
 	@Test
 	public void testDelete() {
 		addTestData();
 		
-		List<User> users1 = usersDao.getAllUsers();
-		assertEquals("Four users should be created and retrieved", 4, users1.size());
+		List<Logbook> logbookList1 = logbookDao.getLogbooks();
+		assertEquals("Five logbooks should be created and retrieved", 5, logbookList1.size());
 		
-		assertTrue("User be deleted from database", usersDao.delete(user2.getUsername()));
-		assertTrue("User be deleted from database", usersDao.delete(user1.getUsername()));
+		assertTrue("Logbook belonging to user4 should be deleted from database", logbookDao.delete(user4.getUsername(), logbook5.getId()));
+		assertFalse("Aircraft not belonging to user4 should not be deleted from database", logbookDao.delete(user4.getUsername(), logbook2.getId()));
 		
-		List<User> users2 = usersDao.getAllUsers();
+		List<Logbook> logbookList2 = logbookDao.getLogbooks(user4.getUsername());
 		
-		assertEquals("Two users should be left in database", 2, users2.size());
+		assertEquals("Zero logbooks should belong to user4", 0, logbookList2.size());
 	}
 	
 	@Test
 	public void testUpdate() {
 		addTestData();
 		
-		List<User> users1 = usersDao.getAllUsers();
-		assertEquals("Four users should be created and retrieved", 4, users1.size());
+		List<Logbook> logbookList2 = logbookDao.getLogbooks();
+		assertEquals("Five logbooks should be created and retrieved", 5, logbookList2.size());
 		
-		user2.setName("Chris Ali");
-		usersDao.createOrUpdate(user2);
-		User updatedUser2 = usersDao.getUser(user2.getUsername());
+		logbook2.setName("MyUpdatedLogbook");
+		logbookDao.createOrUpdate(logbook2);
+		Logbook updatedLogbook = logbookDao.getLogbook(user2.getUsername(), logbook2.getId());
 		
-		assertEquals("Users should be equal", user2, updatedUser2);
-		
-		user3.setEmail("test@test.com");
-		usersDao.createOrUpdate(user3);
-		User updatedUser3 = usersDao.getUser(user3.getUsername());
-		
-		assertEquals("Users should be equal", user3, updatedUser3);
+		assertEquals("Logbooks should be equal", logbook2, updatedLogbook);
 	}
 }

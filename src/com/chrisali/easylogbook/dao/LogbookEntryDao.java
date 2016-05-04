@@ -19,10 +19,9 @@ import com.chrisali.easylogbook.beans.LogbookEntry;
 public class LogbookEntryDao extends AbstractDao {
 
 	@SuppressWarnings("unchecked")
-	public List<LogbookEntry> getLogbookEntries(int id) {
-		Criteria criteria = getSession().createCriteria(LogbookEntry.class);
-		criteria.createAlias("logbook", "l")
-				.add(Restrictions.eq("l.id", id));
+	public List<LogbookEntry> getLogbookEntries(int logbookId) {
+		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
+				.add(Restrictions.eq("logbooks_id", logbookId));
 		
 		List<LogbookEntry> logbookEntries = criteria.list();
 		closeSession();
@@ -31,9 +30,8 @@ public class LogbookEntryDao extends AbstractDao {
 	}
 	
 	public LogbookEntry getLogbookEntry(int logbookId, int entryId) {
-		Criteria criteria = getSession().createCriteria(LogbookEntry.class);
-		criteria.createAlias("logbook", "l")
-				.add(Restrictions.eq("l.id", logbookId))
+		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
+				.add(Restrictions.eq("logbooks_id", logbookId))
 				.add(Restrictions.eq("id", entryId));
 		
 		LogbookEntry LogbookEntry = (LogbookEntry) criteria.uniqueResult();
@@ -57,9 +55,10 @@ public class LogbookEntryDao extends AbstractDao {
 		}
 	}
 	
-	public boolean delete(int id) {
-		Query query = getSession().createQuery("delete from LogbookEntry where id=:id");
-		query.setLong("id", id);
+	public boolean delete(int logbookId, int entryId) {
+		Query query = getSession().createQuery("delete from LogbookEntry where id=:id and logbooks_id=:logbooks_id");
+		query.setLong("id", entryId);
+		query.setLong("logbooks_id", logbookId);
 		
 		boolean isDeleted = (query.executeUpdate() == 1);
 		closeSession();

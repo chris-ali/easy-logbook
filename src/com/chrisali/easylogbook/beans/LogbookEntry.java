@@ -1,13 +1,11 @@
 package com.chrisali.easylogbook.beans;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -24,15 +22,14 @@ public class LogbookEntry implements Serializable {
 	@GeneratedValue
 	private int id;
 	
-	@ManyToOne
-	@JoinColumn(name="name")
-	private Logbook logbook;
+	private int logbooks_id;
 	
 	@OneToOne
 	@JoinColumn(name="tailNumber")
 	private Aircraft aircraft;
 	
-	private Date date;
+	//TODO Needs a pattern matching regexp
+	private String date;
 	
 	// Route
 	@NotBlank
@@ -72,17 +69,16 @@ public class LogbookEntry implements Serializable {
 	private String remarks = "";
 	
 	public LogbookEntry() {
-		this.logbook = new Logbook();
 		this.aircraft = new Aircraft();
 	}
 
-	public LogbookEntry(int id, Logbook logbook, Aircraft aircraft, Date date) {
+	public LogbookEntry(int id, Logbook logbook, Aircraft aircraft, String date) {
 		this(logbook, aircraft, date);
 		this.id = id;
 	}
 	
-	public LogbookEntry(Logbook logbook, Aircraft aircraft, Date date) {
-		this.logbook = logbook;
+	public LogbookEntry(Logbook logbook, Aircraft aircraft, String date) {
+		this.logbooks_id = logbook.getId();
 		this.aircraft = aircraft;
 		this.date = date;
 	}
@@ -95,12 +91,12 @@ public class LogbookEntry implements Serializable {
 		this.id = id;
 	}
 
-	public Logbook getLogbook() {
-		return logbook;
+	public int getLogbooks_id() {
+		return logbooks_id;
 	}
 
-	public void setLogbook(Logbook logbook) {
-		this.logbook = logbook;
+	public void setLogbooks_id(int logbooks_id) {
+		this.logbooks_id = logbooks_id;
 	}
 
 	public Aircraft getAircraft() {
@@ -111,11 +107,11 @@ public class LogbookEntry implements Serializable {
 		this.aircraft = aircraft;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 

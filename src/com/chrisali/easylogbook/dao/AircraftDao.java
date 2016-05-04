@@ -58,7 +58,7 @@ public class AircraftDao extends AbstractDao {
 		session = sessionFactory.openSession();
 		try {
 			tx = session.beginTransaction();
-			session.save(aircraft);
+			session.saveOrUpdate(aircraft);
 			session.flush();
 			tx.commit();
 		} catch (Exception e) {
@@ -68,9 +68,10 @@ public class AircraftDao extends AbstractDao {
 		}
 	}
 	
-	public boolean delete(String tailNumber) {
-		Query query = getSession().createQuery("delete from Aircraft where tailNumber=:tailNumber");
+	public boolean delete(String username, String tailNumber) {
+		Query query = getSession().createQuery("delete from Aircraft where tailNumber=:tailNumber and username=:username");
 		query.setString("tailNumber", tailNumber);
+		query.setString("username", username);
 		
 		boolean isDeleted = (query.executeUpdate() == 1);
 		closeSession();
