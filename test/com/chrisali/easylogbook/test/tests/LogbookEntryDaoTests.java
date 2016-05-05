@@ -78,8 +78,8 @@ public class LogbookEntryDaoTests {
 		logbookDao.createOrUpdate(logbook2);
 		logbookDao.createOrUpdate(logbook3);
 		
-		logbookEntry1.setFrom("KTTN");
-		logbookEntry1.setFrom("KRDG");
+		logbookEntry1.setOrigin("KTTN");
+		logbookEntry1.setDestination("KRDG");
 		logbookEntry1.setDayLandings(1);
 		logbookEntry1.setAirplaneSel(0.8f);
 		logbookEntry1.setPilotInCommand(0.8f);
@@ -87,8 +87,8 @@ public class LogbookEntryDaoTests {
 		logbookEntry1.setTotalDuration(0.8f);
 		logbookEntryDao.createOrUpdate(logbookEntry1);
 		
-		logbookEntry2.setFrom("KEWR");
-		logbookEntry2.setFrom("RJAA");
+		logbookEntry2.setOrigin("KEWR");
+		logbookEntry2.setDestination("RJAA");
 		logbookEntry2.setDayLandings(1);
 		logbookEntry2.setAirplaneMel(12.8f);
 		logbookEntry2.setTurbine(12.8f);
@@ -97,8 +97,8 @@ public class LogbookEntryDaoTests {
 		logbookEntry2.setTotalDuration(12.8f);
 		logbookEntryDao.createOrUpdate(logbookEntry2);
 		
-		logbookEntry3.setFrom("N87");
-		logbookEntry3.setFrom("CYTZ");
+		logbookEntry3.setOrigin("N87");
+		logbookEntry3.setDestination("CYTZ");
 		logbookEntry3.setDayLandings(1);
 		logbookEntry3.setAirplaneSel(2.8f);
 		logbookEntry3.setActualInstrument(2.8f);
@@ -138,7 +138,7 @@ public class LogbookEntryDaoTests {
 		List<LogbookEntry> logbookEntries1 = logbookEntryDao.getLogbookEntries(logbook1.getId());
 		assertEquals("Two entries should be in this logbook", 2, logbookEntries1.size());
 		
-		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getLogbookEntries(logbook1.getId());
+		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getLogbookEntries(logbook2.getId());
 		assertEquals("One entry should be in this logbook", 1, logbookEntries2.size());
 	}
 	
@@ -166,6 +166,8 @@ public class LogbookEntryDaoTests {
 		List<LogbookEntry> logbookEntryList2 = logbookEntryDao.getLogbookEntries(logbook2.getId());
 		
 		assertEquals("Zero entries should remain in logbook2", 0, logbookEntryList2.size());
+		
+		assertTrue("logbook2 should be deleted from database", logbookDao.delete(user2.getUsername(), logbook2.getId()));
 	}
 	
 	@Test
@@ -175,7 +177,7 @@ public class LogbookEntryDaoTests {
 		List<Logbook> logbookList1 = logbookDao.getLogbooks();
 		assertEquals("Three logbooks should be created and retrieved", 3, logbookList1.size());
 		
-		logbookEntry2.setFrom("KSFO");
+		logbookEntry2.setOrigin("KSFO");
 		logbookEntry2.setSecondInCommand(3.8f);
 		logbookEntry2.setPilotInCommand(9.0f);
 		logbookEntryDao.createOrUpdate(logbookEntry2);
@@ -187,6 +189,6 @@ public class LogbookEntryDaoTests {
 		logbookEntryDao.createOrUpdate(logbookEntry3);
 		LogbookEntry updatedLogbookEntry2 = logbookEntryDao.getLogbookEntry(logbook1.getId(), logbookEntry3.getId());
 		
-		assertEquals("Logbook entries should be equal", logbookEntry2, updatedLogbookEntry2);
+		assertEquals("Logbook entries should be equal", logbookEntry3, updatedLogbookEntry2);
 	}
 }
