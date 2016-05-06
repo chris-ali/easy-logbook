@@ -15,11 +15,11 @@ public class UsersService {
 	@Autowired
 	private UsersDao usersDao;
 	
-	public void createOrUpdateUser(User user) {
+	public void createOrUpdate(User user) {
 		usersDao.createOrUpdate(user);
 	}
 	
-	public boolean userExists(String username) {
+	public boolean exists(String username) {
 		return usersDao.exists(username);
 	}
 	
@@ -33,7 +33,7 @@ public class UsersService {
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
-	public boolean deleteUser(String username) {
+	public boolean delete(String username) {
 		return usersDao.delete(username);
 	}
 }

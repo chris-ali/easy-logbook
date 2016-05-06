@@ -36,6 +36,7 @@
 				<list>
 					<value>com.chrisali.easylogbook.beans</value>
 					<value>com.chrisali.easylogbook.dao</value>
+					<value>com.chrisali.easylogbook.services</value>
 				</list>
 			</property>
 		</bean>
