@@ -49,9 +49,9 @@ public class LogbookEntryDaoTests {
 	private DataSource dataSource;
 	
 	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hellothere", "john@caveofprogramming.com", 
+	private User user1 = new User("johnwpurcell", "John Purcell", "hellothere", "john@test.com", 
 									true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@caveofprogramming.com", 
+	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
 									true, "ROLE_ADMIN");
 	
 	private Logbook logbook1 = new Logbook(user1, "MyLogbook");
