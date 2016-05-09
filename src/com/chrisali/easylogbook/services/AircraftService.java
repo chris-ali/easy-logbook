@@ -34,10 +34,10 @@ public class AircraftService {
 		return aircraftDao.getAircraft(username, tailNumber);
 	}
 	
-//	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-//	public boolean delete(String username, String tailNumber) {
-//		return aircraftDao.delete(username, tailNumber);
-//	}
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
+	public boolean delete(String username, String tailNumber) {
+		return aircraftDao.delete(username, tailNumber);
+	}
 	
 	public boolean exists(String username, String tailNumber) {
 		return aircraftDao.exists(username, tailNumber);

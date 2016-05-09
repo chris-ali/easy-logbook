@@ -40,13 +40,13 @@ public class AircraftDaoTests {
 	
 	// Test Users
 	private User user1 = new User("johnwpurcell", "John Purcell", "hello", "john@test.com", 
-			true, "ROLE_USER");
+				true, "ROLE_USER");
 	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
 				true, "ROLE_ADMIN");
 	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@test.com", 
 				true, "ROLE_USER");
 	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@test.com", 
-				false, "user");
+				true, "user");
 	
 	private Aircraft aircraft1 = new Aircraft(user1, "Cessna", "152", "N89061");
 	private Aircraft aircraft2 = new Aircraft(user1, "Cessna", "172", "N6379F");
