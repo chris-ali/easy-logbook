@@ -174,5 +174,10 @@
     	<artifactId>spring-security-test</artifactId>
     	<version>4.0.4.RELEASE</version>
     </dependency>
+    <dependency>
+		<groupId>org.thymeleaf</groupId>
+		<artifactId>thymeleaf-spring4</artifactId>
+		<version>2.1.2.RELEASE</version>
+	</dependency>
   </dependencies>
 </project>
