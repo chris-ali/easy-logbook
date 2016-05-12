@@ -22,11 +22,16 @@
 		<security:intercept-url pattern="/login" access="!isAuthenticated()" />
 		<security:intercept-url pattern="/**" access="denyAll" />
 		
-		<security:form-login login-page="/login" authentication-failure-url="/login?error=true" default-target-url="/" />
-			
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?error" default-target-url="/"
+			always-use-default-target="true" />
+
 		<security:logout logout-url="/loggedout" />
 		
-		<security:remember-me key="logbookRememberKey" user-service-ref="jdbcUserService" />
+		<security:remember-me key="logbookRememberKey"
+			user-service-ref="jdbcUserService"
+			remember-me-parameter="remember-me"
+			remember-me-cookie="easyLogbookRememberMe" />
 
 		<security:access-denied-handler error-page="/accessdenied" />
 	</security:http>
