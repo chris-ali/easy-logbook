@@ -19,19 +19,22 @@
 	
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/logout" access="permitAll" />
+		<security:intercept-url pattern="/login" access="permitAll" />
+		<security:intercept-url pattern="/accessdenied" access="permitAll" />
 		<security:intercept-url pattern="/resources/**" access="permitAll" />
 		<security:intercept-url pattern="/createaccount" access="permitAll" />
 		<security:intercept-url pattern="/docreateaccount" access="permitAll" />
 		<security:intercept-url pattern="/accountcreated" access="permitAll" />
-		<security:intercept-url pattern="/login" access="!isAuthenticated()" />
 		<security:intercept-url pattern="/**" access="denyAll" />
 		
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?error" default-target-url="/"
 			always-use-default-target="true" login-processing-url="/login" />
 
-		<security:logout logout-url="/loggedout" />
-		
+		<security:logout logout-url="/logout"
+			logout-success-url="/logout" />
+
 		<security:remember-me key="logbookRememberKey"
 			user-service-ref="jdbcUserService"
 			remember-me-parameter="remember-me"

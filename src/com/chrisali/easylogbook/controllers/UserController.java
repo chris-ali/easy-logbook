@@ -56,8 +56,8 @@ public class UserController {
 		return "login";
 	}
 	
-	@RequestMapping("/loggedout")
+	@RequestMapping("/logout")
 	public String showLoggedOut() {
-		return "loggedout";
+		return "logout";
 	}
 }
