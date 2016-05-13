@@ -43,8 +43,8 @@
 	              <nav>
 	                <ul class="nav masthead-nav">
 	                  <li class="active"><a href="">Home</a></li>
-	                  <li><a href="#">Features</a></li>
-	                  <li><a href="@{/login}">Login</a></li>
+	                  <li><a th:href="@{/}">Features</a></li>
+	                  <li><a th:href="@{/login}">Login</a></li>
 	                </ul>
 	              </nav>
 	            </div>
@@ -54,7 +54,7 @@
 	            <h1 class="cover-heading">Log your flights online</h1>
 	            <p class="lead">Easy Logbook is a free and easy way for pilots to log their flight time online and keep track of their currency</p>
 	            <p class="lead">
-	              <a href="#" class="btn btn-lg btn-default">Get Started</a>
+	              <a th:href="@{/createaccount}" class="btn btn-lg btn-default">Get Started</a>
 	            </p>
 	          </div>
 	

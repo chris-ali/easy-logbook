@@ -31,7 +31,7 @@ public class User implements Serializable {
 	private String name;
 	
 	@NotBlank(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	@Pattern(regexp="^\\S+$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	//@Pattern(regexp="^\\S+$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	@Size(min=5, max=20, groups={FormValidationGroup.class})
 	private String password;
 	

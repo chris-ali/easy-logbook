@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+	
 	<head>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
@@ -24,54 +25,101 @@
 	
 		<meta charset="utf-8" />
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="_csrf_header" content="${_csrf.headerName}" />
 	    <meta name="viewport" content="width=device-width, initial-scale=1" />
 	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 	    <meta name="description" content="" />
 	    <meta name="author" content="" />
 	    
-	    <title>Log In</title>
+	    <title>Create New Account</title>
+	   <!--  
+	    <script type="text/javascript">
+
+			function onLoad() {
+				
+				var token = $("input[name='_csrf']").val();
+				var header= "X-­‐CSRF-­‐TOKEN";
+				
+				$(document).ajaxSend(function(e, xhr, options) {
+					xhr.setRequestHeader(header, token);
+				});
+			
+				$("#inputPassword").keyup(checkMatchPasswords);
+				$("#inputRepeat").keyup(checkMatchPasswords);
+				
+				$("#details").submit(canSubmit);
+			}
+			
+			function canSubmit() {
+				var password = $("#inputPassword").val();
+				var repeat = $("#inputRepeat").val();
+				
+				if (password != repeat){
+					alert("${UnmatchedPasswords.user.password}")
+					return false;
+				} else {
+					return true;
+				}
+			}
+			
+			function checkMatchPasswords() {
+				var password = $("#inputPassword").val();
+				var repeat = $("#inputRepeat").val();
+				
+				if(password.length < 3 || repeat.length < 3) {
+					return;
+				}
+				
+				if (password != repeat) {
+					$("#unmatchedPasswords").text("${UnmatchedPasswords.user.password}");
+				} else {
+					$("#unmatchedPasswords").text("");
+				}
+			}
+			
+			$(document).ready(onLoad);
+		
+		</script>
+    	-->
 	</head>
 	
 	<body>
 	
 		<div class="container">
 	
-			<div th:if="${param.error}" class="alert alert-danger">
-				<p>Unable to log in. Invalid username or password.</p>
-			</div>
-	
-			<form class="form-signin" th:action="@{/login}" method="post">
+			<form class="form-signin" th:object="${user}" th:action="@{/docreateaccount}" method="post">
 				
 				<h2 class="form-signin-heading">Create an account</h2>
 				
 				<label for="inputName" class="sr-only">Name</label> 
-				<input type="text" name='username' id="inputName" 
-					th:class="'${param.error}' ? 'form-control has-error' : 'form-control'" 
+				<input type="text" name='name' id="inputName" class="form-control"
+					th:field="*{name}"
 					placeholder="Name" autofocus="autofocus" /> 
 				
+				<label for="inputEmail" class="sr-only">Email</label> 
+				<input type="email" name='email' id="inputEmail" class="form-control"
+					th:field="*{email}"
+					placeholder="Email" />
+				<span class="form-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+				
 				<label for="inputUsername" class="sr-only">Username</label> 
-				<input type="text" name='username' id="inputUsername" 
-					th:class="'${param.error}' ? 'form-control has-error' : 'form-control'" 
-					placeholder="Username" autofocus="autofocus" /> 
+				<input type="text" name='username' id="inputUsername" class="form-control"
+					th:field="*{username}"
+					placeholder="Username" />
+				<span class="form-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 					
 				<label for="inputPassword" class="sr-only">Password</label>
-				<input type="password" name='password' id="inputPassword" 
-					th:class="'${param.error}' ? 'form-control has-error' : 'form-control'" 
+				<input type="password" name='password' id="inputPassword" class="form-control"	
+					th:field="*{password}" 
 					placeholder="Password" />
+				<span class="form-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 					
 				<label for="inputRepeat" class="sr-only">Repeat Password</label>
-				<input type="password" name='repeatPassword' id="inputRepeat" 
-					th:class="'${param.error}' ? 'form-control has-error' : 'form-control'" 
-					placeholder="Password" />
-					
-				<div class="checkbox">
-					<label> <input type="checkbox"
-						name='remember-me' value="remember-me" />
-						Remember Me
-					</label>
-				</div>
+				<input type="password" id="inputRepeat"	class="form-control"	
+					placeholder="Repeat Password" />
+				<span class="form-error" id="unmatchedPasswords"></span>
 				
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
 	
 			</form>
 	

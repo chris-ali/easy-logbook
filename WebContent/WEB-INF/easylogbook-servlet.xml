@@ -16,7 +16,7 @@
 	<mvc:resources location="/resources/" mapping="/static/**" />
 	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename" value="com.chrisali.spring.web.messages.messages"></property>
+		<property name="basename" value="com.chrisali.easylogbook.messages.messages"></property>
 	</bean>
 	
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">

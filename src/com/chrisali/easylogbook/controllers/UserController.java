@@ -19,12 +19,14 @@ public class UserController {
 	@Autowired
 	private UsersService usersService;
 	
-	@RequestMapping("/createuser")
-	public String showCreateUser() {
-		return "createuser";
+	@RequestMapping("/createaccount")
+	public String showCreateAccount(Model model) {
+		model.addAttribute("user", new User());
+		
+		return "createaccount";
 	}
 	
-	@RequestMapping(value="/accountcreated", method=RequestMethod.POST)
+	@RequestMapping(value="/docreateaccount", method=RequestMethod.POST)
 	public String doCreateAccount(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
 		if (result.hasErrors())
 			return "createaccount";
