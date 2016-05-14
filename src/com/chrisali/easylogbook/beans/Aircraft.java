@@ -3,6 +3,7 @@ package com.chrisali.easylogbook.beans;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +21,10 @@ public class Aircraft implements Serializable {
 
 	private static final long serialVersionUID = 5061658878035904314L;
 	
+	@Id
+	@GeneratedValue
+	private int id;
+	
 	@ManyToOne
 	@JoinColumn(name="username")
 	private User user;
@@ -32,7 +37,6 @@ public class Aircraft implements Serializable {
 	@Size(min=2, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String model;
 
-	@Id
 	@NotBlank
 	@Size(min=2, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String tailNumber;
@@ -40,12 +44,25 @@ public class Aircraft implements Serializable {
 	public Aircraft() {
 		this.user = new User();
 	}
+	
+	public Aircraft(int id, User user, String make, String model, String tailNumber) {
+		this(user, make, model, tailNumber);
+		this.id = id;
+	}
 
 	public Aircraft(User user, String make, String model, String tailNumber) {
 		this.user = user;
 		this.make = make;
 		this.model = model;
 		this.tailNumber = tailNumber;
+	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public User getUser() {

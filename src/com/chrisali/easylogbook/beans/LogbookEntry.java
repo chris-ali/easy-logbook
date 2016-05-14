@@ -29,6 +29,7 @@ public class LogbookEntry implements Serializable {
 	
 	@OneToOne
 	@JoinColumns({
+		@JoinColumn(name="aircraft_id", referencedColumnName="id"),
 		@JoinColumn(name="tailNumber", referencedColumnName="tailNumber"),
 		@JoinColumn(name="make", referencedColumnName="make"),
 		@JoinColumn(name="model", referencedColumnName="model")

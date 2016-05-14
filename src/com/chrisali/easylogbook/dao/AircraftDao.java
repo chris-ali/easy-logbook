@@ -40,12 +40,12 @@ public class AircraftDao extends AbstractDao {
 		return aircraft;
 	}
 	
-	public Aircraft getAircraft(String username, String tailNumber) {
+	public Aircraft getAircraft(String username, int id) {
 		Criteria criteria = getSession().createCriteria(Aircraft.class);
 		criteria.createAlias("user", "u")
 				.add(Restrictions.eq("u.enabled", true))
 				.add(Restrictions.eq("u.username", username))
-				.add(Restrictions.eq("tailNumber", tailNumber));
+				.add(Restrictions.eq("id", id));
 		
 		Aircraft aircraft = (Aircraft) criteria.uniqueResult();
 		closeSession();
@@ -68,9 +68,9 @@ public class AircraftDao extends AbstractDao {
 		}
 	}
 	
-	public boolean delete(String username, String tailNumber) {
-		Query query = getSession().createQuery("delete from Aircraft where tailNumber=:tailNumber and username=:username");
-		query.setString("tailNumber", tailNumber);
+	public boolean delete(String username, int id) {
+		Query query = getSession().createQuery("delete from Aircraft where id=:id and username=:username");
+		query.setInteger("id", id);
 		query.setString("username", username);
 		
 		boolean isDeleted = (query.executeUpdate() == 1);
@@ -79,7 +79,7 @@ public class AircraftDao extends AbstractDao {
 		return isDeleted;
 	}
 	
-	public boolean exists(String username, String tailNumber) {
-		return getAircraft(username, tailNumber) != null;
+	public boolean exists(String username, int id) {
+		return getAircraft(username, id) != null;
 	}
 }

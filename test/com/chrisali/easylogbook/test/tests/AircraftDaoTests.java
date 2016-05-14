@@ -117,7 +117,7 @@ public class AircraftDaoTests {
 		
 		assertEquals("Three aircraft should belong to user 4", 3, aircraftUser4.size());
 		
-		Aircraft aircraft = aircraftDao.getAircraft(user1.getUsername(), aircraft2.getTailNumber());
+		Aircraft aircraft = aircraftDao.getAircraft(user1.getUsername(), aircraft2.getId());
 		assertEquals("User 1's retrieved aircraft should match aircraft2", aircraft, aircraft2);
 	}
 	
@@ -125,8 +125,8 @@ public class AircraftDaoTests {
 	public void testExists() {
 		addTestData();
 		
-		assertTrue("Aircraft should exist in database", aircraftDao.exists(user3.getUsername(), aircraft4.getTailNumber()));
-		assertFalse("Aircraft not belonging to user 3 should not exist in database", aircraftDao.exists(user3.getUsername(), "N9999"));
+		assertTrue("Aircraft should exist in database", aircraftDao.exists(user3.getUsername(), aircraft4.getId()));
+		assertFalse("Aircraft not belonging to user 3 should not exist in database", aircraftDao.exists(user3.getUsername(), 123456));
 	}
 	
 	@Test
@@ -136,8 +136,8 @@ public class AircraftDaoTests {
 		List<Aircraft> aircraftList1 = aircraftDao.getAircraft();
 		assertEquals("Seven aircraft should be created and retrieved", 7, aircraftList1.size());
 		
-		assertTrue("Aircraft G-CLLD belonging to user4 should be deleted from database", aircraftDao.delete(user4.getUsername(), aircraft6.getTailNumber()));
-		assertFalse("Aircraft not belonging to user4 should not be deleted from database", aircraftDao.delete(user4.getUsername(), aircraft1.getTailNumber()));
+		assertTrue("Aircraft G-CLLD belonging to user4 should be deleted from database", aircraftDao.delete(user4.getUsername(), aircraft6.getId()));
+		assertFalse("Aircraft not belonging to user4 should not be deleted from database", aircraftDao.delete(user4.getUsername(), aircraft1.getId()));
 		
 		List<Aircraft> aircraftList2 = aircraftDao.getAircraft(user4.getUsername());
 		
@@ -154,13 +154,13 @@ public class AircraftDaoTests {
 		aircraft5.setMake("Lockheed");
 		aircraft5.setMake("L1011");
 		aircraftDao.createOrUpdate(aircraft5);
-		Aircraft updatedAircraft1 = aircraftDao.getAircraft(user4.getUsername(), aircraft5.getTailNumber());
+		Aircraft updatedAircraft1 = aircraftDao.getAircraft(user4.getUsername(), aircraft5.getId());
 		
 		assertEquals("Aircraft should be equal", aircraft5, updatedAircraft1);
 		
 		aircraft1.setTailNumber("N6267Q");
 		aircraftDao.createOrUpdate(aircraft1);
-		Aircraft updatedAircraft2 = aircraftDao.getAircraft(user1.getUsername(), aircraft1.getTailNumber());
+		Aircraft updatedAircraft2 = aircraftDao.getAircraft(user1.getUsername(), aircraft1.getId());
 		
 		assertEquals("Aircraft should be equal", aircraft1, updatedAircraft2);
 	}

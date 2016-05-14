@@ -30,16 +30,16 @@ public class AircraftService {
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	public Aircraft getAircraft(String username, String tailNumber) {
-		return aircraftDao.getAircraft(username, tailNumber);
+	public Aircraft getAircraft(String username, int id) {
+		return aircraftDao.getAircraft(username, id);
 	}
 	
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
-	public boolean delete(String username, String tailNumber) {
-		return aircraftDao.delete(username, tailNumber);
+	public boolean delete(String username, int id) {
+		return aircraftDao.delete(username, id);
 	}
 	
-	public boolean exists(String username, String tailNumber) {
-		return aircraftDao.exists(username, tailNumber);
+	public boolean exists(String username, int id) {
+		return aircraftDao.exists(username, id);
 	}
 }
