@@ -18,7 +18,12 @@
 	</security:authentication-manager>
 	
 	<security:http use-expressions="true">
+		<security:intercept-url pattern="/logbooks" access="isAuthenticated()" />
+		<security:intercept-url pattern="/createlogbook" access="isAuthenticated()" />
+		<security:intercept-url pattern="/logbookcreated" access="isAuthenticated()" />
+		<security:intercept-url pattern="/logbookdeleted" access="isAuthenticated()" />
 		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/features" access="permitAll" />
 		<security:intercept-url pattern="/logout" access="permitAll" />
 		<security:intercept-url pattern="/login" access="permitAll" />
 		<security:intercept-url pattern="/accessdenied" access="permitAll" />

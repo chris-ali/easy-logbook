@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+	<head>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" />
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<!-- Custom styles for this template -->
+   		<link href="http://getbootstrap.com/examples/cover/cover.css" rel="stylesheet" />
+   		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    	<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+	
+		<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	    <meta name="description" content="" />
+	    <meta name="author" content="" />
+	    
+		<title>Easy Logbook</title>
+	</head>
+	<body>
+
+	    <div class="site-wrapper">
+	
+	      <div class="site-wrapper-inner">
+	
+	        <div class="cover-container">
+	
+	          <div class="masthead clearfix">
+	            <div class="inner">
+	              <h3 class="masthead-brand">Easy Logbook</h3>
+	              <nav>
+	                <ul class="nav masthead-nav">
+	                  <li><a th:href="@{/}">Home</a></li>
+	                  <li class="active"><a th:href="@{/features}">Features</a></li>
+	                  <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Log in</a></li>
+	                  <li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="$('#form').submit();">Log out</a></li>
+	                </ul>
+	              </nav>
+	            </div>
+	          </div>
+	          
+	          <!-- CSRF Logout Protection Form -->
+	          <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+	          	
+	          <div class="inner cover">
+	            <h1 class="cover-heading">Features</h1>
+	            <p class="lead">Features go here</p>
+	          </div>
+	          
+	          <div sec:authorize="isAuthenticated()" class="inner cover">
+	            <h1 class="cover-heading">Hello, </h1>
+	            <p class="lead">
+	              <a th:href="@{/logbooks}" class="btn btn-lg btn-default">View your logbooks</a> or <a th:href="@{/createlogbook}" class="btn btn-lg btn-default">Create a new logbook</a> 
+	            </p>
+	          </div>
+	
+	          <div class="mastfoot">
+	            <div class="inner">
+	              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+	            </div>
+	            <div class="inner" th:replace="templates/footer :: 'footer'"></div>
+	          </div>
+	          
+	        </div>
+	      </div>
+	    </div>
+  </body>
+</html>

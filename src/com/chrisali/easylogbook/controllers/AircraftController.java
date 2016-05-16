@@ -32,38 +32,38 @@ public class AircraftController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping("/aircraft")
-	public String showAircraft(Principal principal, Model model) {
+	@RequestMapping("/myaircraft")
+	public String showSingleAircraft(Principal principal, Model model) {
 		List<Aircraft> aircraft = aircraftService.getAircraft(principal.getName());
 		
 		model.addAttribute("aircraft", aircraft);
 		
-		return "aircraft";
+		return "aircraft/aircraft";
 	}
 	
-	@RequestMapping("/aircraft")
-	public String showAircraft(Principal principal, Model model, 
+	@RequestMapping("/allaircraft")
+	public String showAllAircraft(Principal principal, Model model, 
 							   @RequestParam("aircraftId") int aircraftId) {
 		Aircraft aircraft = aircraftService.getAircraft(principal.getName(), aircraftId);
 		model.addAttribute("aircraft", aircraft);
 		
-		return "aircraft";
+		return "aircraft/aircraft";
 	}
 	
 	@RequestMapping(value="/createaircraft")
-	public String showCreateLogbook(Model model) {
+	public String showCreateAircraft(Model model) {
 		model.addAttribute("aircraft", new Aircraft());
-		return "createaircraft";
+		return "aircraft/createaircraft";
 	}
 	
 	@RequestMapping(value="/docreateaircraft")
-	public String doCreateLogbook(@Validated(FormValidationGroup.class) Aircraft aircraft, 
+	public String doCreateAircraft(@Validated(FormValidationGroup.class) Aircraft aircraft, 
 								  BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors())
-			return "createaircraft";
+			return "aircraft/createaircraft";
 		
 		if (aircraftService.exists(principal.getName(), aircraft.getId()))
-			return "createaircraft";
+			return "aircraft/createaircraft";
 		
 		try {
 			String username = principal.getName();
@@ -71,23 +71,23 @@ public class AircraftController {
 			aircraftService.createOrUpdate(aircraft);
 		} catch (DuplicateKeyException e) {
 			result.rejectValue("name", "DuplicateKey.aircraft.name");
-			return "createaircraft";
+			return "aircraft/createaircraft";
 		}
 		
 		model.addAttribute("aircraft", aircraft);
 		
-		return "aircraftcreated";
+		return "aircraft/aircraftcreated";
 	}
 	
 	/*
 	@RequestMapping(value="/deleteaircraft")
-	public String deleteLogbook(Principal principal, @RequestParam("aircraftId") int aircraftId){
+	public String deleteAircraft(Principal principal, @RequestParam("aircraftId") int aircraftId){
 		
 		String username = principal.getName();
 		Aircraft aircraft = aircraftService.getAircraft(username, aircraftId);
 		List<Logbook> logbooks = logbookService.getLogbooks(username);
 		
-		for (logbook)
+		for (Logbook logbook : logbooks)
 		
 			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());
 			
@@ -96,7 +96,7 @@ public class AircraftController {
 		
 		aircraftService.delete(principal.getName(), aircraftId);
 		
-		return "aircraftdeleted";
+		return "aircraft/aircraftdeleted";
 	}
 	*/
 }

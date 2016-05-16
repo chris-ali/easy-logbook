@@ -23,41 +23,41 @@ public class UserController {
 	public String showCreateAccount(Model model) {
 		model.addAttribute("user", new User());
 		
-		return "createaccount";
+		return "user/createaccount";
 	}
 	
 	@RequestMapping(value="/docreateaccount", method=RequestMethod.POST)
 	public String doCreateAccount(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
 		if (result.hasErrors())
-			return "createaccount";
+			return "user/createaccount";
 		
 		user.setEnabled(true);
 		user.setAuthority("ROLE_USER");
 		
 		if (usersService.exists(user.getUsername())) {
 			result.rejectValue("username", "DuplicateKey.user.username");
-			return "createaccount";
+			return "user/createaccount";
 		}
 		
 		try {
 			usersService.createOrUpdate(user);
 		} catch (DuplicateKeyException e) {
 			result.rejectValue("username", "DuplicateKey.user.username");
-			return "createaccount";
+			return "user/createaccount";
 		}
 		
 		model.addAttribute("user", user);
 		
-		return "accountcreated";
+		return "user/accountcreated";
 	}
 	
 	@RequestMapping("/login")
 	public String showLogin() {
-		return "login";
+		return "user/login";
 	}
 	
 	@RequestMapping("/logout")
 	public String showLoggedOut() {
-		return "logout";
+		return "user/logout";
 	}
 }

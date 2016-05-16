@@ -27,38 +27,38 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping("/logbooks")
-	public String showLogbooks(Principal principal, Model model) {
-		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
-		
-		model.addAttribute("logbooks", logbooks);
-		
-		return "logbooks";
-	}
-	
-	@RequestMapping("/logbooks")
-	public String showLogbook(Principal principal, Model model, 
+	@RequestMapping("/mylogbook")
+	public String showSingleLogbook(Principal principal, Model model, 
 							  @RequestParam("logbookId") int logbookId) {
 		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);
 		model.addAttribute("logbook", logbook);
 		
-		return "logbooks";
+		return "logbook/logbooks";
+	}
+	
+	@RequestMapping("/alllogbooks")
+	public String showAllLogbooks(Principal principal, Model model) {
+		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
+		
+		model.addAttribute("logbooks", logbooks);
+		
+		return "logbook/logbooks";
 	}
 	
 	@RequestMapping(value="/createlogbook")
 	public String showCreateLogbook(Model model) {
 		model.addAttribute("logbook", new Logbook());
-		return "createlogbook";
+		return "logbook/createlogbook";
 	}
 	
 	@RequestMapping(value="/docreatelogbook")
 	public String doCreateLogbook(@Validated(FormValidationGroup.class) Logbook logbook, 
 								  BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors())
-			return "createlogbook";
+			return "logbook/createlogbook";
 		
 		if (logbookService.exists(principal.getName(), logbook.getId()))
-			return "createlogbook";
+			return "logbook/createlogbook";
 		
 		try {
 			String username = principal.getName();
@@ -66,12 +66,12 @@ public class LogbookController {
 			logbookService.createOrUpdate(logbook);
 		} catch (DuplicateKeyException e) {
 			result.rejectValue("name", "DuplicateKey.logbook.name");
-			return "createlogbook";
+			return "logbook/createlogbook";
 		}
 		
 		model.addAttribute("logbook", logbook);
 		
-		return "logbookcreated";
+		return "logbook/logbookcreated";
 	}
 	
 	@RequestMapping(value="/deletelogbook")
@@ -85,6 +85,6 @@ public class LogbookController {
 		
 		logbookService.delete(principal.getName(), logbookId);
 		
-		return "logbookdeleted";
+		return "logbook/logbookdeleted";
 	}
 }

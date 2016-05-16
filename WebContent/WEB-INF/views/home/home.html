@@ -5,19 +5,14 @@
 	<head>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-		
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" />
-		
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-		
 		<!-- Custom styles for this template -->
    		<link href="http://getbootstrap.com/examples/cover/cover.css" rel="stylesheet" />
-   		
    		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    	
     	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     	<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 	
@@ -43,8 +38,8 @@
 	              <h3 class="masthead-brand">Easy Logbook</h3>
 	              <nav>
 	                <ul class="nav masthead-nav">
-	                  <li class="active"><a href="">Home</a></li>
-	                  <li><a th:href="@{/}">Features</a></li>
+	                  <li class="active"><a th:href="@{/}">Home</a></li>
+	                  <li><a th:href="@{/features}">Features</a></li>
 	                  <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Log in</a></li>
 	                  <li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="$('#form').submit();">Log out</a></li>
 	                </ul>
@@ -65,9 +60,8 @@
 	          
 	          <div sec:authorize="isAuthenticated()" class="inner cover">
 	            <h1 class="cover-heading">Hello, </h1>
-	            <p class="lead">Easy Logbook is a free and easy way for pilots to log their flight time online and keep track of their currency</p>
 	            <p class="lead">
-	              <a th:href="@{/createaccount}" class="btn btn-lg btn-default">View your logbooks</a>
+	              <a th:href="@{/logbooks}" class="btn btn-lg btn-default">View your logbooks</a> or <a th:href="@{/createlogbook}" class="btn btn-lg btn-default">Create a new logbook</a> 
 	            </p>
 	          </div>
 	
@@ -75,6 +69,7 @@
 	            <div class="inner">
 	              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
 	            </div>
+	            <div class="inner" th:replace="templates/footer :: 'footer'"></div>
 	          </div>
 	          
 	        </div>

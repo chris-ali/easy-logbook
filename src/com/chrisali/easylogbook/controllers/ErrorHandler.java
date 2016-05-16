@@ -11,11 +11,11 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDatabaseException(DataAccessException e) {
-		return "databaseerror";
+		return "error/databaseerror";
 	}
 	
 	@ExceptionHandler(AccessDeniedException.class)
 	public String handleAccessDeniedException(AccessDeniedException e) {
-		return "accessdenied";
+		return "error/accessdenied";
 	}
 }
