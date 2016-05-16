@@ -27,16 +27,16 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping("/mylogbook")
+	@RequestMapping(value="/mylogbook")
 	public String showSingleLogbook(Principal principal, Model model, 
 							  @RequestParam("logbookId") int logbookId) {
 		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);
 		model.addAttribute("logbook", logbook);
 		
-		return "logbook/logbooks";
+		return "logbook/logbook";
 	}
 	
-	@RequestMapping("/alllogbooks")
+	@RequestMapping(value="/alllogbooks")
 	public String showAllLogbooks(Principal principal, Model model) {
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
 		

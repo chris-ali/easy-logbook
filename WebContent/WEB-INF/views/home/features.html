@@ -25,7 +25,7 @@
 	    
 		<title>Easy Logbook</title>
 	</head>
-	<body>
+	<body role="document">
 
 	    <div class="site-wrapper">
 	
@@ -53,13 +53,6 @@
 	          <div class="inner cover">
 	            <h1 class="cover-heading">Features</h1>
 	            <p class="lead">Features go here</p>
-	          </div>
-	          
-	          <div sec:authorize="isAuthenticated()" class="inner cover">
-	            <h1 class="cover-heading">Hello, </h1>
-	            <p class="lead">
-	              <a th:href="@{/logbooks}" class="btn btn-lg btn-default">View your logbooks</a> or <a th:href="@{/createlogbook}" class="btn btn-lg btn-default">Create a new logbook</a> 
-	            </p>
 	          </div>
 	
 	          <div class="mastfoot">

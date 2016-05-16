@@ -18,8 +18,10 @@
 	</security:authentication-manager>
 	
 	<security:http use-expressions="true">
-		<security:intercept-url pattern="/logbooks" access="isAuthenticated()" />
+		<security:intercept-url pattern="/alllogbooks" access="isAuthenticated()" />
+		<security:intercept-url pattern="/logbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/createlogbook" access="isAuthenticated()" />
+		<security:intercept-url pattern="/docreatelogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/logbookcreated" access="isAuthenticated()" />
 		<security:intercept-url pattern="/logbookdeleted" access="isAuthenticated()" />
 		<security:intercept-url pattern="/" access="permitAll" />
@@ -45,7 +47,7 @@
 			remember-me-parameter="remember-me"
 			remember-me-cookie="easyLogbookRememberMe" />
 
-		<security:access-denied-handler error-page="/accessdenied" />
+		<security:access-denied-handler error-page="/error/accessdenied" />
 	</security:http>
 
 	<security:global-method-security secured-annotations="enabled"></security:global-method-security>

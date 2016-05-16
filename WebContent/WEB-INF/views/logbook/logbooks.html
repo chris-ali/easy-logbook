@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-Logbooks go here
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<!-- Bootstrap core CSS -->
+	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+	    <!-- Bootstrap theme -->
+	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+	    <!-- Custom styles for this template -->
+	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+		
+		<meta charset="ISO-8859-1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Logbook</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'header'"></nav>
+		
+		<div th:if="${logbooks.size() == 0}" class="alert alert-info" role="alert">
+        	<strong>Getting Started</strong> Click 'Create a Logbook' below to create your first logbook
+      	</div>
+		
+		<div>
+			<button type="button" class="btn btn-primary">Create a Logbook</button>
+		</div>
+		
+		<div th:if="${logbooks.size() > 0}" class="col-md-6">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Logbooks</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="logbook : ${logbooks}">
+		        <td>
+		        	<form action="@{/logbook?${logbook.id}}">
+		        		<button type="button" class="btn btn-default">${logbook.name}</button>
+		        	</form>
+		        </td>
+		        <td>
+		        	<form action="@{/deletelogbook?${logbook.id}}">
+		        		<button type="button" class="btn btn-sm btn-danger">Delete</button>
+		        	</form>
+				</td>
+		      </tr>
+            </tbody>
+          </table>
+        </div>
+		
+		
+		<div class="inner" th:replace="templates/footer :: 'footer'"></div>
+	</body>
 </html>
