@@ -20,7 +20,8 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'header'"></nav>
 		
 		<div class="container theme-showcase" role="main">
-			<div th:if="${logbookentries.size() == 0}" class="alert alert-info" role="alert">
+		
+			<div th:if="${logbookEntries.size() == 0}" class="alert alert-info" role="alert">
 	        	<strong>Getting Started</strong> Click 'Create Entry' below to create the first logbook entry
 	      	</div>
 			
@@ -30,7 +31,7 @@
 				 </form>
 			</div>
 			
-			<div th:if="${logbookentries.size() > 0}" class="col-md-6">
+			<div th:if="${logbookEntries.size() > 0}" class="col-md-6">
 	          <table class="table table-striped">
 	            <thead>
 	              <tr>

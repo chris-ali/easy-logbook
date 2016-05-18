@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.chrisali.easylogbook.beans.Logbook;
@@ -27,17 +28,20 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping(value="/singlelogbook")
+	@RequestMapping(value="/singlelogbook", method=RequestMethod.POST)
 	public String showSingleLogbook(Principal principal, Model model, 
-							  @RequestParam("logbookId") int logbookId) {
-		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);
+							  @RequestParam int id) {
+		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		model.addAttribute("logbook", logbook);
+		
+		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(id);
+		model.addAttribute("logbookEntries", logbookEntries);
 		
 		return "logbook/logbook";
 	}
 	
 	@RequestMapping(value="/alllogbooks")
-	public String showAllLogbooks(Principal principal, Model model) {
+	public String showAllLogbooks(Principal principal, Model model, Logbook logbook) {
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
 		
 		model.addAttribute("logbooks", logbooks);
@@ -57,7 +61,7 @@ public class LogbookController {
 		if (result.hasErrors())
 			return "logbook/createlogbook";
 		
-		if (logbookService.exists(principal.getName(), logbook.getId()))
+		if (logbookService.exists(principal.getName(), logbook.getName()))
 			return "logbook/createlogbook";
 		
 		try {
@@ -74,16 +78,16 @@ public class LogbookController {
 		return "logbook/logbookcreated";
 	}
 	
-	@RequestMapping(value="/deletelogbook")
-	public String deleteLogbook(Principal principal, @RequestParam("logbookId") int logbookId){
-		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);
+	@RequestMapping(value="/deletelogbook", method=RequestMethod.POST)
+	public String deleteLogbook(Principal principal, @RequestParam int id){
+		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		
 		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());
 		
 		for(LogbookEntry entry : logbookEntries)
-			logbookEntryService.delete(logbookId, entry.getId());
+			logbookEntryService.delete(id, entry.getId());
 		
-		logbookService.delete(principal.getName(), logbookId);
+		logbookService.delete(principal.getName(), id);
 		
 		return "logbook/logbookdeleted";
 	}

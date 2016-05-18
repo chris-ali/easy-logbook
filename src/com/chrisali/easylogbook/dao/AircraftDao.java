@@ -53,6 +53,19 @@ public class AircraftDao extends AbstractDao {
 		return aircraft;
 	}
 	
+	public Aircraft getAircraft(String username, String tailNumber) {
+		Criteria criteria = getSession().createCriteria(Aircraft.class);
+		criteria.createAlias("user", "u")
+				.add(Restrictions.eq("u.enabled", true))
+				.add(Restrictions.eq("u.username", username))
+				.add(Restrictions.eq("tailNumber", tailNumber));
+		
+		Aircraft aircraft = (Aircraft) criteria.uniqueResult();
+		closeSession();
+		
+		return aircraft;
+	}
+	
 	public void createOrUpdate(Aircraft aircraft) {
 		Transaction tx = null;
 		session = sessionFactory.openSession();
@@ -79,7 +92,7 @@ public class AircraftDao extends AbstractDao {
 		return isDeleted;
 	}
 	
-	public boolean exists(String username, int id) {
-		return getAircraft(username, id) != null;
+	public boolean exists(String username, String tailNumber) {
+		return getAircraft(username, tailNumber) != null;
 	}
 }

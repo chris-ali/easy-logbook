@@ -28,24 +28,17 @@
 	<body>
 	
 		<div class="container">
-	
 			<div class="form-signin">
-				
 				<h2 class="form-signin-heading">Success!</h2>
-				<h4>Logbook successfully created:</h4>
-				
-				<table>
-					<tr>
-						<td>Name:</td><td th:text="${logbook.name}"></td>
-					</tr>
-				</table>
+				<h4 th:inline="text">Logbook "[[${logbook.name}]]" successfully created</h4>
 				
 				<p/>
 				
 				<form th:action="@{/logbook?logbookId=${logbook.id}}">
-					<button class="btn btn-lg btn-primary btn-block" type="submit">Click to view logbook</button>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">View logbook</button>
 				</form>
 			</div>
 		</div>
+		
 	</body>
 </html>

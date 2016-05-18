@@ -41,6 +41,19 @@ public class LogbookDao extends AbstractDao {
 		return Logbook;
 	}
 	
+	public Logbook getLogbook(String username, String name) {
+		Criteria criteria = getSession().createCriteria(Logbook.class);
+		criteria.createAlias("user", "u")
+				.add(Restrictions.eq("u.enabled", true))
+				.add(Restrictions.eq("u.username", username))
+				.add(Restrictions.eq("name", name));
+		
+		Logbook Logbook = (Logbook) criteria.uniqueResult();
+		closeSession();
+		
+		return Logbook;
+	}
+	
 	public Logbook getLogbook(String username, int id) {
 		Criteria criteria = getSession().createCriteria(Logbook.class);
 		criteria.createAlias("user", "u")
@@ -80,7 +93,7 @@ public class LogbookDao extends AbstractDao {
 		return isDeleted;
 	}
 	
-	public boolean exists(String username, int id) {
-		return getLogbook(username, id) != null;
+	public boolean exists(String username, String name) {
+		return getLogbook(username, name) != null;
 	}
 }

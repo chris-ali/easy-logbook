@@ -19,7 +19,7 @@
 	
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/alllogbooks" access="isAuthenticated()" />
-		<security:intercept-url pattern="/logbook" access="isAuthenticated()" />
+		<security:intercept-url pattern="/singlelogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/createlogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/docreatelogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/logbookcreated" access="isAuthenticated()" />

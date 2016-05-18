@@ -121,8 +121,8 @@ public class LogbookDaoTests {
 	public void testExists() {
 		addTestData();
 		
-		assertTrue("Logbook should exist in database", logbookDao.exists(user3.getUsername(), logbook4.getId()));
-		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookDao.exists(user3.getUsername(), 123456));
+		assertTrue("Logbook should exist in database", logbookDao.exists(user3.getUsername(), logbook4.getName()));
+		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookDao.exists(user3.getUsername(), "123456"));
 	}
 	
 	@Test

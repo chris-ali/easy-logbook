@@ -62,7 +62,7 @@ public class AircraftController {
 		if (result.hasErrors())
 			return "aircraft/createaircraft";
 		
-		if (aircraftService.exists(principal.getName(), aircraft.getId()))
+		if (aircraftService.exists(principal.getName(), aircraft.getTailNumber()))
 			return "aircraft/createaircraft";
 		
 		try {

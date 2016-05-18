@@ -177,16 +177,16 @@ public class LogbookServiceTests {
 	public void testExists() {
 		addTestData();
 		
-		assertTrue("Logbook should exist in database", logbookService.exists(user3.getUsername(), logbook4.getId()));
-		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookService.exists(user3.getUsername(), 123456));
+		assertTrue("Logbook should exist in database", logbookService.exists(user3.getUsername(), logbook4.getName()));
+		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookService.exists(user3.getUsername(), "123456"));
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthExists() {
 		addTestData();
 		
-		assertTrue("Logbook should exist in database", logbookService.exists(user3.getUsername(), logbook4.getId()));
-		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookService.exists(user3.getUsername(), 123456));
+		assertTrue("Logbook should exist in database", logbookService.exists(user3.getUsername(), logbook4.getName()));
+		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookService.exists(user3.getUsername(), "123456"));
 	}
 	
 	@Test

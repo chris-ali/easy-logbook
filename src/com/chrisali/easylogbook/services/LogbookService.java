@@ -36,6 +36,11 @@ public class LogbookService {
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	public Logbook getLogbook(String username, String name) {
+		return logbookDao.getLogbook(username, name);
+	}
+	
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public Logbook getLogbook(String username, int id) {
 		return logbookDao.getLogbook(username, id);
 	}
@@ -51,7 +56,7 @@ public class LogbookService {
 		return logbookDao.delete(username, id);
 	}
 
-	public boolean exists(String username, int id) {
-		return logbookDao.exists(username, id);
+	public boolean exists(String username, String name) {
+		return logbookDao.exists(username, name);
 	}
 }

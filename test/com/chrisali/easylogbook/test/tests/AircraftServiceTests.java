@@ -180,8 +180,8 @@ public class AircraftServiceTests {
 	public void testExists() {
 		addTestData();
 		
-		assertTrue("Aircraft should exist in database", aircraftService.exists(user3.getUsername(), aircraft4.getId()));
-		assertFalse("Aircraft not belonging to user 3 should not exist in database", aircraftService.exists(user3.getUsername(), 123456));
+		assertTrue("Aircraft should exist in database", aircraftService.exists(user3.getUsername(), aircraft4.getTailNumber()));
+		assertFalse("Aircraft not belonging to user 3 should not exist in database", aircraftService.exists(user3.getUsername(), "123456"));
 	}
 	
 	@Test

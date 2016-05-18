@@ -25,12 +25,6 @@
 	        	<strong>Getting Started</strong> Click 'Create a Logbook' below to create your first logbook
 	      	</div>
 			
-			<div>
-				<form th:action="@{/createlogbook}">
-					<button class="btn btn-primary" type="submit">Create a Logbook</button>
-				 </form>
-			</div>
-			
 			<div th:if="${logbooks.size() > 0}" class="col-md-6">
 	          <table class="table table-striped">
 	            <thead>
@@ -42,7 +36,8 @@
 	            <tbody>
 	              <tr th:each="logbook : ${logbooks}">
 			        <td>
-			        	<form th:action="@{/singlelogbook?logbookId=${logbook.id}}">
+			        	<form th:action="@{/singlelogbook}" th:object="${logbook}" method="post">
+			        		<input type="hidden" th:field="${logbook.id}" />
 			        		<button class="btn btn-default" type="submit" th:text="${logbook.name}"></button>
 			        	</form>
 			        </td>
@@ -50,7 +45,8 @@
 			        
 			        </td>
 			        <td>
-			        	<form th:action="@{/deletelogbook?logbookId=$id={logbook.id}}">
+			        	<form th:action="@{/deletelogbook}" th:object="${logbook}" method="post">
+			        		<input type="hidden" th:field="${logbook.id}" />
 			        		<button class="btn btn-sm btn-danger" type="submit">Delete</button>
 			        	</form>
 					</td>
@@ -58,6 +54,12 @@
 	            </tbody>
 	          </table>
 	        </div>
+	        
+			<div class="col-md-6">
+				<form th:action="@{/createlogbook}">
+					<button class="btn btn-primary" type="submit">Create a Logbook</button>
+				 </form>
+			</div>
 		
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
