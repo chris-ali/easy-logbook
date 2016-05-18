@@ -16,6 +16,7 @@ public class ErrorHandler {
 	
 	@ExceptionHandler(AccessDeniedException.class)
 	public String handleAccessDeniedException(AccessDeniedException e) {
+		e.getMessage();
 		return "error/accessdenied";
 	}
 }

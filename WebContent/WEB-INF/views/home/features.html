@@ -40,6 +40,7 @@
 	                <ul class="nav masthead-nav">
 	                  <li><a th:href="@{/}">Home</a></li>
 	                  <li class="active"><a th:href="@{/features}">Features</a></li>
+	                  <li sec:authorize="isAuthenticated()"><a th:href="@{/profile?userId=${user.username}}">Profile</a></li>
 	                  <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Log in</a></li>
 	                  <li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="$('#form').submit();">Log out</a></li>
 	                </ul>

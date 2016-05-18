@@ -20,45 +20,39 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'header'"></nav>
 		
 		<div class="container theme-showcase" role="main">
-		
-			<div th:if="${logbooks.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>Getting Started</strong> Click 'Create a Logbook' below to create your first logbook
+			<div th:if="${logbookentries.size() == 0}" class="alert alert-info" role="alert">
+	        	<strong>Getting Started</strong> Click 'Create Entry' below to create the first logbook entry
 	      	</div>
 			
 			<div>
-				<form th:action="@{/createlogbook}">
-					<button class="btn btn-primary" type="submit">Create a Logbook</button>
+				<form th:action="@{/createentry}">
+					<button class="btn btn-primary" type="submit">Create Entry</button>
 				 </form>
 			</div>
 			
-			<div th:if="${logbooks.size() > 0}" class="col-md-6">
+			<div th:if="${logbookentries.size() > 0}" class="col-md-6">
 	          <table class="table table-striped">
 	            <thead>
 	              <tr>
-	                <th>My Logbooks</th>
-	                <th>Total Time</th>
+	                <th>Date</th>
+	                <th>Tail Number</th>
+	                <th>Make</th>
+	                <th>Model</th>
 	              </tr>
 	            </thead>
 	            <tbody>
-	              <tr th:each="logbook : ${logbooks}">
-			        <td>
-			        	<form th:action="@{/singlelogbook?logbookId=${logbook.id}}">
-			        		<button class="btn btn-default" type="submit" th:text="${logbook.name}"></button>
-			        	</form>
-			        </td>
-			        <td>
-			        
-			        </td>
-			        <td>
-			        	<form th:action="@{/deletelogbook?logbookId=$id={logbook.id}}">
-			        		<button class="btn btn-sm btn-danger" type="submit">Delete</button>
-			        	</form>
-					</td>
+	              <tr th:each="entry : ${logbookentries}">
+			        <td th:text="${entry.date}"></td>
+			        <td th:text="${entry.tailNumber}"></td>
+			        <td th:text="${entry.make}"></td>
+			        <td th:text="${entry.model}"></td>
+			        <td th:text="${entry.origin}"></td>
+			        <td th:text="${entry.destination}"></td>
 			      </tr>
 	            </tbody>
 	          </table>
 	        </div>
-		
+			
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
 		

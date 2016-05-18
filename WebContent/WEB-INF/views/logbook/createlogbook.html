@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" />
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+   		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    	<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+		<!-- Custom styles for this template -->
+		<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" />
+	
+		<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="_csrf_header" content="${_csrf.headerName}" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	    <meta name="description" content="" />
+	    <meta name="author" content="" />
+	    
+	    <title>Create New Logbook</title>
+
+	</head>
+	
+	<body>
+	
+		<div class="container">
+	
+			<form class="form-signin" th:object="${logbook}" th:action="@{/docreatelogbook}" method="post">
+				
+				<h2 class="form-signin-heading">Create a Logbook</h2>
+				
+				<label for="inputName" class="sr-only">Name</label> 
+				<input type="text" name='name' id="inputName" class="form-control"
+					th:field="*{name}"
+					placeholder="Name" autofocus="autofocus" /> 
+				
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Create Logbook</button>
+	
+			</form>
+			
+			<p />
+			
+			<form class="form-signin" th:action="@{/alllogbooks}" method="post">
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
+			</form>
+				
+		</div>
+	</body>
+</html>

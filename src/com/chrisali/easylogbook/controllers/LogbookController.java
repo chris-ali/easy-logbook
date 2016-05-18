@@ -27,7 +27,7 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping(value="/mylogbook")
+	@RequestMapping(value="/singlelogbook")
 	public String showSingleLogbook(Principal principal, Model model, 
 							  @RequestParam("logbookId") int logbookId) {
 		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);

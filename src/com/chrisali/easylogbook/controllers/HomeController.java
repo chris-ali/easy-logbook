@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.chrisali.easylogbook.beans.User;
 import com.chrisali.easylogbook.services.UsersService;
@@ -17,7 +16,7 @@ public class HomeController {
 	@Autowired
 	private UsersService usersService;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping("/")
 	public String showHome(Principal principal, Model model) {
 		if (principal != null) {
 			User user = usersService.getUser(principal.getName());
