@@ -37,6 +37,9 @@ public class LogbookController {
 		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(id);
 		model.addAttribute("logbookEntries", logbookEntries);
 		
+		LogbookEntry totals = logbookService.logbookTotals(principal.getName(), id);
+		model.addAttribute("totals", totals);
+		
 		return "logbook/logbook";
 	}
 	
@@ -79,8 +82,9 @@ public class LogbookController {
 	}
 	
 	@RequestMapping(value="/deletelogbook", method=RequestMethod.GET)
-	public String deleteLogbook(Principal principal, @RequestParam("id") int id){
+	public String deleteLogbook(Principal principal, @RequestParam("id") int id, Model model){
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
+		model.addAttribute("logbook", logbook);
 		
 		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());
 		

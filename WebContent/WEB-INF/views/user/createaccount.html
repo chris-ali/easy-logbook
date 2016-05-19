@@ -16,6 +16,7 @@
     	<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 		<!-- Custom styles for this template -->
 		<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" />
+		<link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
 	
 		<meta charset="utf-8" />
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -89,30 +90,30 @@
 				<input type="text" name='name' id="inputName" class="form-control"
 					th:field="*{name}"
 					placeholder="Name" autofocus="autofocus" /> 
-				<span class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				<span class="label label-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 				
 				<label for="inputEmail" class="sr-only">Email</label> 
 				<input type="email" name='email' id="inputEmail" class="form-control"
 					th:field="*{email}"
 					placeholder="Email" />
-				<span class="form-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+				<span class="label label-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 				
 				<label for="inputUsername" class="sr-only">Username</label> 
 				<input type="text" name='username' id="inputUsername" class="form-control"
 					th:field="*{username}"
 					placeholder="Username" />
-				<span class="form-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+				<span class="label label-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
 					
 				<label for="inputPassword" class="sr-only">Password</label>
 				<input type="password" name='password' id="inputPassword" class="form-control"	
 					th:field="*{password}" 
 					placeholder="Password" />
-				<span class="form-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+				<span class="label label-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 					
 				<label for="inputRepeat" class="sr-only">Repeat Password</label>
 				<input type="password" id="inputRepeat"	class="form-control"	
 					placeholder="Repeat Password" />
-				<span class="form-error" id="unmatchedPasswords"></span>
+				<span class="label label-danger" id="unmatchedPasswords"></span>
 				
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
 	

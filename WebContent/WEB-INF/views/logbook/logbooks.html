@@ -14,7 +14,7 @@
 		<meta charset="ISO-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Logbook</title>
+		<title>Logbooks</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'header'"></nav>
@@ -22,7 +22,7 @@
 		<div class="container theme-showcase" role="main">
 		
 			<div th:if="${logbooks.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>Getting Started</strong> Click 'Create a Logbook' below to create your first logbook
+	        	<strong>Getting Started</strong> Click 'Create Logbook' below to create your first logbook
 	      	</div>
 			
 			<div th:if="${logbooks.size() > 0}" class="col-md-6">
@@ -49,9 +49,9 @@
 	          </table>
 	        </div>
 	        
-			<div class="col-md-6">
+			<div class="page-header">
 				<form th:action="@{/createlogbook}">
-					<button class="btn btn-primary" type="submit">Create a Logbook</button>
+					<button class="btn btn-primary" type="submit">Create Logbook</button>
 				 </form>
 			</div>
 		
