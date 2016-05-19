@@ -36,19 +36,13 @@
 	            <tbody>
 	              <tr th:each="logbook : ${logbooks}">
 			        <td>
-			        	<form th:action="@{/singlelogbook}" th:object="${logbook}" method="post">
-			        		<input type="hidden" th:field="${logbook.id}" />
-			        		<button class="btn btn-default" type="submit" th:text="${logbook.name}"></button>
-			        	</form>
+			        	<a class="btn btn-default" th:href="@{/singlelogbook(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
 			        </td>
 			        <td>
 			        
 			        </td>
 			        <td>
-			        	<form th:action="@{/deletelogbook}" th:object="${logbook}" method="post">
-			        		<input type="hidden" th:field="${logbook.id}" />
-			        		<button class="btn btn-sm btn-danger" type="submit">Delete</button>
-			        	</form>
+			        	<a class="btn btn-sm btn-danger" th:href="@{/deletelogbook(id=${logbook.id})}">Delete</a>
 					</td>
 			      </tr>
 	            </tbody>

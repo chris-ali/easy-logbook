@@ -30,13 +30,14 @@
 		<div class="container">
 			<div class="form-signin">
 				<h2 class="form-signin-heading">Success!</h2>
+				
+				<p/>
+				
 				<h4 th:inline="text">Logbook "[[${logbook.name}]]" successfully created</h4>
 				
 				<p/>
 				
-				<form th:action="@{/logbook?logbookId=${logbook.id}}">
-					<button class="btn btn-lg btn-primary btn-block" type="submit">View logbook</button>
-				</form>
+				<a class="btn btn-default" th:href="@{/singlelogbook(id=${logbook.id})}">View logbook</a>
 			</div>
 		</div>
 		

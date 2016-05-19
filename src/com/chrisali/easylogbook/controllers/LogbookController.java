@@ -28,9 +28,9 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping(value="/singlelogbook", method=RequestMethod.POST)
+	@RequestMapping(value="/singlelogbook", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
-							  @RequestParam int id) {
+							  @RequestParam("id") int id) {
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		model.addAttribute("logbook", logbook);
 		
@@ -41,7 +41,7 @@ public class LogbookController {
 	}
 	
 	@RequestMapping(value="/alllogbooks")
-	public String showAllLogbooks(Principal principal, Model model, Logbook logbook) {
+	public String showAllLogbooks(Principal principal, Model model) {
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
 		
 		model.addAttribute("logbooks", logbooks);
@@ -78,8 +78,8 @@ public class LogbookController {
 		return "logbook/logbookcreated";
 	}
 	
-	@RequestMapping(value="/deletelogbook", method=RequestMethod.POST)
-	public String deleteLogbook(Principal principal, @RequestParam int id){
+	@RequestMapping(value="/deletelogbook", method=RequestMethod.GET)
+	public String deleteLogbook(Principal principal, @RequestParam("id") int id){
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		
 		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());

@@ -89,6 +89,7 @@
 				<input type="text" name='name' id="inputName" class="form-control"
 					th:field="*{name}"
 					placeholder="Name" autofocus="autofocus" /> 
+				<span class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 				
 				<label for="inputEmail" class="sr-only">Email</label> 
 				<input type="email" name='email' id="inputEmail" class="form-control"
@@ -115,6 +116,10 @@
 				
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
 	
+			</form>
+			
+			<form class="form-signin" th:action="@{/}" method="post">
+				<button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
 			</form>
 	
 		</div>
