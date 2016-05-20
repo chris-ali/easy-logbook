@@ -93,6 +93,6 @@ public class LogbookController {
 		
 		logbookService.delete(principal.getName(), id);
 		
-		return "logbook/logbookdeleted";
+		return "redirect:/alllogbooks";
 	}
 }
