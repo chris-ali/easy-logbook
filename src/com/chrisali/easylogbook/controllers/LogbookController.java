@@ -1,7 +1,9 @@
 package com.chrisali.easylogbook.controllers;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -31,12 +33,15 @@ public class LogbookController {
 	@RequestMapping(value="/singlelogbook", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
 							  @RequestParam("id") int id) {
+		// Single logbook to view on page
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		model.addAttribute("logbook", logbook);
 		
+		// Entries tied to single logbook above
 		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(id);
 		model.addAttribute("logbookEntries", logbookEntries);
 		
+		// Totals for single logbook above
 		LogbookEntry totals = logbookService.logbookTotals(principal.getName(), id);
 		model.addAttribute("totals", totals);
 		
@@ -46,8 +51,14 @@ public class LogbookController {
 	@RequestMapping(value="/alllogbooks")
 	public String showAllLogbooks(Principal principal, Model model) {
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
+		Map<Logbook, LogbookEntry> logbookTotals = new HashMap<>();
+		
+		// Get totals for each logbook in user's list, add them to a map
+		for (Logbook logbook : logbooks)
+			logbookTotals.put(logbook, logbookService.logbookTotals(principal.getName(), logbook.getId()));
 		
 		model.addAttribute("logbooks", logbooks);
+		model.addAttribute("logbookTotals", logbookTotals);
 		
 		return "logbook/logbooks";
 	}

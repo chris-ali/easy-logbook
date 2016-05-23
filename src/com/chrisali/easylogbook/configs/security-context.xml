@@ -18,13 +18,17 @@
 	</security:authentication-manager>
 	
 	<security:http use-expressions="true">
+		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />	
+		<security:intercept-url pattern="/allaircraft" access="isAuthenticated()" />
+		<security:intercept-url pattern="/createaircraft" access="isAuthenticated()" />
+		<security:intercept-url pattern="/editaircraft" access="isAuthenticated()" />
+		<security:intercept-url pattern="/deleteaircraft" access="isAuthenticated()" />
 		<security:intercept-url pattern="/alllogbooks" access="isAuthenticated()" />
 		<security:intercept-url pattern="/singlelogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/createlogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/docreatelogbook" access="isAuthenticated()" />
 		<security:intercept-url pattern="/logbookcreated" access="isAuthenticated()" />
 		<security:intercept-url pattern="/deletelogbook" access="isAuthenticated()" />
-		<security:intercept-url pattern="/logbookdeleted" access="isAuthenticated()" />
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/features" access="permitAll" />
 		<security:intercept-url pattern="/logout" access="permitAll" />

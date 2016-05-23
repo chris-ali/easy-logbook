@@ -2,18 +2,20 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<!-- Bootstrap core CSS -->
 	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
-	    <!-- Bootstrap theme -->
 	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
-	    <!-- Custom styles for this template -->
+	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
 		
 		<meta charset="ISO-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+		
 		<title>Logbook</title>
 	</head>
 	<body>
@@ -123,12 +125,5 @@
 			
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
-		
-		<!-- Placed at the end of the document so the pages load faster -->
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
-	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 	</body>
 </html>

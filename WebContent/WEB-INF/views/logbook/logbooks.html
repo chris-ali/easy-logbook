@@ -2,19 +2,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<!-- Bootstrap core CSS -->
 	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
-	    <!-- Bootstrap theme -->
 	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	    <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
-	    <!-- Custom styles for this template -->
+	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
 		
 		<meta charset="ISO-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Logbooks</title>
+		
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
+	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	    
+	    <title>Logbooks</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'header'"></nav>
@@ -31,42 +33,53 @@
 	              <tr>
 	                <th>My Logbooks</th>
 	                <th>Total Time</th>
+	                <th> </th>
 	              </tr>
 	            </thead>
 	            <tbody>
 	              <tr th:each="logbook : ${logbooks}">
 			        <td>
-			        	<a class="btn btn-default" th:href="@{/singlelogbook(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
+			        	<a class="btn btn-sm btn-default" th:href="@{/singlelogbook(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
+			        </td>
+			        <td> <!-- th:text="${logbookTotals[__${logbook}__].totalDuration}" -->
 			        </td>
 			        <td>
-			        
-			        </td>
-			        <td>
-			        	<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete</button>
-			        	
-			        	<!-- Confirm Delete Modal -->
-				        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						        <h4 class="modal-title">Confirm Delete</h4>
-						      </div>
-						      <div class="modal-body">
-						        <p>Deleting this logbook will remove ALL entries associated with it. Are you sure you wish to delete?</p>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-						        <a class="btn btn-sm btn-danger" th:href="@{/deletelogbook(id=${logbook.id})}">Delete</a>
-						      </div>
-						    </div><!-- /.modal-content -->
-						  </div><!-- /.modal-dialog -->
-						</div><!-- /.modal -->
+			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/deletelogbook(id=${logbook.id})}">Delete</a>
 					</td>
 			      </tr>
 	            </tbody>
 	          </table>
 	        </div>
+	        
+	        <!-- JQuery to activate modal and delete functions -->
+	        <script type="text/javascript">
+	        	$(document).ready(function() {
+	        		$(".triggerDelete").click(function(e) {
+	        			e.preventDefault();
+	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+	        			$("#confirmDelete").modal();
+	        		});
+	        	});
+	        </script>
+	        
+	        <!-- Confirm Delete Modal -->
+	        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Confirm Delete</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Deleting this logbook will remove ALL entries associated with it. Are you sure you wish to delete?</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/alllogbooks}">Delete</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 	        
 			<div class="page-header">
 				<form th:action="@{/createlogbook}">
@@ -76,12 +89,5 @@
 		
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
-		
-		<!-- Placed at the end of the document so the pages load faster -->
-	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
-	    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 	</body>
 </html>
