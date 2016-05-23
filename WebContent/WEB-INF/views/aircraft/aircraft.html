@@ -16,35 +16,38 @@
 	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 	    
-	    <title>Logbooks</title>
+	    <title>Aircraft</title>
 	</head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'header'"></nav>
 		
 		<div class="container theme-showcase" role="main">
 		
-			<div th:if="${logbooks.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>Getting Started -</strong> Click 'Create Logbook' below to create your first logbook
+			<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
+	        	<strong>Getting Started -</strong> Click 'Create Aircraft' below to create your first aircraft
 	      	</div>
 			
-			<div th:if="${logbooks.size() > 0}" class="col-md-6">
+			<div th:if="${aircraftList.size() > 0}" class="col-md-6">
 	          <table class="table table-striped">
 	            <thead>
 	              <tr>
-	                <th>My Logbooks</th>
-	                <th>Total Time</th>
+	                <th>Tail Number</th>
+	                <th>Make</th>
+	                <th>Model</th>
 	                <th> </th>
 	              </tr>
 	            </thead>
 	            <tbody>
-	              <tr th:each="logbook : ${logbooks}">
+	              <tr th:each="aircraft : ${aircraftList}">
 			        <td>
-			        	<a class="btn btn-sm btn-default" th:href="@{/singlelogbook(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
+			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/editaircraft(id=${aircraft.id})}" th:inline="text">[[${aircraft.tailNumber}]]</a>
 			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].totalDuration}"> Total Duration
+			        <td th:text="${aircraft.make}">
+			        </td>
+			        <td th:text="${aircraft.model}">
 			        </td>
 			        <td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/deletelogbook(id=${logbook.id})}">Delete</a>
+			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/deleteaircraft(id=${aircraft.id})}">Delete</a>
 					</td>
 			      </tr>
 	            </tbody>
@@ -59,6 +62,12 @@
 	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
 	        			$("#confirmDelete").modal();
 	        		});
+	        		
+	        		$(".triggerEdit").click(function(e) {
+	        			e.preventDefault();
+	        			$("#editAircraft .editButton").attr("href", $(this).attr("href"));
+	        			$("#editAircraft").modal();
+	        		});
 	        	});
 	        </script>
 	        
@@ -71,19 +80,38 @@
 			        <h4 class="modal-title">Confirm Delete</h4>
 			      </div>
 			      <div class="modal-body">
-			        <p>Deleting this logbook will remove ALL entries associated with it. Are you sure you wish to delete?</p>
+			        <p>Deleting this aircraft will remove ALL entries associated with it. Are you sure you wish to delete?</p>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/alllogbooks}">Delete</a>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/allaircraft}">Delete</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			
+			<!-- Edit Aircraft Modal -->
+	        <div class="modal fade" id="editAircraft" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Edit Aircraft</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Insert edit form here</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger editButton" th:href="@{/allaircraft}">Edit</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 	        
 			<div class="page-header">
-				<form th:action="@{/createlogbook}">
-					<button class="btn btn-primary" type="submit">Create Logbook</button>
+				<form th:action="@{/createaircraft}">
+					<button class="btn btn-primary" type="submit">Create Aircraft</button>
 				 </form>
 			</div>
 		

@@ -21,7 +21,7 @@
 	    <meta name="description" content="" />
 	    <meta name="author" content="" />
 	    
-	    <title>Create New Logbook</title>
+	    <title>Create New Aircraft</title>
 
 	</head>
 	
@@ -29,15 +29,27 @@
 	
 		<div class="container">
 	
-			<form class="form-signin" th:object="${logbook}" th:action="@{/docreatelogbook}" method="post">
+			<form class="form-signin" th:object="${aircraft}" th:action="@{/docreateaircraft}" method="post">
 				
-				<h2 class="form-signin-heading">Create a Logbook</h2>
+				<h2 class="form-signin-heading">Create an Aircraft</h2>
 				
-				<label for="inputName" class="sr-only">Name</label> 
-				<input type="text" name='name' id="inputName" class="form-control"
-					th:field="*{name}"
-					placeholder="Name" autofocus="autofocus" /> 
-				<span class="label label-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				<label for="inputTailNumber" class="sr-only">Tail Number</label> 
+				<input type="text" name='tailNumber' id="inputTailNumber" class="form-control"
+					th:field="*{tailNumber}"
+					placeholder="Tail Number" autofocus="autofocus" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('tailNumber')}" th:errors="*{tailNumber}"></span>
+				
+				<label for="inputMake" class="sr-only">Make</label> 
+				<input type="text" name='make' id="inputMake" class="form-control"
+					th:field="*{make}"
+					placeholder="Make" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('make')}" th:errors="*{make}"></span>
+				
+				<label for="inputModel" class="sr-only">Model</label> 
+				<input type="text" name='model' id="inputModel" class="form-control"
+					th:field="*{model}"
+					placeholder="model" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
 				
 				<button class="btn btn-lg  btn-primary btn-block" type="submit">Submit</button>
 	
@@ -45,7 +57,7 @@
 			
 			<p />
 			
-			<form class="form-signin" th:action="@{/alllogbooks}" method="post">
+			<form class="form-signin" th:action="@{/allaircraft}" method="post">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
 			</form>
 				

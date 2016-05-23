@@ -21,6 +21,7 @@
 		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />	
 		<security:intercept-url pattern="/allaircraft" access="isAuthenticated()" />
 		<security:intercept-url pattern="/createaircraft" access="isAuthenticated()" />
+		<security:intercept-url pattern="/docreateaircraft" access="isAuthenticated()" />
 		<security:intercept-url pattern="/editaircraft" access="isAuthenticated()" />
 		<security:intercept-url pattern="/deleteaircraft" access="isAuthenticated()" />
 		<security:intercept-url pattern="/alllogbooks" access="isAuthenticated()" />

@@ -32,20 +32,14 @@ public class AircraftController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping("/myaircraft")
-	public String showSingleAircraft(Principal principal, Model model) {
-		List<Aircraft> aircraft = aircraftService.getAircraft(principal.getName());
-		
-		model.addAttribute("aircraft", aircraft);
-		
-		return "aircraft/aircraft";
-	}
-	
 	@RequestMapping("/allaircraft")
-	public String showAllAircraft(Principal principal, Model model, 
-							   @RequestParam("aircraftId") int aircraftId) {
-		Aircraft aircraft = aircraftService.getAircraft(principal.getName(), aircraftId);
-		model.addAttribute("aircraft", aircraft);
+	public String showAllAircraft(Principal principal, Model model) {
+		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
+		
+		model.addAttribute("aircraftList", aircraftList);
+		
+		// Active class used on header fragment
+		model.addAttribute("activeClassAircraft", "active");
 		
 		return "aircraft/aircraft";
 	}
@@ -76,27 +70,32 @@ public class AircraftController {
 		
 		model.addAttribute("aircraft", aircraft);
 		
-		return "aircraft/aircraftcreated";
+		// Active class used on header fragment
+		model.addAttribute("activeClassAircraft", "active");
+		
+		return "redirect:/allaircraft";
 	}
 	
-	/*
 	@RequestMapping(value="/deleteaircraft")
-	public String deleteAircraft(Principal principal, @RequestParam("aircraftId") int aircraftId){
+	public String deleteAircraft(Principal principal, Model model, @RequestParam("id") int aircraftId){
 		
 		String username = principal.getName();
 		Aircraft aircraft = aircraftService.getAircraft(username, aircraftId);
 		List<Logbook> logbooks = logbookService.getLogbooks(username);
 		
-		for (Logbook logbook : logbooks)
+		for (Logbook logbook : logbooks) {
 		
-			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());
+			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId(), aircraft.getId());
 			
 			for(LogbookEntry entry : logbookEntries)
-				logbookEntryService.delete(logbookId, entry.getId());
+				logbookEntryService.delete(logbook.getId(), entry.getId());
+		}
 		
 		aircraftService.delete(principal.getName(), aircraftId);
 		
-		return "aircraft/aircraftdeleted";
+		// Active class used on header fragment
+		model.addAttribute("activeClassAircraft", "active");
+		
+		return "redirect:/allaircraft";
 	}
-	*/
 }

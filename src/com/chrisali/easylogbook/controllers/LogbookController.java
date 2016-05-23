@@ -45,20 +45,26 @@ public class LogbookController {
 		LogbookEntry totals = logbookService.logbookTotals(principal.getName(), id);
 		model.addAttribute("totals", totals);
 		
+		// Active class used on header fragment
+		model.addAttribute("activeClassAircraft", "active");
+		
 		return "logbook/logbook";
 	}
 	
 	@RequestMapping(value="/alllogbooks")
 	public String showAllLogbooks(Principal principal, Model model) {
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
-		Map<Logbook, LogbookEntry> logbookTotals = new HashMap<>();
+		Map<Integer, LogbookEntry> logbookTotals = new HashMap<>();
 		
 		// Get totals for each logbook in user's list, add them to a map
 		for (Logbook logbook : logbooks)
-			logbookTotals.put(logbook, logbookService.logbookTotals(principal.getName(), logbook.getId()));
+			logbookTotals.put(logbook.getId(), logbookService.logbookTotals(principal.getName(), logbook.getId()));
 		
 		model.addAttribute("logbooks", logbooks);
 		model.addAttribute("logbookTotals", logbookTotals);
+		
+		// Active class used on header fragment
+		model.addAttribute("activeClassLogbook", "active");
 		
 		return "logbook/logbooks";
 	}
@@ -103,6 +109,9 @@ public class LogbookController {
 			logbookEntryService.delete(id, entry.getId());
 		
 		logbookService.delete(principal.getName(), id);
+		
+		// Active class used on header fragment
+		model.addAttribute("activeClassLogbook", "active");
 		
 		return "redirect:/alllogbooks";
 	}
