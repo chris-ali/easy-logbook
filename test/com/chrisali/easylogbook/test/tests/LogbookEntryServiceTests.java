@@ -155,6 +155,12 @@ public class LogbookEntryServiceTests {
 		
 		List<LogbookEntry> logbookEntries2 = logbookEntryService.getLogbookEntries(logbook2.getId());
 		assertEquals("One entry should be in this logbook", 1, logbookEntries2.size());
+		
+		List<LogbookEntry> logbookEntries3 = logbookEntryService.getLogbookEntries(logbook2.getId(), aircraft2.getId());
+		assertEquals("One entry should be in this logbook belonging to this aircraft", 1, logbookEntries3.size());
+		
+		List<LogbookEntry> logbookEntries4 = logbookEntryService.getLogbookEntries(logbook1.getId(), aircraft2.getId());
+		assertEquals("Zero entries should be in this logbook belonging to this aircraft", 0, logbookEntries4.size());
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
@@ -179,6 +185,12 @@ public class LogbookEntryServiceTests {
 		
 		List<LogbookEntry> logbookEntries2 = logbookEntryService.getLogbookEntries(logbook2.getId());
 		assertEquals("One entry should be in this logbook", 1, logbookEntries2.size());
+		
+		List<LogbookEntry> logbookEntries3 = logbookEntryService.getLogbookEntries(logbook2.getId(), aircraft2.getId());
+		assertEquals("One entry should be in this logbook belonging to this aircraft", 1, logbookEntries3.size());
+		
+		List<LogbookEntry> logbookEntries4 = logbookEntryService.getLogbookEntries(logbook1.getId(), aircraft2.getId());
+		assertEquals("Zero entries should be in this logbook belonging to this aircraft", 0, logbookEntries4.size());
 	}
 	
 	@Test

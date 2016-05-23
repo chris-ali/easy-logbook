@@ -26,6 +26,11 @@ public class LogbookEntryService {
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	public List<LogbookEntry> getLogbookEntries(int logbookId, int aircraftId) {
+		return logbookEntryDao.getLogbookEntries(logbookId, aircraftId);
+	}
+	
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public LogbookEntry getLogbookEntry(int logbookId, int entryId) {
 		return logbookEntryDao.getLogbookEntry(logbookId, entryId);
 	}

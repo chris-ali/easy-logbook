@@ -30,6 +30,20 @@ public class LogbookEntryDao extends AbstractDao {
 		return logbookEntries;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<LogbookEntry> getLogbookEntries(int logbookId, int aircraftId) {
+		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
+				.createAlias("logbook", "l")
+				.add(Restrictions.eq("l.id", logbookId))
+				.createAlias("aircraft", "a")
+				.add(Restrictions.eq("a.id", aircraftId));
+		
+		List<LogbookEntry> logbookEntries = criteria.list();
+		closeSession();
+		
+		return logbookEntries;
+	}
+	
 	public LogbookEntry getLogbookEntry(int logbookId, int entryId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
 				.add(Restrictions.eq("id", entryId))

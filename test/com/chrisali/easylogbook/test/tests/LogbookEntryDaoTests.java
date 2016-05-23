@@ -140,6 +140,12 @@ public class LogbookEntryDaoTests {
 		
 		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getLogbookEntries(logbook2.getId());
 		assertEquals("One entry should be in this logbook", 1, logbookEntries2.size());
+		
+		List<LogbookEntry> logbookEntries3 = logbookEntryDao.getLogbookEntries(logbook2.getId(), aircraft2.getId());
+		assertEquals("One entry should be in this logbook belonging to this aircraft", 1, logbookEntries3.size());
+		
+		List<LogbookEntry> logbookEntries4 = logbookEntryDao.getLogbookEntries(logbook1.getId(), aircraft2.getId());
+		assertEquals("Zero entries should be in this logbook belonging to this aircraft", 0, logbookEntries4.size());
 	}
 	
 	@Test
