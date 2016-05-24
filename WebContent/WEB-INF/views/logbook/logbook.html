@@ -23,8 +23,12 @@
 		
 		<div class="container theme-showcase" role="main">
 		
-			<div th:if="${logbookEntries.size() == 0}" class="alert alert-info" role="alert">
+			<div th:if="${logbookEntries.size() == 0 and aircraftList.size() > 0}" class="alert alert-info" role="alert">
 	        	<strong>Getting Started -</strong> Click 'Create Entry' below to create the first logbook entry
+	      	</div>
+
+	      	<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
+	        	<strong>First Aircraft -</strong> To create a logbook entry you need to have at least one aircraft. Click <a th:href="@{/createaircraft}">here</a> to create one
 	      	</div>
 			
 			<div th:if="${logbookEntries.size() > 0}" class="col-md-6">
@@ -116,9 +120,8 @@
 	          </table>
 	        </div>
 	        
-	        
 			<div class="page-header">
-				<form th:action="@{/createentry}">
+				<form th:if="${aircraftList.size() > 0}" th:action="@{/createentry}">
 					<button class="btn btn-primary" type="submit">Create Entry</button>
 				 </form>
 			</div>

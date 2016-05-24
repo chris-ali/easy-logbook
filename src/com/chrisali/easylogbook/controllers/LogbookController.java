@@ -37,6 +37,10 @@ public class LogbookController {
 	@RequestMapping(value="/singlelogbook", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
 							  @RequestParam("id") int id) {
+		// All aircraft tied to user
+		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
+		model.addAttribute("aircraftList", aircraftList);
+		
 		// Single logbook to view on page
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		model.addAttribute("logbook", logbook);
@@ -50,7 +54,7 @@ public class LogbookController {
 		model.addAttribute("totals", totals);
 		
 		// Active class used on header fragment
-		model.addAttribute("activeClassAircraft", "active");
+		model.addAttribute("activeClassLogbook", "active");
 		
 		return "logbook/logbook";
 	}
@@ -60,10 +64,6 @@ public class LogbookController {
 		// All logbooks tied to user
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
 		model.addAttribute("logbooks", logbooks);
-		
-		// All aircraft tied to user
-		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
-		model.addAttribute("aircraftList", aircraftList);
 		
 		// Get totals for each logbook in user's list, add them to a map
 		Map<Integer, LogbookEntry> logbookTotals = new HashMap<>();

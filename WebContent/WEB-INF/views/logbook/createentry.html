@@ -21,16 +21,16 @@
 	    <meta name="description" content="" />
 	    <meta name="author" content="" />
 	    
-	    <title>Create New Logbook</title>
+	    <title>Create New Logbook Entry</title>
 	</head>
 	
 	<body>
 	
 		<div class="container">
 	
-			<form class="form-signin" th:object="${logbook}" th:action="@{/docreatelogbook}" method="post">
+			<form class="form-signin" th:object="${logbookEntry}" th:action="@{/docreatelogbookentry}" method="post">
 				
-				<h2 class="form-signin-heading">Create a Logbook</h2>
+				<h2 class="form-signin-heading">Create Logbook Entry</h2>
 				
 				<label for="inputName" class="sr-only">Name</label> 
 				<input type="text" name='name' id="inputName" class="form-control"
@@ -44,7 +44,7 @@
 			
 			<p />
 			
-			<form class="form-signin" th:action="@{/alllogbooks}" method="post">
+			<form class="form-signin" th:action="@{/singlelogbook}" method="post">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
 			</form>
 				

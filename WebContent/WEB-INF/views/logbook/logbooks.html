@@ -31,9 +31,14 @@
 	          <table class="table table-striped">
 	            <thead>
 	              <tr>
-	                <th>My Logbooks</th>
+	                <th>Logbooks</th>
+	                <th></th>
+	                <th>Total Single Engine</th>
+	                <th>Total Multi Engine</th>
+	                <th>Total Pilot in Command</th>
+	                <th>Total Cross Country</th>
 	                <th>Total Time</th>
-	                <th> </th>
+	                <th></th>
 	              </tr>
 	            </thead>
 	            <tbody>
@@ -41,9 +46,20 @@
 			        <td>
 			        	<a class="btn btn-sm btn-default" th:href="@{/singlelogbook(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
 			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].totalDuration}"> Total Duration
-			        </td>
 			        <td>
+			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/editlogbook(id=${logbook.id})}">Edit</a>
+					</td>
+			        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
+			        </td>
+			        <td th:text="${logbookTotals[__${logbook.id}__].airplaneMel}">
+			        </td>
+			        <td th:text="${logbookTotals[__${logbook.id}__].pilotInCommand}">
+			        </td>
+			        <td th:text="${logbookTotals[__${logbook.id}__].crossCountry}">
+			        </td>
+			        <td th:text="${logbookTotals[__${logbook.id}__].totalDuration}">
+			        </td>
+					<td>
 			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/deletelogbook(id=${logbook.id})}">Delete</a>
 					</td>
 			      </tr>
@@ -58,6 +74,12 @@
 	        			e.preventDefault();
 	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
 	        			$("#confirmDelete").modal();
+	        		});
+	        		
+	        		$(".triggerEdit").click(function(e) {
+	        			e.preventDefault();
+	        			$("#confirmEdit .editButton").attr("href", $(this).attr("href"));
+	        			$("#confirmEdit").modal();
 	        		});
 	        	});
 	        </script>
@@ -76,6 +98,25 @@
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/alllogbooks}">Delete</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			
+			<!-- Edit Modal -->
+	        <div class="modal fade" id="confirmEdit" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Edit Name</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Edit Form Here</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/alllogbooks}">Edit</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
