@@ -44,10 +44,10 @@
 	            <tbody>
 	              <tr th:each="logbook : ${logbooks}">
 			        <td>
-			        	<a class="btn btn-sm btn-default" th:href="@{/singlelogbook(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
+			        	<a class="btn btn-sm btn-default" th:href="@{/logbook/show(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
 			        </td>
 			        <td>
-			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/editlogbook(id=${logbook.id})}">Edit</a>
+			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/logbook/edit(id=${logbook.id})}">Edit</a>
 					</td>
 			        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
 			        </td>
@@ -60,7 +60,7 @@
 			        <td th:text="${logbookTotals[__${logbook.id}__].totalDuration}">
 			        </td>
 					<td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/deletelogbook(id=${logbook.id})}">Delete</a>
+			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/logbook/delete(id=${logbook.id})}">Delete</a>
 					</td>
 			      </tr>
 	            </tbody>
@@ -97,7 +97,7 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/alllogbooks}">Delete</a>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/logbook/overview}">Delete</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
@@ -116,14 +116,14 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/alllogbooks}">Edit</a>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/logbook/overview}">Edit</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 	        
 			<div class="page-header">
-				<form th:action="@{/createlogbook}">
+				<form th:action="@{/logbook/create}">
 					<button class="btn btn-primary" type="submit">Create Logbook</button>
 				 </form>
 			</div>

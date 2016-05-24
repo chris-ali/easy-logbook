@@ -19,31 +19,19 @@
 	
 	<security:http use-expressions="true">
 		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />	
-		<security:intercept-url pattern="/allaircraft" access="isAuthenticated()" />
-		<security:intercept-url pattern="/createaircraft" access="isAuthenticated()" />
-		<security:intercept-url pattern="/docreateaircraft" access="isAuthenticated()" />
-		<security:intercept-url pattern="/editaircraft" access="isAuthenticated()" />
-		<security:intercept-url pattern="/deleteaircraft" access="isAuthenticated()" />
-		<security:intercept-url pattern="/alllogbooks" access="isAuthenticated()" />
-		<security:intercept-url pattern="/singlelogbook" access="isAuthenticated()" />
-		<security:intercept-url pattern="/createlogbook" access="isAuthenticated()" />
-		<security:intercept-url pattern="/docreatelogbook" access="isAuthenticated()" />
-		<security:intercept-url pattern="/logbookcreated" access="isAuthenticated()" />
-		<security:intercept-url pattern="/deletelogbook" access="isAuthenticated()" />
+		<security:intercept-url pattern="/aircraft/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/logbook/**" access="isAuthenticated()" />
+		<security:intercept-url pattern="/entry/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/features" access="permitAll" />
-		<security:intercept-url pattern="/logout" access="permitAll" />
-		<security:intercept-url pattern="/login" access="permitAll" />
-		<security:intercept-url pattern="/accessdenied" access="permitAll" />
+		<security:intercept-url pattern="/user/**" access="permitAll" />
+		<security:intercept-url pattern="/error/**" access="permitAll" />
 		<security:intercept-url pattern="/resources/**" access="permitAll" />
-		<security:intercept-url pattern="/createaccount" access="permitAll" />
-		<security:intercept-url pattern="/docreateaccount" access="permitAll" />
-		<security:intercept-url pattern="/accountcreated" access="permitAll" />
 		<security:intercept-url pattern="/**" access="denyAll" />
 		
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?error" default-target-url="/"
-			always-use-default-target="true" login-processing-url="/login" />
+			always-use-default-target="true" login-processing-url="/user/login" />
 
 		<security:logout logout-url="/logout"
 			logout-success-url="/logout" />

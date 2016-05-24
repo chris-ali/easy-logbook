@@ -32,7 +32,7 @@ public class LogbookEntryController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 		
-	@RequestMapping(value="/createentry")
+	@RequestMapping(value="entry/create")
 	public String showCreateLogbookEntry(Model model, Principal principal) {
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
 		model.addAttribute("aircraftList", aircraftList);
@@ -40,7 +40,7 @@ public class LogbookEntryController {
 		return "logbook/createentry";
 	}
 	
-	@RequestMapping(value="/docreateentry")
+	@RequestMapping(value="entry/docreate")
 	public String doCreateLogbookEntry(@Validated(FormValidationGroup.class) Logbook logbook, 
 								  		BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors())
@@ -58,10 +58,10 @@ public class LogbookEntryController {
 			return "logbook/createentry";
 		}
 		
-		return "redirect:/logbook?id=" + logbook.getId();
+		return "redirect:/logbook/show?id=" + logbook.getId();
 	}
 	
-	@RequestMapping(value="/deleteentry", method=RequestMethod.GET)
+	@RequestMapping(value="entry/delete", method=RequestMethod.GET)
 	public String deleteLogbook(Principal principal, @RequestParam("logbookId") int logbookId, 
 								@RequestParam("entryId") int entryId, Model model){
 		// Get logbook attached to user
@@ -73,6 +73,6 @@ public class LogbookEntryController {
 		// Active class used on header fragment
 		model.addAttribute("activeClassLogbook", "active");
 		
-		return "redirect:/logbook?id=" + logbook.getId();
+		return "redirect:/logbook/show?id=" + logbook.getId();
 	}
 }

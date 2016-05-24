@@ -40,14 +40,14 @@
 	            <tbody>
 	              <tr th:each="aircraft : ${aircraftList}">
 			        <td>
-			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/editaircraft(id=${aircraft.id})}" th:inline="text">[[${aircraft.tailNumber}]]</a>
+			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/aircraft/edit(id=${aircraft.id})}" th:inline="text">[[${aircraft.tailNumber}]]</a>
 			        </td>
 			        <td th:text="${aircraft.make}">
 			        </td>
 			        <td th:text="${aircraft.model}">
 			        </td>
 			        <td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/deleteaircraft(id=${aircraft.id})}">Delete</a>
+			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/aircraft/delete(id=${aircraft.id})}">Delete</a>
 					</td>
 			      </tr>
 	            </tbody>
@@ -84,7 +84,7 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/allaircraft}">Delete</a>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/aircraft/overview}">Delete</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
@@ -103,14 +103,14 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger editButton" th:href="@{/allaircraft}">Edit</a>
+			        <a class="btn btn-sm btn-danger editButton" th:href="@{/aircraft/overview}">Edit</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 	        
 			<div class="page-header">
-				<form th:action="@{/createaircraft}">
+				<form th:action="@{/aircraft/create}">
 					<button class="btn btn-primary" type="submit">Create Aircraft</button>
 				 </form>
 			</div>

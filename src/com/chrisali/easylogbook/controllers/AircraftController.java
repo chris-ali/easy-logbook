@@ -32,7 +32,7 @@ public class AircraftController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping("/allaircraft")
+	@RequestMapping("aircraft/overview")
 	public String showAllAircraft(Principal principal, Model model) {
 		
 		// Get all aircraft tied to user
@@ -45,20 +45,22 @@ public class AircraftController {
 		return "aircraft/aircraft";
 	}
 	
-	@RequestMapping(value="/createaircraft")
+	@RequestMapping(value="aircraft/create")
 	public String showCreateAircraft(Model model) {
 		model.addAttribute("aircraft", new Aircraft());
 		return "aircraft/createaircraft";
 	}
 	
-	@RequestMapping(value="/docreateaircraft")
+	@RequestMapping(value="aircraft/docreate")
 	public String doCreateAircraft(@Validated(FormValidationGroup.class) Aircraft aircraft, 
 								  BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors())
 			return "aircraft/createaircraft";
 		
-		if (aircraftService.exists(principal.getName(), aircraft.getTailNumber()))
+		if (aircraftService.exists(principal.getName(), aircraft.getTailNumber())) {
+			result.rejectValue("name", "DuplicateKey.aircraft.name");
 			return "aircraft/createaircraft";
+		}
 		
 		try {
 			String username = principal.getName();
@@ -74,10 +76,10 @@ public class AircraftController {
 		// Active class used on header fragment
 		model.addAttribute("activeClassAircraft", "active");
 		
-		return "redirect:/allaircraft";
+		return "redirect:/aircraft/overview";
 	}
 	
-	@RequestMapping(value="/deleteaircraft")
+	@RequestMapping(value="aircraft/delete")
 	public String deleteAircraft(Principal principal, Model model, @RequestParam("id") int aircraftId){
 		
 		// Get all aircraft tied to user
@@ -99,6 +101,6 @@ public class AircraftController {
 		// Active class used on header fragment
 		model.addAttribute("activeClassAircraft", "active");
 		
-		return "redirect:/allaircraft";
+		return "redirect:/aircraft/overview";
 	}
 }

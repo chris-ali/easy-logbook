@@ -34,7 +34,7 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
-	@RequestMapping(value="/singlelogbook", method=RequestMethod.GET)
+	@RequestMapping(value="logbook/show", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
 							  @RequestParam("id") int id) {
 		// All aircraft tied to user
@@ -59,7 +59,7 @@ public class LogbookController {
 		return "logbook/logbook";
 	}
 	
-	@RequestMapping(value="/alllogbooks")
+	@RequestMapping(value="logbook/overview")
 	public String showAllLogbooks(Principal principal, Model model) {
 		// All logbooks tied to user
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
@@ -77,20 +77,22 @@ public class LogbookController {
 		return "logbook/logbooks";
 	}
 	
-	@RequestMapping(value="/createlogbook")
+	@RequestMapping(value="logbook/create")
 	public String showCreateLogbook(Model model) {
 		model.addAttribute("logbook", new Logbook());
 		return "logbook/createlogbook";
 	}
 	
-	@RequestMapping(value="/docreatelogbook")
+	@RequestMapping(value="logbook/docreate")
 	public String doCreateLogbook(@Validated(FormValidationGroup.class) Logbook logbook, 
 								  BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors())
 			return "logbook/createlogbook";
 		
-		if (logbookService.exists(principal.getName(), logbook.getName()))
+		if (logbookService.exists(principal.getName(), logbook.getName())) {
+			result.rejectValue("name", "DuplicateKey.logbook.name");
 			return "logbook/createlogbook";
+		}
 		
 		try {
 			String username = principal.getName();
@@ -106,7 +108,7 @@ public class LogbookController {
 		return "logbook/logbookcreated";
 	}
 	
-	@RequestMapping(value="/deletelogbook", method=RequestMethod.GET)
+	@RequestMapping(value="logbook/delete", method=RequestMethod.GET)
 	public String deleteLogbook(Principal principal, @RequestParam("id") int id, Model model){
 		// Get logbook attached to user
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
@@ -123,6 +125,6 @@ public class LogbookController {
 		// Active class used on header fragment
 		model.addAttribute("activeClassLogbook", "active");
 		
-		return "redirect:/alllogbooks";
+		return "redirect:/logbook/overview";
 	}
 }

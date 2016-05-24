@@ -19,14 +19,14 @@ public class UserController {
 	@Autowired
 	private UsersService usersService;
 	
-	@RequestMapping("/createaccount")
+	@RequestMapping("user/create")
 	public String showCreateAccount(Model model) {
 		model.addAttribute("user", new User());
 		
 		return "user/createaccount";
 	}
 	
-	@RequestMapping(value="/docreateaccount", method=RequestMethod.POST)
+	@RequestMapping(value="user/docreate", method=RequestMethod.POST)
 	public String doCreateAccount(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
 		if (result.hasErrors())
 			return "user/createaccount";
@@ -51,12 +51,12 @@ public class UserController {
 		return "user/accountcreated";
 	}
 	
-	@RequestMapping("/login")
+	@RequestMapping("user/login")
 	public String showLogin() {
 		return "user/login";
 	}
 	
-	@RequestMapping("/logout")
+	@RequestMapping("user/logout")
 	public String showLoggedOut() {
 		return "user/logout";
 	}
