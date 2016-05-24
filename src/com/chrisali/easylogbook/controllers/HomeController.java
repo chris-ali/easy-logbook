@@ -23,11 +23,22 @@ public class HomeController {
 			model.addAttribute("user", user);
 		}
 		
+		// Active class used on header fragment
+		model.addAttribute("activeClassHome", "active");
+		
 		return "home/home";
 	}
 	
 	@RequestMapping(value = "/features")
-	public String showFeatures() {
+	public String showFeatures(Principal principal, Model model) {
+		if (principal != null) {
+			User user = usersService.getUser(principal.getName());
+			model.addAttribute("user", user);
+		}
+
+		// Active class used on header fragment
+		model.addAttribute("activeClassFeatures", "active");
+		
 		return "home/features";
 	}
 }

@@ -7,15 +7,18 @@
 	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/examples/cover/cover.css" rel="stylesheet" />
 		
 		<meta charset="ISO-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
 	<body>
+	
+		<!-- Header from "Theme" Theme -->
 		
 		<!-- Fixed navbar -->
-	    <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="header">
+	    <nav class="navbar navbar-inverse navbar-fixed-top" th:fragment="theme_header">
 	      <div class="container">
 	        <div class="navbar-header">
 	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -47,8 +50,27 @@
 	      
 	      <!-- CSRF Logout Protection Form -->
           <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
-	          	
 	    </nav>
+	    
+	    <!-- Header from Cover Theme -->
+	    
+	    <div class="masthead clearfix" th:fragment="cover_header">
+          <div class="inner">
+            <h3 class="masthead-brand">Easy Logbook</h3>
+            <nav>
+              <ul class="nav masthead-nav">
+                <li th:class="${activeClassHome}"><a th:href="@{/}">Home</a></li>
+                <li th:class="${activeClassFeatures}"><a th:href="@{/features}">Features</a></li>
+                <li sec:authorize="!isAuthenticated()"><a th:href="@{/login}">Log in</a></li>
+                <li sec:authorize="isAuthenticated()"><a th:href="@{/profile(user=${user.username})}">Profile</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="/logout" th:href="@{#}" onclick="$('#form').submit();">Log out</a></li>
+              </ul>
+            </nav>
+          </div>
+          
+          <!-- CSRF Logout Protection Form -->
+          <form style="visibility: hidden" id="form" method="post" action="#" th:action="@{/logout}"></form>
+        </div>
 
 	</body>
 </html>

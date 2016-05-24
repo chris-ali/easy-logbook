@@ -15,14 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.LogbookEntry;
+import com.chrisali.easylogbook.services.AircraftService;
 import com.chrisali.easylogbook.services.LogbookEntryService;
 import com.chrisali.easylogbook.services.LogbookService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
 public class LogbookController {
+	@Autowired
+	private AircraftService aircraftService;
 
 	@Autowired
 	private LogbookService logbookService;
@@ -53,14 +57,18 @@ public class LogbookController {
 	
 	@RequestMapping(value="/alllogbooks")
 	public String showAllLogbooks(Principal principal, Model model) {
+		// All logbooks tied to user
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
-		Map<Integer, LogbookEntry> logbookTotals = new HashMap<>();
+		model.addAttribute("logbooks", logbooks);
+		
+		// All aircraft tied to user
+		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
+		model.addAttribute("aircraftList", aircraftList);
 		
 		// Get totals for each logbook in user's list, add them to a map
+		Map<Integer, LogbookEntry> logbookTotals = new HashMap<>();
 		for (Logbook logbook : logbooks)
 			logbookTotals.put(logbook.getId(), logbookService.logbookTotals(principal.getName(), logbook.getId()));
-		
-		model.addAttribute("logbooks", logbooks);
 		model.addAttribute("logbookTotals", logbookTotals);
 		
 		// Active class used on header fragment
@@ -100,9 +108,11 @@ public class LogbookController {
 	
 	@RequestMapping(value="/deletelogbook", method=RequestMethod.GET)
 	public String deleteLogbook(Principal principal, @RequestParam("id") int id, Model model){
+		// Get logbook attached to user
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		model.addAttribute("logbook", logbook);
 		
+		// Delete all entries in logbook before deleting logbook 
 		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());
 		
 		for(LogbookEntry entry : logbookEntries)

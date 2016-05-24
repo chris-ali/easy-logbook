@@ -34,8 +34,9 @@ public class AircraftController {
 	
 	@RequestMapping("/allaircraft")
 	public String showAllAircraft(Principal principal, Model model) {
-		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
 		
+		// Get all aircraft tied to user
+		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
 		model.addAttribute("aircraftList", aircraftList);
 		
 		// Active class used on header fragment
@@ -79,10 +80,12 @@ public class AircraftController {
 	@RequestMapping(value="/deleteaircraft")
 	public String deleteAircraft(Principal principal, Model model, @RequestParam("id") int aircraftId){
 		
+		// Get all aircraft tied to user
 		String username = principal.getName();
 		Aircraft aircraft = aircraftService.getAircraft(username, aircraftId);
 		List<Logbook> logbooks = logbookService.getLogbooks(username);
 		
+		// Delete all logbook entries tied to aircraft before deleting aircraft
 		for (Logbook logbook : logbooks) {
 		
 			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId(), aircraft.getId());
