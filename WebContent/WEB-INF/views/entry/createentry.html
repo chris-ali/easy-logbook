@@ -9,9 +9,12 @@
     	<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 		<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" />
 		<link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" rel="stylesheet" />
+		<link href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
 		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 	
 		<meta charset="utf-8" />
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -32,22 +35,190 @@
 				
 				<h2 class="form-signin-heading">Create Logbook Entry</h2>
 				
-				<label for="inputName" class="sr-only">Name</label> 
-				<input type="text" name='name' id="inputName" class="form-control"
-					th:field="*{name}"
-					placeholder="Name" autofocus="autofocus" /> 
-				<span class="label label-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+				<label for="inputDate" class="sr-only">Date</label>
+		        <div class="input-group">
+		        	<div class="input-group-addon">
+		         		<i class="fa fa-calendar"></i>
+		         	</div>
+		         	<input class="form-control" id="inputDate" name="date" th:field="*{date}" placeholder="MM/DD/YYYY" type="text"/>
+		        </div>
+				
+				<!-- Aircraft -->
+				
+				<label for="inputAircraft" class="sr-only">Aircraft</label>
+			    <select class="form-control" id="inputAircraft" name="aircraftId" >
+			        <option th:each="aircraft : ${aircraftList}" th:value="${aircraft.id}" th:text="${aircraft.tailNumber}" />
+			    </select>
+				
+				<!-- Route -->
+				<h5 class="form-signin-heading">Route of Flight</h5>
+				
+				<label for="inputOrigin" class="sr-only">Origin</label> 
+				<input type="text" name='origin' id="inputOrigin" class="form-control"
+					th:field="*{origin}"
+					placeholder="Origin" autofocus="autofocus" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('origin')}" th:errors="*{origin}"></span>
+				
+				<label for="inputDestination" class="sr-only">Destination</label> 
+				<input type="text" name='destination' id="inputDestination" class="form-control"
+					th:field="*{destination}"
+					placeholder="Destination" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('destination')}" th:errors="*{destination}"></span>
+				
+				<label for="inputInstrumentApproaches" class="sr-only">Instrument Approaches</label> 
+				<input type="text" name='instrumentApproaches' id="inputInstrumentApproaches" class="form-control"
+					th:field="*{instrumentApproaches}"
+					placeholder="Instrument Approaches" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('instrumentApproaches')}" th:errors="*{instrumentApproaches}"></span>
+				
+				<label for="inputDayLandings" class="sr-only">Day Landings</label> 
+				<input type="text" name='DayLandings' id="inputDayLandings" class="form-control"
+					th:field="*{dayLandings}"
+					placeholder="Day Landings" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('dayLandings')}" th:errors="*{dayLandings}"></span>
+				
+				<label for="inputNightLandings" class="sr-only">Night Landings</label> 
+				<input type="text" name='nightLandings' id="inputNightLandings" class="form-control"
+					th:field="*{NightLandings}"
+					placeholder="Night Landings" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('nightLandings')}" th:errors="*{nightLandings}"></span>
+				
+				<!-- Category/Class -->
+				<h5 class="form-signin-heading">Category/Class</h5>
+				
+				<label for="inputAirplaneSel" class="sr-only">Airplane SEL</label> 
+				<input type="text" name='airplaneSel' id="inputAirplaneSel" class="form-control"
+					th:field="*{airplaneSel}"
+					placeholder="Airplane SEL" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('airplaneSel')}" th:errors="*{airplaneSel}"></span>
+				
+				<label for="inputAirplaneMel" class="sr-only">Airplane MEL</label> 
+				<input type="text" name='airplaneMel' id="inputAirplaneMel" class="form-control"
+					th:field="*{airplaneMel}"
+					placeholder="Airplane MEL" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('airplaneMel')}" th:errors="*{airplaneMel}"></span>
+				
+				<label for="inputTurbine" class="sr-only">Turbine</label> 
+				<input type="text" name='turbine' id="inputTurbine" class="form-control"
+					th:field="*{turbine}"
+					placeholder="Turbine" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('turbine')}" th:errors="*{turbine}"></span>
+				
+				<label for="inputGlider" class="sr-only">Glider</label> 
+				<input type="text" name='Glider' id="inputGlider" class="form-control"
+					th:field="*{glider}"
+					placeholder="glider" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('glider')}" th:errors="*{glider}"></span>
+				
+				<label for="inputRotorcraft" class="sr-only">Rotorcraft</label> 
+				<input type="text" name='Rotorcraft' id="inputRotorcraft" class="form-control"
+					th:field="*{rotorcraft}"
+					placeholder="Rotorcraft" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('rotorcraft')}" th:errors="*{rotorcraft}"></span>
+				
+				<label for="inputNight" class="sr-only">Night</label> 
+				<input type="text" name='night' id="inputNight" class="form-control"
+					th:field="*{night}"
+					placeholder="Night" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('night')}" th:errors="*{night}"></span>
+				
+				<!-- Conditions of Flight -->
+				<h5 class="form-signin-heading">Conditions of Flight</h5>
+				
+				<label for="inputActualInstrument" class="sr-only">Actual Instrument</label> 
+				<input type="text" name='actualInstrument' id="inputActualInstrument" class="form-control"
+					th:field="*{actualInstrument}"
+					placeholder="Actual Instrument" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('actualInstrument')}" th:errors="*{actualInstrument}"></span>
+				
+				<label for="inputSimulatedInstrument" class="sr-only">Simulated Instrument</label> 
+				<input type="text" name='simulatedInstrument' id="inputSimulatedInstrument" class="form-control"
+					th:field="*{simulatedInstrument}"
+					placeholder="Simulated Instrument" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('simulatedInstrument')}" th:errors="*{simulatedInstrument}"></span>
+				
+				<label for="inputGroundTrainer" class="sr-only">Ground Trainer</label> 
+				<input type="text" name='groundTrainer' id="inputGroundTrainer" class="form-control"
+					th:field="*{groundTrainer}"
+					placeholder="Ground Trainer" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('groundTrainer')}" th:errors="*{groundTrainer}"></span>
+				
+				<!-- Type of Piloting -->
+				<h5 class="form-signin-heading">Type of Piloting</h5>
+				
+				<label for="inputCrossCountry" class="sr-only">Cross Country</label> 
+				<input type="text" name='crossCountry' id="inputCrossCountry" class="form-control"
+					th:field="*{crossCountry}"
+					placeholder="Cross Country" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('crossCountry')}" th:errors="*{crossCountry}"></span>
+				
+				<label for="inputDualReceived" class="sr-only">Dual Received</label> 
+				<input type="text" name='dualReceived' id="inputDualReceived" class="form-control"
+					th:field="*{dualReceived}"
+					placeholder="Dual Received" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('dualReceived')}" th:errors="*{dualReceived}"></span>
+				
+				<label for="inputDualGiven" class="sr-only">Dual Given</label> 
+				<input type="text" name='dualGiven' id="inputDualGiven" class="form-control"
+					th:field="*{dualGiven}"
+					placeholder="Dual Given" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('dualGiven')}" th:errors="*{dualGiven}"></span>
+				
+				<label for="inputPilotInCommand" class="sr-only">Pilot in Command</label> 
+				<input type="text" name='pilotInCommand' id="inputPilotInCommand" class="form-control"
+					th:field="*{pilotInCommand}"
+					placeholder="Pilot in Command" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('pilotInCommand')}" th:errors="*{pilotInCommand}"></span>
+				
+				<label for="inputSecondInCommand" class="sr-only">Second in Command</label> 
+				<input type="text" name='secondInCommand' id="inputSecondInCommand" class="form-control"
+					th:field="*{secondInCommand}"
+					placeholder="Second in Command" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('secondInCommand')}" th:errors="*{secondInCommand}"></span>
+				
+				<!-- Remarks -->
+				
+				<p />
+				
+				<label for="inputRemarks" class="sr-only">Remarks</label> 
+				<textarea name='remarks' rows="4" id="inputRemarks" class="form-control"
+					th:field="*{remarks}"
+					placeholder="Remarks"></textarea> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('remarks')}" th:errors="*{remarks}"></span>
+				
+				<!-- Total -->
+				
+				<p />
+				
+				<label for="inputTotalDuration" class="sr-only">Total Duration</label> 
+				<input type="text" name='totalDuration' id="inputTotalDuration" class="form-control"
+					th:field="*{totalDuration}"
+					placeholder="Total Duration" /> 
+				<span class="label label-danger" th:if="${#fields.hasErrors('totalDuration')}" th:errors="*{totalDuration}"></span>
+				
+				<p />
 				
 				<button class="btn btn-lg  btn-primary btn-block" type="submit">Submit</button>
-	
-			</form>
-			
-			<p />
-			
-			<form class="form-signin" th:action="@{/logbook/show(id=${logbook.id})}" method="post">
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
-			</form>
 				
+				<p />
+			
+				<a class="btn btn-lg btn-primary btn-block" th:href="@{/logbook/show(logbookId=${logbook.id})}">Cancel</a>
+			</form>
 		</div>
+		
+		<!-- DatePicker Script -->
+		<script>
+			$(document).ready(function(){
+				var date_input=$('input[name="date"]'); //our date input has the name "date"
+				var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+				date_input.datepicker({
+					format: 'mm/dd/yyyy',
+					container: container,
+					todayHighlight: true,
+					autoclose: true,
+				})
+			})
+		</script>
+		
 	</body>
 </html>

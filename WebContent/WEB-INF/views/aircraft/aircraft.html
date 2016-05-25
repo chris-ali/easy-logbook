@@ -110,9 +110,7 @@
 			</div><!-- /.modal -->
 	        
 			<div class="page-header">
-				<form th:action="@{/aircraft/create}">
-					<button class="btn btn-primary" type="submit">Create Aircraft</button>
-				 </form>
+				<a class="btn btn-primary" th:href="@{/aircraft/create}">Create Aircraft</a>
 			</div>
 		
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>

@@ -123,9 +123,7 @@
 			</div><!-- /.modal -->
 	        
 			<div class="page-header">
-				<form th:action="@{/logbook/create}">
-					<button class="btn btn-primary" type="submit">Create Logbook</button>
-				 </form>
+				<a class="btn btn-primary" th:href="@{/logbook/create}">Create Logbook</a>
 			</div>
 		
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>

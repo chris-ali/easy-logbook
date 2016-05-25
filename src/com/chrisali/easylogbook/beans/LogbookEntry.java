@@ -12,6 +12,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.Range;
+
+import com.chrisali.easylogbook.validation.ValidDuration;
 
 @Entity
 @Table(name="logbook_entries")
@@ -47,30 +50,48 @@ public class LogbookEntry implements Serializable {
 	@Size(min=2, max=4)
 	private String destination;
 	
-	private int instrumentApproaches;
-	private int dayLandings;
-	private int nightLandings;
+	@Range(min=0, max=255)
+	private int instrumentApproaches = 0;
+	@Range(min=0, max=255)
+	private int dayLandings = 0;
+	@Range(min=0, max=255)
+	private int nightLandings = 0;
 	
 	// Category/Class
+	@ValidDuration
 	private float airplaneSel = 0.0f;
+	@ValidDuration
 	private float airplaneMel = 0.0f;
+	@ValidDuration
 	private float turbine = 0.0f;
+	@ValidDuration
 	private float glider = 0.0f;
+	@ValidDuration
 	private float rotorcraft = 0.0f;
 
 	// Conditions of Flight
+	@ValidDuration
 	private float night = 0.0f;
+	@ValidDuration
 	private float actualInstrument = 0.0f;
+	@ValidDuration
 	private float simulatedInstrument = 0.0f;
+	@ValidDuration
 	private float groundTrainer = 0.0f;
 	
 	// Type of Piloting
+	@ValidDuration
 	private float crossCountry = 0.0f;
+	@ValidDuration
 	private float dualReceived = 0.0f;
+	@ValidDuration
 	private float dualGiven = 0.0f;
+	@ValidDuration
 	private float pilotInCommand = 0.0f;
+	@ValidDuration
 	private float secondInCommand = 0.0f;
 	
+	@ValidDuration
 	private float totalDuration = 0.0f;
 	
 	@Size(max=200)

@@ -31,7 +31,7 @@
 	        	<strong>First Aircraft -</strong> To create a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
 	      	</div>
 			
-			<div th:if="${logbookEntries.size() > 0}" class="col-md-6">
+			<div th:if="${logbookEntries.size() > 0}">
 	          <table class="table table-bordered">
 	            <thead>
 	              <tr>
@@ -62,7 +62,7 @@
 	              </tr>
 	            </thead>
 	            <tbody>
-	              <tr th:each="entry : ${logbookentries}">
+	              <tr th:each="entry : ${logbookEntries}">
 			        <td th:text="${entry.date}"></td>
 			        <td th:text="${entry.aircraft.tailNumber}"></td>
 			        <td th:text="${entry.aircraft.make}"></td>
@@ -121,9 +121,7 @@
 	        </div>
 	        
 			<div class="page-header">
-				<form th:if="${aircraftList.size() > 0}" th:action="@{entry/create}">
-					<button class="btn btn-primary" type="submit">Create Entry</button>
-				 </form>
+				<a th:if="${aircraftList.size() > 0}" class="btn btn-primary" th:href="@{/entry/create(logbookId=${logbook.id})}">Create Entry</a>
 			</div>
 			
 			<div class="inner" th:replace="templates/footer :: 'footer'"></div>

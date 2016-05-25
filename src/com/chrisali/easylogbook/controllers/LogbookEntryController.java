@@ -3,15 +3,19 @@ package com.chrisali.easylogbook.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
@@ -22,6 +26,7 @@ import com.chrisali.easylogbook.services.LogbookService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
+@SessionAttributes("logbookEntry")
 public class LogbookEntryController {
 	@Autowired
 	private AircraftService aircraftService;
@@ -33,32 +38,42 @@ public class LogbookEntryController {
 	private LogbookEntryService logbookEntryService;
 		
 	@RequestMapping(value="entry/create")
-	public String showCreateLogbookEntry(Model model, Principal principal) {
+	public String showCreateLogbookEntry(@RequestParam("logbookId") int logbookId, Model model, Principal principal) {
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
+		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);
+		
+		LogbookEntry logbookEntry = new LogbookEntry();
+		logbookEntry.setLogbook(logbook);
+		
 		model.addAttribute("aircraftList", aircraftList);
-		model.addAttribute("logbookEntry", new LogbookEntry());
-		return "logbook/createentry";
+		model.addAttribute("logbook", logbook);
+		model.addAttribute("logbookEntry", logbookEntry);
+		
+		return "entry/createentry";
 	}
 	
-	@RequestMapping(value="entry/docreate")
-	public String doCreateLogbookEntry(@Validated(FormValidationGroup.class) Logbook logbook, 
-								  		BindingResult result, Model model, Principal principal) {
+	@RequestMapping(value="entry/docreate", method=RequestMethod.POST)
+	public String doCreateLogbookEntry(@Validated(FormValidationGroup.class) @ModelAttribute("logbookEntry") LogbookEntry logbookEntry, 
+								  		BindingResult result, Model model, Principal principal, HttpServletRequest request) {
+		int logbookId = logbookEntry.getLogbook().getId();
+		int aircraftId = Integer.valueOf(request.getParameter("aircraftId"));
+		
+		logbookEntry.setLogbook(logbookService.getLogbook(principal.getName(), logbookId));
+		logbookEntry.setAircraft(aircraftService.getAircraft(principal.getName(), aircraftId));
+		
 		if (result.hasErrors())
-			return "logbook/createentry";
+			return "entry/createentry?logbookId=" + logbookId;
 		
-		if (logbookService.exists(principal.getName(), logbook.getName()))
-			return "logbook/createentry";
+		if (logbookEntryService.exists(logbookId, logbookEntry.getId()))
+			return "entry/createentry?logbookId=" + logbookId;
 		
-		try {
-			String username = principal.getName();
-			logbook.getUser().setUsername(username);
-			logbookService.createOrUpdate(logbook);
-		} catch (DuplicateKeyException e) {
-			result.rejectValue("name", "DuplicateKey.logbook.name");
-			return "logbook/createentry";
-		}
+		try {logbookEntryService.createOrUpdate(logbookEntry);} 
+		catch (DuplicateKeyException e) {return "entry/createentry?logbookId=" + logbookId;}
 		
-		return "redirect:/logbook/show?id=" + logbook.getId();
+		// Active class used on header fragment
+		model.addAttribute("activeClassLogbook", "active");
+		
+		return "redirect:/logbook/show?id=" + logbookId;
 	}
 	
 	@RequestMapping(value="entry/delete", method=RequestMethod.GET)

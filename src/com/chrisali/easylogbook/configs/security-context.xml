@@ -41,7 +41,7 @@
 			remember-me-parameter="remember-me"
 			remember-me-cookie="easyLogbookRememberMe" />
 
-		<security:access-denied-handler error-page="/accessdenied" />
+		<security:access-denied-handler error-page="/error/accessdenied" />
 	</security:http>
 
 	<security:global-method-security secured-annotations="enabled"></security:global-method-security>
