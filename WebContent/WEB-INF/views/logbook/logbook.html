@@ -36,11 +36,11 @@
 	            <thead>
 	              <tr>
 	                <th>Date</th>
+	                <th>Origin</th>
+	                <th>Destination</th>
 	                <th>Tail Number</th>
 	                <th>Make</th>
 	                <th>Model</th>
-	                <th>Origin</th>
-	                <th>Destination</th>
 	                <th>Instrument Approaches</th>
 	                <th>Day Landings</th>
 	                <th>Night Landings</th>
@@ -63,12 +63,14 @@
 	            </thead>
 	            <tbody>
 	              <tr th:each="entry : ${logbookEntries}">
-			        <td th:text="${entry.date}"></td>
+			        <td th:text="${entry.date}">
+			        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(id=${logbook.id}, edit=true)}">Edit</a>
+					</td>
+			        <td th:text="${entry.origin}"></td>
+			        <td th:text="${entry.destination}"></td>
 			        <td th:text="${entry.aircraft.tailNumber}"></td>
 			        <td th:text="${entry.aircraft.make}"></td>
 			        <td th:text="${entry.aircraft.model}"></td>
-			        <td th:text="${entry.origin}"></td>
-			        <td th:text="${entry.destination}"></td>
 			        <td th:text="${entry.instrumentApproaches}"></td>
 			        <td th:text="${entry.dayLandings}"></td>
 			        <td th:text="${entry.nightLandings}"></td>
@@ -87,6 +89,9 @@
 			        <td th:text="${entry.pilotInCommand}"></td>
 			        <td th:text="${entry.secondInCommand}"></td>
 			        <td th:text="${entry.totalDuration}"></td>
+			        <td>
+			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/logbook/delete(id=${logbook.id})}">Delete</a>
+					</td>
 			      </tr>
 	            </tbody>
 	            <tfoot>
