@@ -13,8 +13,8 @@
 	
 	<mvc:annotation-driven></mvc:annotation-driven>
 	
-	<mvc:resources location="/resources/" mapping="/static/**" />
-	
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basename" value="com.chrisali.easylogbook.messages.messages"></property>
 	</bean>

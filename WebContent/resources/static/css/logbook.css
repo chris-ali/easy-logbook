@@ -1,0 +1,88 @@
+@CHARSET "ISO-8859-1";
+
+.table> thead:first-child>tr:first-child>th:first-child {
+    position: fixed;
+    height: 52px;
+    width: 100px;
+    background-color: window; 
+}
+
+.table> tbody > tr > td:first-child {
+    position: fixed;
+    height: 50px;
+    width: 100px;
+    background-color: window;
+}
+
+.table> tfoot > tr > td:first-child {
+    position: fixed;
+    height: 40px;
+    width: 100px;
+    background-color: window;
+}
+
+
+
+.table> thead:first-child>tr:first-child>th:nth-child(2) {
+    position: fixed;
+    margin-left: 100px;
+    height: 52px;
+    width: 100px;
+    background-color: window;
+}
+
+.table> tbody > tr > td:nth-child(2) {
+    position: fixed;
+    margin-left: 100px;
+    height: 50px;
+    width: 100px;
+    background-color: window;
+}
+
+.table> tfoot > tr > td:nth-child(2) {
+    position: fixed;
+    margin-left: 100px;
+    height: 40px;
+    width: 100px;
+    background-color: window;
+}
+
+
+
+.table> thead:first-child>tr:first-child>th:nth-child(3) {
+    position: fixed;
+    margin-left: 200px;
+    height: 52px;
+    width: 100px;
+    background-color: window;
+}
+
+.table> tbody > tr > td:nth-child(3) {
+    position: fixed;
+    margin-left: 200px;
+    height: 50px;
+    width: 100px;
+    background-color: window;
+}
+
+.table> tfoot > tr > td:nth-child(3) {
+    position: fixed;
+    margin-left: 200px;
+    height: 40px;
+    width: 100px;
+    background-color: window;
+}
+
+
+
+.table> thead:first-child>tr:first-child>th:nth-child(4) {
+    padding-left: 310px;
+}
+
+.table> tbody > tr > td:nth-child(4) {
+    padding-left: 310px;
+}
+
+.table> tfoot > tr > td:nth-child(4) {
+    padding-left: 310px;
+}
