@@ -34,7 +34,8 @@
 	
 			<form class="form-signin" th:object="${logbookEntry}" th:action="@{/entry/docreate}" method="post">
 				
-				<h2 class="form-signin-heading">Create Logbook Entry</h2>
+				<h2 class="form-signin-heading" th:if="${param.edit == null}">Create Logbook Entry</h2>
+				<h2 class="form-signin-heading" th:if="${param.edit}">Edit Logbook Entry</h2>
 				
 				<!-- Date -->
 				
