@@ -39,9 +39,10 @@ public class LogbookEntryController {
 	private LogbookEntryService logbookEntryService;
 		
 	@RequestMapping(value="entry/create")
-	public String showCreateLogbookEntry(@RequestParam("logbookId") int logbookId,
-										 @RequestParam(value="error", required=false) boolean error,
-										 @RequestParam(value="edit", required=false) boolean edit,
+	public String showCreateLogbookEntry(@RequestParam("logbookId") Integer logbookId,
+										 @RequestParam(value="entryId", required=false) Integer entryId,
+										 @RequestParam(value="error", required=false) Boolean error,
+										 @RequestParam(value="edit", required=false) Boolean edit,
 										 Model model, 
 										 Principal principal) {
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
@@ -51,11 +52,18 @@ public class LogbookEntryController {
 		model.addAttribute("logbook", logbook);
 		
 		// Add logbook entry to model if it hasn't already been done
-		if (!error || !edit) {
+		if (error == null && edit == null) {
 			LogbookEntry freshLogbookEntry = new LogbookEntry();
 			freshLogbookEntry.setLogbook(logbook);
 			model.addAttribute("logbookEntry", freshLogbookEntry);
 		} 
+		
+		// If edit entry selected, get entry corresponding to entryId model
+		if (entryId != null && edit != null) {
+			LogbookEntry editLogbookEntry = logbookEntryService.getLogbookEntry(logbookId, entryId);
+			editLogbookEntry.setLogbook(logbook);
+			model.addAttribute("logbookEntry", editLogbookEntry);
+		}
 		
 		return "entry/createentry";
 	}
@@ -79,11 +87,11 @@ public class LogbookEntryController {
 			return "redirect:/entry/create?logbookId=" + logbookId + "&error=true";
 		}
 		
-		if (logbookEntryService.exists(logbookId, logbookEntry.getId())) {
-			redirect.addFlashAttribute("org.springframework.validation.BindingResult.logbookEntry", result);
-			redirect.addFlashAttribute("logbookEntry", logbookEntry);
-			return "redirect:/entry/create?logbookId=" + logbookId + "&error=true";
-		}
+//		if (logbookEntryService.exists(logbookId, logbookEntry.getId())) {
+//			redirect.addFlashAttribute("org.springframework.validation.BindingResult.logbookEntry", result);
+//			redirect.addFlashAttribute("logbookEntry", logbookEntry);
+//			return "redirect:/entry/create?logbookId=" + logbookId + "&error=true";
+//		}
 		
 		try {
 			logbookEntryService.createOrUpdate(logbookEntry);

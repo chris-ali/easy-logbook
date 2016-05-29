@@ -65,8 +65,8 @@
 	            </thead>
 	            <tbody>
 	              <tr th:each="entry : ${logbookEntries}">
-			        <td th:text="${entry.date}">
-			        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(id=${logbook.id}, edit=true)}">Edit</a>
+			        <td>
+			        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
 					</td>
 			        <td th:text="${entry.origin}"></td>
 			        <td th:text="${entry.destination}"></td>
@@ -91,9 +91,9 @@
 			        <td th:text="${entry.pilotInCommand}"></td>
 			        <td th:text="${entry.secondInCommand}"></td>
 			        <td th:text="${entry.totalDuration}"></td>
-			        <td th:text="${entry.remarks}">
+			        <td th:text="${entry.remarks}"></td>
 			        <td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/logbook/delete(id=${logbook.id})}">Delete</a>
+			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
 					</td>
 			      </tr>
 	            </tbody>
@@ -127,6 +127,36 @@
 	            </tfoot>
 	          </table>
 	        </div>
+	        
+	        <!-- JQuery to activate modal edit/delete functions -->
+	        <script type="text/javascript">
+	        	$(document).ready(function() {
+	        		$(".triggerDelete").click(function(e) {
+	        			e.preventDefault();
+	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+	        			$("#confirmDelete").modal();
+	        		});
+	        	});
+	        </script>
+	        
+	        <!-- Confirm Delete Modal -->
+	        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Confirm Delete</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Are you sure you wish to delete this entry?</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/logbook/show(id=${logbook.id})}">Delete</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 	        
 			<div class="page-header">
 				<a th:if="${aircraftList.size() > 0}" class="btn btn-primary" th:href="@{/entry/create(logbookId=${logbook.id})}">Create Entry</a>
