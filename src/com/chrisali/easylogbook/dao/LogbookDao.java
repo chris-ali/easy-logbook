@@ -72,7 +72,7 @@ public class LogbookDao extends AbstractDao {
 		session = sessionFactory.openSession();
 		try {
 			tx = session.beginTransaction();
-			session.save(Logbook);
+			session.saveOrUpdate(Logbook);
 			session.flush();
 			tx.commit();
 		} catch (Exception e) {

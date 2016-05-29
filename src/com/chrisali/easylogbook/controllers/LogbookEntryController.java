@@ -87,12 +87,6 @@ public class LogbookEntryController {
 			return "redirect:/entry/create?logbookId=" + logbookId + "&error=true";
 		}
 		
-//		if (logbookEntryService.exists(logbookId, logbookEntry.getId())) {
-//			redirect.addFlashAttribute("org.springframework.validation.BindingResult.logbookEntry", result);
-//			redirect.addFlashAttribute("logbookEntry", logbookEntry);
-//			return "redirect:/entry/create?logbookId=" + logbookId + "&error=true";
-//		}
-		
 		try {
 			logbookEntryService.createOrUpdate(logbookEntry);
 		} catch (DuplicateKeyException e) {
