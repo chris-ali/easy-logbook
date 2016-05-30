@@ -1,5 +1,7 @@
 package com.chrisali.easylogbook.controllers;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -49,6 +51,15 @@ public class UserController {
 		model.addAttribute("user", user);
 		
 		return "user/accountcreated";
+	}
+	
+	@RequestMapping("/profile")
+	public String showProfile(Principal principal, Model model) {
+		User user = usersService.getUser(principal.getName());
+		
+		model.addAttribute("user", user);
+		
+		return "profile/profile";
 	}
 	
 	@RequestMapping("user/login")

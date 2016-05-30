@@ -18,7 +18,8 @@
 	</security:authentication-manager>
 	
 	<security:http use-expressions="true">
-		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />	
+		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/profile" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/aircraft/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/logbook/**" access="isAuthenticated()" />
 		<security:intercept-url pattern="/entry/**" access="isAuthenticated()" />
