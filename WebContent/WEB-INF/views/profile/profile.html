@@ -5,6 +5,7 @@
 	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
 		
 		<meta charset="ISO-8859-1" />
@@ -15,6 +16,70 @@
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap-wizard/1.2/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+		
+		<script th:inline="javascript" type="text/javascript">
+			/*<![CDATA[*/
+	    	var errorMessage = "Passwords do not match"; ///*[[${UnmatchedPasswords.user.password}]]*/ 
+	    	/*]]>*/
+			function onLoad() {
+	    		//CSRF Stuff
+				var token = $("input[name='_csrf']").val();
+				var header= "X-­-CSRF-­-TOKEN";
+				
+				$(document).ajaxSend(function(e, xhr, options) {
+					xhr.setRequestHeader(header, token);
+				});
+				
+				// Check passwords
+				$("#inputPassword").keyup(checkMatchPasswords);
+				$("#inputRepeat").keyup(checkMatchPasswords);
+				
+				// Trigger close account modal
+				$(".triggerCloseAccount").click(function(e) {
+        			e.preventDefault();
+        			$("#confirmCloseAccount.closeAccountButton").attr("href", $(this).attr("href"));
+        			$("#confirmCloseAccount").modal();
+        		});
+				
+				// Set up tab navigation
+				$('#tabwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
+			}
+			
+	    	// Alert popup if passwords don't match
+			$(function () {
+				$("#createAccount").click(function () {
+					var password = $("#inputPassword").val();
+					var repeat = $("#inputRepeat").val();
+					
+					if (password != repeat){
+						alert(errorMessage);
+						return false;
+					} else {
+						return true;
+					}
+				});
+			});
+			
+			// Display if passwords don't match
+			function checkMatchPasswords() {
+				var password = $("#inputPassword").val();
+				var repeat = $("#inputRepeat").val();
+				
+				/*<![CDATA[*/
+				if(password.length < 3 || repeat.length < 3) {
+					return;
+				}
+				/*]]>*/
+				if (password != repeat) {
+					$("#unmatchedPasswords").text(errorMessage);
+				} else {
+					$("#unmatchedPasswords").text("");
+				}
+			}
+		
+			$(document).ready(onLoad);
+		</script>
 		
 		<title>User Profile</title>
 	</head>
@@ -25,40 +90,108 @@
 		<div class="container theme-showcase" role="main">
 		
 			<div id="tabwizard" class="tabbable tabs-left">
-			    	<ul>
-					  	<li><a href="#userdetails" data-toggle="tab">User Details</a></li>
-					  	<li><a href="#changepassword" data-toggle="tab">Change Password</a></li>
-					  	<li><a href="#closeaccount" data-toggle="tab">Close Account</a></li>
-					</ul>
-					
-					<!-- Tabs for each category -->
-			    
-			    	<div class="tab-content">
-			    		<div class="tab-pane" id="userdetails">
-			    			Edit user name, email and name
-			    		</div>
-			    		
-			    		<div class="tab-pane" id="changepassword">
-			    			Confirm password change or use email service to reset
-			    		</div>
-			    		
-			    		<div class="tab-pane" id="closeaccount">
-			    			Confirm to close account
-			    		</div>
-			    	</div>
+		    	<ul>
+				  	<li><a href="#userdetails" data-toggle="tab">User Details</a></li>
+				  	<li><a href="#changepassword" data-toggle="tab">Change Password</a></li>
+				  	<li><a href="#closeaccount" data-toggle="tab">Close Account</a></li>
+				</ul>
+				
+				<!-- Tabs for each category -->
+		    
+		    	<div class="tab-content">
+		    		<div class="tab-pane" id="userdetails">
+		    			<form class="form-signin" th:object="${user}" th:action="@{/user/update}" method="post">
+		    			
+		    				<h2 class="form-signin-heading">New Account Details</h2>
+			
+							<label for="inputName" class="sr-only">Name</label> 
+							<input type="text" name='name' id="inputName" class="form-control"
+								th:field="*{name}"
+								placeholder="Name" autofocus="autofocus" /> 
+							<span class="label label-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+							
+							<label for="inputEmail" class="sr-only">Email</label> 
+							<input type="email" name='email' id="inputEmail" class="form-control"
+								th:field="*{email}"
+								placeholder="Email" />
+							<span class="label label-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+							
+							<label for="inputUsername" class="sr-only">Username</label> 
+							<input type="text" name='username' id="inputUsername" class="form-control"
+								th:field="*{username}"
+								placeholder="Username" />
+							<span class="label label-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+							
+							<p />
+			
+							<button class="btn btn-lg btn-primary btn-block" id="updateAccount" type="submit">Update</button>
+		    			
+		    			</form>
+		    		</div>
+		    		
+		    		<div class="tab-pane" id="changepassword">
+		    			<form class="form-signin" th:object="${user}" th:action="@{/user/password}" method="post">
+		    				
+		    				<h2 class="form-signin-heading">Enter New Password</h2>
+		    			
+		    				<label for="inputPassword" class="sr-only">Password</label>
+							<input type="password" name='password' id="inputPassword" class="form-control"	
+								th:field="*{password}" 
+								placeholder="Password" />
+							<span class="label label-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+								
+							<label for="inputRepeat" class="sr-only">Repeat Password</label>
+							<input type="password" id="inputRepeat"	class="form-control"	
+								placeholder="Repeat Password" />
+							<span class="label label-danger" id="unmatchedPasswords"></span>
+							
+							<p />
+			
+							<button class="btn btn-lg btn-primary btn-block" id="changePassword" type="submit">Submit</button>
+							
+		    			</form>
+		    		</div>
+		    		
+		    		<div class="tab-pane" id="closeaccount">
+		    			<div class="alert alert-danger" role="alert">
+					        <strong>Close Account - </strong> Click below to delete your EasyLogbook account. 
+					    </div>
+					    
+					    <p />
+					    
+					    <div class="form-signin">
+					    	<a class="btn btn-lg btn-primary btn-block" th:href="@{/user/close}">Close Account</a>
+					    </div>
+		    		</div>
+		    	</div>
 	    	</div>
+	    	
+	    	<div class="page-header">
+	    	 
+	    	</div>
+		
+			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
+			
+			<!-- Confirm Close Account Modal -->
+	        <div class="modal fade" id="confirmCloseAccount" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Confirm Close Account</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>ALL logbook information associated with this account will be deleted and cannot be undone. Are you sure you wish to close your account?</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger closeAccountButton" th:href="@{/profile}">Close Account</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 		
 		</div>
 		
-		<!-- DatePicker and Tabs Script -->
-		<script>
-			$(document).ready(function(){
-				$('#tabwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
-			});
-		</script>
-		
-		<div class="page-header"></div>
-		
-		<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 	</body>
 </html>

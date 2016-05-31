@@ -15,18 +15,17 @@
 	
 		<meta charset="utf-8" />
 	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-	    
 	    <meta name="_csrf_header" content="${_csrf.headerName}" />
 	    <meta name="viewport" content="width=device-width, initial-scale=1" />
 	    <meta name="description" content="" />
 	    <meta name="author" content="" />
 	    
-	    <title>Create New Account</title>
-	   <!--  
-	    <script type="text/javascript">
-
+	    <script th:inline="javascript">
+	    	/*<![CDATA[*/
+	    	var errorMessage = "Passwords do not match"; ///*[[${UnmatchedPasswords.user.password}]]*/ 
+	    	/*]]>*/
 			function onLoad() {
-				
+				//CSRF Stuff
 				var token = $("input[name='_csrf']").val();
 				var header= "X-­‐CSRF-­‐TOKEN";
 				
@@ -34,49 +33,52 @@
 					xhr.setRequestHeader(header, token);
 				});
 			
+				// Match Passwords
 				$("#inputPassword").keyup(checkMatchPasswords);
 				$("#inputRepeat").keyup(checkMatchPasswords);
-				
-				$("#details").submit(canSubmit);
 			}
 			
-			function canSubmit() {
-				var password = $("#inputPassword").val();
-				var repeat = $("#inputRepeat").val();
-				
-				if (password != repeat){
-					alert("${UnmatchedPasswords.user.password}")
-					return false;
-				} else {
-					return true;
-				}
-			}
+	    	// Alert popup if passwords don't match
+			$(function () {
+				$("#createAccount").click(function () {
+					var password = $("#inputPassword").val();
+					var repeat = $("#inputRepeat").val();
+					
+					if (password != repeat){
+						alert(errorMessage);
+						return false;
+					} else {
+						return true;
+					}
+				});
+			});
 			
+			// Display if passwords don't match
 			function checkMatchPasswords() {
 				var password = $("#inputPassword").val();
 				var repeat = $("#inputRepeat").val();
 				
+				/*<![CDATA[*/
 				if(password.length < 3 || repeat.length < 3) {
 					return;
 				}
-				
+				/*]]>*/
 				if (password != repeat) {
-					$("#unmatchedPasswords").text("${UnmatchedPasswords.user.password}");
+					$("#unmatchedPasswords").text(errorMessage);
 				} else {
 					$("#unmatchedPasswords").text("");
 				}
 			}
 			
 			$(document).ready(onLoad);
-		
 		</script>
-    	-->
+	    
+	    <title>Create New Account</title>
 	</head>
 	
 	<body>
 	
 		<div class="container">
-	
 			<form class="form-signin" th:object="${user}" th:action="@{/user/docreate}" method="post">
 				
 				<h2 class="form-signin-heading">Create an account</h2>
@@ -112,14 +114,14 @@
 				
 				<p />
 				
-				<button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+				<button class="btn btn-lg btn-primary btn-block" id="createAccount" type="submit">Submit</button>
 	
 			</form>
 			
 			<form class="form-signin" th:action="@{/}" method="post">
 				<button class="btn btn-lg btn-primary btn-block" type="submit">Cancel</button>
 			</form>
-	
 		</div>
+		
 	</body>
 </html>
