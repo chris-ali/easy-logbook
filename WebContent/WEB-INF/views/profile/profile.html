@@ -20,7 +20,8 @@
 		
 		<script th:inline="javascript" type="text/javascript">
 			/*<![CDATA[*/
-	    	var errorMessage = "Passwords do not match"; ///*[[${UnmatchedPasswords.user.password}]]*/ 
+	    	var errorMessageNewPass = "New passwords do not match"; ///*[[${UnmatchedPasswords.user.password}]]*/
+	    	var errorMessageOldPass = "Old password is incorrect"; ///*[[${UnmatchedPasswords.user.password}]]*/
 	    	/*]]>*/
 			function onLoad() {
 	    		//CSRF Stuff
@@ -31,8 +32,8 @@
 					xhr.setRequestHeader(header, token);
 				});
 				
-				// Check passwords
-				$("#inputPassword").keyup(checkMatchPasswords);
+				// Check new passwords
+				$("#inputNewPassword").keyup(checkMatchPasswords);
 				$("#inputRepeat").keyup(checkMatchPasswords);
 				
 				// Trigger close account modal
@@ -48,12 +49,19 @@
 			
 	    	// Alert popup if passwords don't match
 			$(function () {
-				$("#createAccount").click(function () {
-					var password = $("#inputPassword").val();
+				$("#changePassword").click(function () {
+					/*<![CDATA[*/
+					var oldPasswordInput = /*[[${passwordEncoder.encode(${#inputOldPassword})}]]*/ 'pass';
+					var oldPasswordEncoded =  /*[[${oldPassword}]]*/ 'word';
+					/*]]>*/
+					var newPassword = $("#inputNewPassword").val();
 					var repeat = $("#inputRepeat").val();
 					
-					if (password != repeat){
-						alert(errorMessage);
+					if (newPassword != repeat){
+						alert(errorMessageNewPass);
+						return false;
+					} else if (oldPasswordInput != oldPasswordEncoded) {
+						alert(errorMessageOldPass);
 						return false;
 					} else {
 						return true;
@@ -63,7 +71,7 @@
 			
 			// Display if passwords don't match
 			function checkMatchPasswords() {
-				var password = $("#inputPassword").val();
+				var newPassword = $("#inputNewPassword").val();
 				var repeat = $("#inputRepeat").val();
 				
 				/*<![CDATA[*/
@@ -72,10 +80,10 @@
 				}
 				/*]]>*/
 				if (password != repeat) {
-					$("#unmatchedPasswords").text(errorMessage);
+					$("#unmatchedNewPassword").text(errorMessageNewPass);
 				} else {
-					$("#unmatchedPasswords").text("");
-				}
+					$("#unmatchedNewPasswords").text("");
+				} 
 			}
 		
 			$(document).ready(onLoad);
@@ -100,7 +108,7 @@
 		    
 		    	<div class="tab-content">
 		    		<div class="tab-pane" id="userdetails">
-		    			<form class="form-signin" th:object="${user}" th:action="@{/user/update}" method="post">
+		    			<form class="form-signin" th:object="${user}" th:action="@{/user/password}" method="post">
 		    			
 		    				<h2 class="form-signin-heading">New Account Details</h2>
 			
@@ -132,10 +140,15 @@
 		    		<div class="tab-pane" id="changepassword">
 		    			<form class="form-signin" th:object="${user}" th:action="@{/user/password}" method="post">
 		    				
-		    				<h2 class="form-signin-heading">Enter New Password</h2>
+		    				<h2 class="form-signin-heading">Update Password</h2>
+		    				
+		    				<label for="inputOldPassword" class="sr-only">Old Password</label>
+							<input type="password" name='oldPassword' id="inputOldPassword" class="form-control"	
+								placeholder="Password" />
+							<span class="label label-danger" id="unmatchedOldPassword"></span>
 		    			
-		    				<label for="inputPassword" class="sr-only">Password</label>
-							<input type="password" name='password' id="inputPassword" class="form-control"	
+		    				<label for="inputNewPassword" class="sr-only">New Password</label>
+							<input type="password" name='password' id="inputNewPassword" class="form-control"	
 								th:field="*{password}" 
 								placeholder="Password" />
 							<span class="label label-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
@@ -143,7 +156,7 @@
 							<label for="inputRepeat" class="sr-only">Repeat Password</label>
 							<input type="password" id="inputRepeat"	class="form-control"	
 								placeholder="Repeat Password" />
-							<span class="label label-danger" id="unmatchedPasswords"></span>
+							<span class="label label-danger" id="unmatchedNewPasswords"></span>
 							
 							<p />
 			
