@@ -10,8 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
@@ -24,6 +26,7 @@ import com.chrisali.easylogbook.services.UsersService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
+@SessionAttributes("user")
 public class UserController {
 	
 	@Autowired
@@ -73,7 +76,7 @@ public class UserController {
 		return "user/accountcreated";
 	}
 	
-	@RequestMapping("/profile")
+	@RequestMapping("profile/view")
 	public String showProfile(Principal principal, Model model) {
 		User user = usersService.getUser(principal.getName());
 		
@@ -84,14 +87,33 @@ public class UserController {
 		return "profile/profile";
 	}
 	
-	@RequestMapping("user/update")
-	public String doUpdateAccount(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
-		if (result.hasErrors())
+	@RequestMapping("profile/details")
+	public String showPilotDetails(Principal principal, Model model) {
+		User user = usersService.getUser(principal.getName());
+		
+		model.addAttribute("user", user);
+		
+		return "profile/pilotdetails";
+	}
+	
+	@RequestMapping("profile/update")
+	public String doUpdateDetails(@Validated(FormValidationGroup.class) @ModelAttribute("user") User user, BindingResult result, Model model) {
+		if (result.hasFieldErrors("username") || result.hasFieldErrors("name") || result.hasFieldErrors("email"))
 			return "profile/profile";
 		
 		usersService.createOrUpdate(user);
 		
-		return "profile/profile";
+		return "redirect:/profile/view?success=true";
+	}
+	
+	@RequestMapping("profile/password")
+	public String doUpdatePassword(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
+		if (result.hasFieldErrors("password"))
+			return "profile/profile";
+		
+		usersService.createOrUpdate(user);
+		
+		return "redirect:/profile/view?success=true";
 	}
 
 	@RequestMapping("user/close")

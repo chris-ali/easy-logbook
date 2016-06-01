@@ -1,10 +1,6 @@
 package com.chrisali.easylogbook.beans;
 
 public enum PilotRatings {
-	STUDENT 	("Student"),
-	PRIVATE 	("Private"),
-	COMMERCIAL  ("Commercial"),
-	ATP 		("Airline Transport"),
 	INSTRUMENT  ("Instrument"),
 	MULTIENGINE ("Multi Engine"),
 	GLIDER 		("Glider"),

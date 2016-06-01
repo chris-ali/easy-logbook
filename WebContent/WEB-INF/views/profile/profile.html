@@ -14,14 +14,13 @@
 		
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-	    <script src="http://getbootstrap.com/assets/js/docs.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap-wizard/1.2/jquery.bootstrap.wizard.js" type="text/javascript"></script>
 		
 		<script th:inline="javascript" type="text/javascript">
 			/*<![CDATA[*/
-	    	var errorMessageNewPass = "New passwords do not match"; ///*[[${UnmatchedPasswords.user.password}]]*/
-	    	var errorMessageOldPass = "Old password is incorrect"; ///*[[${UnmatchedPasswords.user.password}]]*/
+	    	var errorMessageNewPass = "New passwords do not match"; // /* [[${UnmatchedPasswords.user.password}]] */
+	    	var errorMessageOldPass = "Old password is incorrect"; // /* [[${UnmatchedPasswords.user.password}]] */
 	    	/*]]>*/
 			function onLoad() {
 	    		//CSRF Stuff
@@ -51,8 +50,8 @@
 			$(function () {
 				$("#changePassword").click(function () {
 					/*<![CDATA[*/
-					var oldPasswordInput = /*[[${passwordEncoder.encode(${#inputOldPassword})}]]*/ 'pass';
-					var oldPasswordEncoded =  /*[[${oldPassword}]]*/ 'word';
+					var oldPasswordInput = 'pass'; /* [[${passwordEncoder.encode(${#inputOldPassword})}]] */ 
+					var oldPasswordEncoded =   'word'; /* [[${oldPassword}]] */
 					/*]]>*/
 					var newPassword = $("#inputNewPassword").val();
 					var repeat = $("#inputRepeat").val();
@@ -75,12 +74,12 @@
 				var repeat = $("#inputRepeat").val();
 				
 				/*<![CDATA[*/
-				if(password.length < 3 || repeat.length < 3) {
+				if(newPassword.length < 3 || repeat.length < 3) {
 					return;
 				}
 				/*]]>*/
-				if (password != repeat) {
-					$("#unmatchedNewPassword").text(errorMessageNewPass);
+				if (newPassword != repeat) {
+					$("#unmatchedNewPasswords").text(errorMessageNewPass);
 				} else {
 					$("#unmatchedNewPasswords").text("");
 				} 
@@ -97,6 +96,10 @@
 		
 		<div class="container theme-showcase" role="main">
 		
+			<div th:if="${param.success}" class="alert alert-success" role="alert">
+		       <strong>Account Updated!</strong> Successfully updated account with new details
+		    </div>
+		
 			<div id="tabwizard" class="tabbable tabs-left">
 		    	<ul>
 				  	<li><a href="#userdetails" data-toggle="tab">User Details</a></li>
@@ -108,7 +111,7 @@
 		    
 		    	<div class="tab-content">
 		    		<div class="tab-pane" id="userdetails">
-		    			<form class="form-signin" th:object="${user}" th:action="@{/user/password}" method="post">
+		    			<form class="form-signin" th:object="${user}" th:action="@{/profile/update}" method="post">
 		    			
 		    				<h2 class="form-signin-heading">New Account Details</h2>
 			
@@ -124,12 +127,6 @@
 								placeholder="Email" />
 							<span class="label label-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 							
-							<label for="inputUsername" class="sr-only">Username</label> 
-							<input type="text" name='username' id="inputUsername" class="form-control"
-								th:field="*{username}"
-								placeholder="Username" />
-							<span class="label label-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
-							
 							<p />
 			
 							<button class="btn btn-lg btn-primary btn-block" id="updateAccount" type="submit">Update</button>
@@ -138,19 +135,19 @@
 		    		</div>
 		    		
 		    		<div class="tab-pane" id="changepassword">
-		    			<form class="form-signin" th:object="${user}" th:action="@{/user/password}" method="post">
+		    			<form class="form-signin" th:object="${user}" th:action="@{/profile/password}" method="post">
 		    				
 		    				<h2 class="form-signin-heading">Update Password</h2>
 		    				
 		    				<label for="inputOldPassword" class="sr-only">Old Password</label>
 							<input type="password" name='oldPassword' id="inputOldPassword" class="form-control"	
-								placeholder="Password" />
+								placeholder="Old Password" />
 							<span class="label label-danger" id="unmatchedOldPassword"></span>
 		    			
 		    				<label for="inputNewPassword" class="sr-only">New Password</label>
 							<input type="password" name='password' id="inputNewPassword" class="form-control"	
 								th:field="*{password}" 
-								placeholder="Password" />
+								placeholder="New Password" />
 							<span class="label label-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 								
 							<label for="inputRepeat" class="sr-only">Repeat Password</label>
