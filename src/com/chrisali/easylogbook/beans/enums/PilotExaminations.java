@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.beans;
+package com.chrisali.easylogbook.beans.enums;
 
 public enum PilotExaminations {
 	CHECKRIDE   ("Checkride"),

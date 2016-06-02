@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.beans;
+package com.chrisali.easylogbook.beans.enums;
 
 public enum PilotLicenses {
 	STUDENT 	("Student"),
@@ -6,7 +6,8 @@ public enum PilotLicenses {
 	SPORT	 	("Sport"),
 	COMMERCIAL  ("Commercial"),
 	ATP 		("Airline Transport"),
-	CFI			("Certified Flight Instructor");
+	CFI			("Certified Flight Instructor"),
+	INSTRUMENT  ("Instrument");
 	
 	private String license;
 	

@@ -15,6 +15,7 @@ public class AircraftService {
 	@Autowired
 	private AircraftDao aircraftDao;
 	
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public void createOrUpdate(Aircraft aircraft) {
 		aircraftDao.createOrUpdate(aircraft);
 	}
