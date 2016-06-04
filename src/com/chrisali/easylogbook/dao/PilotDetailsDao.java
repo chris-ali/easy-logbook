@@ -80,9 +80,9 @@ public class PilotDetailsDao extends AbstractDao {
 				.add(Restrictions.isNotNull("typeRating"))
 				.add(Restrictions.isNull("endorsement"))
 				.add(Restrictions.isNull("pilotMedical"))
-				.add(Restrictions.isNull("pilotLicenses"))
-				.add(Restrictions.isNull("categoryRatings"))
-				.add(Restrictions.isNull("classRatings"))
+				.add(Restrictions.isNull("pilotLicense"))
+				.add(Restrictions.isNull("categoryRating"))
+				.add(Restrictions.isNull("classRating"))
 				.add(Restrictions.isNull("pilotMedical"));
 		
 		List<PilotDetail> pilotTypeRatingDetails = criteria.list();
@@ -99,9 +99,9 @@ public class PilotDetailsDao extends AbstractDao {
 				.add(Restrictions.isNotNull("endorsement"))
 				.add(Restrictions.isNull("typeRating"))
 				.add(Restrictions.isNull("pilotMedical"))
-				.add(Restrictions.isNull("pilotLicenses"))
-				.add(Restrictions.isNull("categoryRatings"))
-				.add(Restrictions.isNull("classRatings"))
+				.add(Restrictions.isNull("pilotLicense"))
+				.add(Restrictions.isNull("categoryRating"))
+				.add(Restrictions.isNull("classRating"))
 				.add(Restrictions.isNull("pilotMedical"));
 		
 		List<PilotDetail> pilotTypeRatingDetails = criteria.list();

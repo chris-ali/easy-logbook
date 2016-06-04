@@ -1,6 +1,6 @@
 package com.chrisali.easylogbook.beans.enums;
 
-public enum ClassRatings {
+public enum ClassRating {
 	SINGLELAND  ("Single Engine Land"),
 	MULTILAND   ("Multi Engine Land"),
 	SINGLESEA   ("Single Engine Sea"),
@@ -12,7 +12,7 @@ public enum ClassRatings {
 	
 	private String classRating;
 	
-	private ClassRatings (String classRating) {this.classRating = classRating;}
+	private ClassRating (String classRating) {this.classRating = classRating;}
 
 	public String getClassRating() {return classRating;}
 }

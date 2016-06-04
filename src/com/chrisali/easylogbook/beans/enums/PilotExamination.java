@@ -1,6 +1,6 @@
 package com.chrisali.easylogbook.beans.enums;
 
-public enum PilotExaminations {
+public enum PilotExamination {
 	CHECKRIDE   ("Checkride"),
 	BFR 		("Biennial Flight Review"),
 	CFI_RENEWAL ("CFI Renewal"),
@@ -8,7 +8,7 @@ public enum PilotExaminations {
 	
 	private String exam;
 	
-	private PilotExaminations (String exam) {this.exam = exam;}
+	private PilotExamination (String exam) {this.exam = exam;}
 
 	public String getExam() {return exam;}
 }

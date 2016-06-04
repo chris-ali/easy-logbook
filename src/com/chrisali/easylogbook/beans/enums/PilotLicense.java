@@ -1,6 +1,6 @@
 package com.chrisali.easylogbook.beans.enums;
 
-public enum PilotLicenses {
+public enum PilotLicense {
 	STUDENT 	("Student"),
 	PRIVATE 	("Private"),
 	SPORT	 	("Sport"),
@@ -11,7 +11,7 @@ public enum PilotLicenses {
 	
 	private String license;
 	
-	private PilotLicenses (String license) {this.license = license;}
+	private PilotLicense (String license) {this.license = license;}
 
 	public String getLicense() {return license;}
 }

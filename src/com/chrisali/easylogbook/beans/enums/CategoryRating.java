@@ -1,6 +1,6 @@
 package com.chrisali.easylogbook.beans.enums;
 
-public enum CategoryRatings {
+public enum CategoryRating {
 	AIRPLANE    ("Airplane"),
 	LTA		    ("Lighter than Air"),
 	POWERLIFT   ("Powered Lift"),
@@ -10,7 +10,7 @@ public enum CategoryRatings {
 	
 	private String categoryRating;
 	
-	private CategoryRatings (String categoryRating) {this.categoryRating = categoryRating;}
+	private CategoryRating (String categoryRating) {this.categoryRating = categoryRating;}
 
 	public String getCategoryRating() {return categoryRating;}
 }

@@ -17,7 +17,7 @@ public abstract class AbstractDao {
 	protected SessionFactory sessionFactory;
 	protected Session session;
 	
-	public Session getSession() {
+	protected Session getSession() {
 		session = null;
 		
 		try {session = sessionFactory.getCurrentSession();} 
@@ -26,5 +26,5 @@ public abstract class AbstractDao {
 		return session;
 	}
 	
-	public void closeSession() {session.close();}
+	protected void closeSession() {session.close();}
 }

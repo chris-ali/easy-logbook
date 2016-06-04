@@ -12,11 +12,11 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.chrisali.easylogbook.beans.enums.CategoryRatings;
-import com.chrisali.easylogbook.beans.enums.ClassRatings;
-import com.chrisali.easylogbook.beans.enums.PilotExaminations;
-import com.chrisali.easylogbook.beans.enums.PilotLicenses;
-import com.chrisali.easylogbook.beans.enums.PilotMedicals;
+import com.chrisali.easylogbook.beans.enums.CategoryRating;
+import com.chrisali.easylogbook.beans.enums.ClassRating;
+import com.chrisali.easylogbook.beans.enums.PilotExamination;
+import com.chrisali.easylogbook.beans.enums.PilotLicense;
+import com.chrisali.easylogbook.beans.enums.PilotMedical;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 
@@ -37,11 +37,11 @@ public class PilotDetail implements Serializable {
 	@NotBlank(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String date;
 	
-	private PilotExaminations pilotExaminations;
-	private PilotLicenses pilotLicenses;
-	private ClassRatings classRatings;
-	private CategoryRatings categoryRatings;
-	private PilotMedicals pilotMedicals;
+	private PilotExamination pilotExamination;
+	private PilotLicense pilotLicense;
+	private ClassRating classRating;
+	private CategoryRating categoryRating;
+	private PilotMedical pilotMedical;
 	
 	@Size(min=0, max=60, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String endorsement;
@@ -58,17 +58,17 @@ public class PilotDetail implements Serializable {
 		this.date = date;
 	}
 
-	public PilotDetail(int id, User user, String date, PilotExaminations pilotExaminations, PilotLicenses pilotLicenses,
-			ClassRatings classRatings, CategoryRatings categoryRatings, PilotMedicals pilotMedicals, String endorsement,
+	public PilotDetail(int id, User user, String date, PilotExamination pilotExamination, PilotLicense pilotLicense,
+			ClassRating classRating, CategoryRating categoryRating, PilotMedical pilotMedical, String endorsement,
 			String typeRating) {
 		this.id = id;
 		this.user = user;
 		this.date = date;
-		this.pilotExaminations = pilotExaminations;
-		this.pilotLicenses = pilotLicenses;
-		this.classRatings = classRatings;
-		this.categoryRatings = categoryRatings;
-		this.pilotMedicals = pilotMedicals;
+		this.pilotExamination = pilotExamination;
+		this.pilotLicense = pilotLicense;
+		this.classRating = classRating;
+		this.categoryRating = categoryRating;
+		this.pilotMedical = pilotMedical;
 		this.endorsement = endorsement;
 		this.typeRating = typeRating;
 	}
@@ -97,44 +97,44 @@ public class PilotDetail implements Serializable {
 		this.date = date;
 	}
 
-	public PilotExaminations getPilotExaminations() {
-		return pilotExaminations;
+	public PilotExamination getPilotExamination() {
+		return pilotExamination;
 	}
 
-	public void setPilotExaminations(PilotExaminations pilotExaminations) {
-		this.pilotExaminations = pilotExaminations;
+	public void setPilotExamination(PilotExamination pilotExamination) {
+		this.pilotExamination = pilotExamination;
 	}
 
-	public PilotLicenses getPilotLicenses() {
-		return pilotLicenses;
+	public PilotLicense getPilotLicense() {
+		return pilotLicense;
 	}
 
-	public void setPilotLicenses(PilotLicenses pilotLicenses) {
-		this.pilotLicenses = pilotLicenses;
+	public void setPilotLicense(PilotLicense pilotLicense) {
+		this.pilotLicense = pilotLicense;
 	}
 
-	public ClassRatings getClassRatings() {
-		return classRatings;
+	public ClassRating getClassRating() {
+		return classRating;
 	}
 
-	public void setClassRatings(ClassRatings classRatings) {
-		this.classRatings = classRatings;
+	public void setClassRating(ClassRating classRating) {
+		this.classRating = classRating;
 	}
 
-	public CategoryRatings getCategoryRatings() {
-		return categoryRatings;
+	public CategoryRating getCategoryRating() {
+		return categoryRating;
 	}
 
-	public void setCategoryRatings(CategoryRatings categoryRatings) {
-		this.categoryRatings = categoryRatings;
+	public void setCategoryRating(CategoryRating categoryRating) {
+		this.categoryRating = categoryRating;
 	}
 
-	public PilotMedicals getPilotMedicals() {
-		return pilotMedicals;
+	public PilotMedical getPilotMedical() {
+		return pilotMedical;
 	}
 
-	public void setPilotMedicals(PilotMedicals pilotMedicals) {
-		this.pilotMedicals = pilotMedicals;
+	public void setPilotMedical(PilotMedical pilotMedical) {
+		this.pilotMedical = pilotMedical;
 	}
 
 	public String getEndorsement() {
@@ -155,24 +155,24 @@ public class PilotDetail implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PilotDetail [id=" + id + ", user=" + user + ", date=" + date + ", pilotExaminations="
-				+ pilotExaminations + ", pilotLicenses=" + pilotLicenses + ", classRatings=" + classRatings
-				+ ", categoryRatings=" + categoryRatings + ", pilotMedicals=" + pilotMedicals + ", endorsement="
-				+ endorsement + ", typeRating=" + typeRating + "]";
+		return "PilotDetail [id=" + id + ", user=" + user + ", date=" + date + ", pilotExamination=" + pilotExamination
+				+ ", pilotLicense=" + pilotLicense + ", classRating=" + classRating + ", categoryRating="
+				+ categoryRating + ", pilotMedical=" + pilotMedical + ", endorsement=" + endorsement + ", typeRating="
+				+ typeRating + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((categoryRatings == null) ? 0 : categoryRatings.hashCode());
-		result = prime * result + ((classRatings == null) ? 0 : classRatings.hashCode());
+		result = prime * result + ((categoryRating == null) ? 0 : categoryRating.hashCode());
+		result = prime * result + ((classRating == null) ? 0 : classRating.hashCode());
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		result = prime * result + ((endorsement == null) ? 0 : endorsement.hashCode());
 		result = prime * result + id;
-		result = prime * result + ((pilotExaminations == null) ? 0 : pilotExaminations.hashCode());
-		result = prime * result + ((pilotLicenses == null) ? 0 : pilotLicenses.hashCode());
-		result = prime * result + ((pilotMedicals == null) ? 0 : pilotMedicals.hashCode());
+		result = prime * result + ((pilotExamination == null) ? 0 : pilotExamination.hashCode());
+		result = prime * result + ((pilotLicense == null) ? 0 : pilotLicense.hashCode());
+		result = prime * result + ((pilotMedical == null) ? 0 : pilotMedical.hashCode());
 		result = prime * result + ((typeRating == null) ? 0 : typeRating.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
@@ -187,9 +187,9 @@ public class PilotDetail implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PilotDetail other = (PilotDetail) obj;
-		if (categoryRatings != other.categoryRatings)
+		if (categoryRating != other.categoryRating)
 			return false;
-		if (classRatings != other.classRatings)
+		if (classRating != other.classRating)
 			return false;
 		if (date == null) {
 			if (other.date != null)
@@ -203,11 +203,11 @@ public class PilotDetail implements Serializable {
 			return false;
 		if (id != other.id)
 			return false;
-		if (pilotExaminations != other.pilotExaminations)
+		if (pilotExamination != other.pilotExamination)
 			return false;
-		if (pilotLicenses != other.pilotLicenses)
+		if (pilotLicense != other.pilotLicense)
 			return false;
-		if (pilotMedicals != other.pilotMedicals)
+		if (pilotMedical != other.pilotMedical)
 			return false;
 		if (typeRating == null) {
 			if (other.typeRating != null)
