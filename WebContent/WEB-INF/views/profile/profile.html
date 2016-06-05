@@ -49,10 +49,6 @@
 	    	// Alert popup if passwords don't match
 			$(function () {
 				$("#changePassword").click(function () {
-					/*<![CDATA[*/
-					var oldPasswordInput = 'pass'; /* [[${passwordEncoder.encode(${#inputOldPassword})}]] */ 
-					var oldPasswordEncoded =   'word'; /* [[${oldPassword}]] */
-					/*]]>*/
 					var newPassword = $("#inputNewPassword").val();
 					var repeat = $("#inputRepeat").val();
 					
@@ -97,7 +93,8 @@
 		<div class="container theme-showcase" role="main">
 		
 			<div th:if="${param.success}" class="alert alert-success" role="alert">
-		       <strong>Account Updated!</strong> Successfully updated account with new details
+		       <div th:if="${param.user}"><strong>Account Updated!</strong> Successfully updated account with new details</div>
+		       <div th:if="${param.pass}"><strong>Account Updated!</strong> Successfully updated password</div>
 		    </div>
 		
 			<div id="tabwizard" class="tabbable tabs-left">
@@ -141,8 +138,9 @@
 		    				
 		    				<label for="inputOldPassword" class="sr-only">Old Password</label>
 							<input type="password" name='oldPassword' id="inputOldPassword" class="form-control"	
+								th:field="*{oldPassword}"
 								placeholder="Old Password" />
-							<span class="label label-danger" id="unmatchedOldPassword"></span>
+							<span class="label label-danger" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></span>
 		    			
 		    				<label for="inputNewPassword" class="sr-only">New Password</label>
 							<input type="password" name='password' id="inputNewPassword" class="form-control"	

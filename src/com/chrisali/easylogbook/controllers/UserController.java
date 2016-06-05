@@ -81,8 +81,6 @@ public class UserController {
 		User user = usersService.getUser(principal.getName());
 		
 		model.addAttribute("user", user);
-		model.addAttribute("oldPassword", user.getPassword());
-		model.addAttribute("passwordEncoder", passwordEncoder);
 		
 		return "profile/profile";
 	}
@@ -103,17 +101,26 @@ public class UserController {
 		
 		usersService.createOrUpdate(user);
 		
-		return "redirect:/profile/view?success=true";
+		return "redirect:/profile/view?success=true&user=true";
 	}
 	
 	@RequestMapping("profile/password")
 	public String doUpdatePassword(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
+		User userFromDatabase = usersService.getUser(user.getUsername());
+		
+		if (!passwordEncoder.matches(user.getOldPassword(), userFromDatabase.getPassword())) {
+			result.rejectValue("oldPassword", "UnmatchedOldPassword.user.oldPassword");
+			return "profile/profile";
+		}
+		
+		user.setOldPassword("");
+		
 		if (result.hasFieldErrors("password"))
 			return "profile/profile";
 		
 		usersService.createOrUpdate(user);
 		
-		return "redirect:/profile/view?success=true";
+		return "redirect:/profile/view?success=true&pass=true";
 	}
 
 	@RequestMapping("user/close")
