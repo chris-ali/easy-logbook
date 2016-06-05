@@ -78,6 +78,7 @@ public class AircraftDaoTests {
 		jdbc.execute("delete from logbook_entries");
 		jdbc.execute("delete from logbooks");
 		jdbc.execute("delete from aircraft");
+		jdbc.execute("delete from pilot_details");
 		jdbc.execute("delete from users");
 	}
 	

@@ -34,6 +34,7 @@ public class User implements Serializable {
 	//@Pattern(regexp="^\\S+$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	@Size(min=5, max=20, groups={FormValidationGroup.class})
 	private String password;
+	private String oldPassword;
 	
 	@ValidEmail(min=6, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String email;
@@ -55,44 +56,63 @@ public class User implements Serializable {
 	public String getUsername() {
 		return username;
 	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getPassword() {
 		return password;
 	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
 	public String getEmail() {
 		return email;
 	}
+	
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	public boolean isEnabled() {
 		return enabled;
 	}
+	
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+	
 	public String getAuthority() {
 		return authority;
 	}
+	
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", name=" + name + ", password=" + password + ", email=" + email
-				+ ", enabled=" + enabled + ", authority=" + authority + "]";
+		return "User [username=" + username + ", name=" + name + ", password=" + password + ", oldPassword="
+				+ oldPassword + ", email=" + email + ", enabled=" + enabled + ", authority=" + authority + "]";
 	}
 
 	@Override
@@ -103,6 +123,7 @@ public class User implements Serializable {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((oldPassword == null) ? 0 : oldPassword.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -133,6 +154,11 @@ public class User implements Serializable {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
+			return false;
+		if (oldPassword == null) {
+			if (other.oldPassword != null)
+				return false;
+		} else if (!oldPassword.equals(other.oldPassword))
 			return false;
 		if (password == null) {
 			if (other.password != null)
