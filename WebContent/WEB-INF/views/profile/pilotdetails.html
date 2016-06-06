@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+		
+		<meta charset="ISO-8859-1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap-wizard/1.2/jquery.bootstrap.wizard.js" type="text/javascript"></script>
+	    
+	    <script th:inline="javascript" type="text/javascript">
+	    	function onLoad() {
+	    		// Set up tab navigation
+				$('#tabwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
+	    	}
+	    	
+	    	$(document).ready(onLoad);
+	    </script>
+	    
+	    <title>Pilot Details</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'theme_header'"></nav>
+		
+		<div class="container theme-showcase" role="main">
+	      	<div id="tabwizard" class="tabbable tabs-left">
+		    	<ul>
+				  	<li><a href="#licenses" data-toggle="tab">Licenses and Ratings</a></li>
+				  	<li><a href="#medicals" data-toggle="tab">Medical</a></li>
+				  	<li><a href="#examinations" data-toggle="tab">Checkrides and Exams</a></li>
+				  	<li><a href="#typeratings" data-toggle="tab">Type Ratings</a></li>
+				  	<li><a href="#endorsements" data-toggle="tab">Endorsements</a></li>
+				</ul>
+				
+				<!-- Tabs for each category -->
+		    
+		    	<div class="tab-content">
+		    	
+		    		<div class="tab-pane" id="licenses">
+		    			<div th:if="${pilotLicenseDetails.size() == 0}" class="alert alert-info" role="alert">
+				        	<strong>Getting Started -</strong> Click 'Add License/Rating' below to add your first license or rating
+				      	</div>
+				      	
+				      	<div th:if="${pilotLicenseDetails.size() > 0}" class="col-md-6">
+				          <table class="table table-striped">
+				            <thead>
+				              <tr>
+				                <th>License</th>
+				                <th>Category</th>
+				                <th>Class</th>
+				                <th>Date</th>
+				                <th> </th>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:each="licenseDetail : ${pilotLicenseDetails}">
+						        <td>
+						        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/details/edit(id=${licenseDetail.id})}" th:inline="text">[[${licenseDetail.pilotLicense}]]</a>
+						        </td>
+						        <td th:text="${licenseDetail.classRating}">
+						        </td>
+						        <td th:text="${licenseDetail.categoryRating}">
+						        </td>
+						        <td th:text="${licenseDetail.date}">
+						        </td>
+						        <td>
+						        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/details/delete(id=${licenseDetail.id})}">Delete</a>
+								</td>
+						      </tr>
+				            </tbody>
+				          </table>
+				        </div>
+				        	
+		    		</div>
+		    		
+		    		<div class="tab-pane" id="medicals">
+		    			Medical Certificate goes here
+		    		</div>
+		    		
+		    		<div class="tab-pane" id="examinations">
+		    			Checkrides etc goes here
+		    		</div>
+		    		
+		    		<div class="tab-pane" id="typeratings">
+		    			Type ratings go here
+		    		</div>
+		    		
+		    		<div class="tab-pane" id="endorsements">
+		    			Endorsements go here
+		    		</div>
+		    	</div>
+		    </div>
+	      	
+	      	<div class="page-header">
+	    	 
+	    	</div>
+	      	
+	      	<div class="inner" th:replace="templates/footer :: 'footer'"></div>	
+		</div>
+	</body>
+</html>

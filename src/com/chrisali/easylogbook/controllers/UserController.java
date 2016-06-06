@@ -24,6 +24,7 @@ import com.chrisali.easylogbook.services.AircraftService;
 import com.chrisali.easylogbook.services.LogbookEntryService;
 import com.chrisali.easylogbook.services.LogbookService;
 import com.chrisali.easylogbook.services.PilotDetailsService;
+import com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType;
 import com.chrisali.easylogbook.services.UsersService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
@@ -92,11 +93,20 @@ public class UserController {
 	
 	@RequestMapping("profile/details")
 	public String showPilotDetails(Principal principal, Model model) {
-		User user = usersService.getUser(principal.getName());
 		
-		//List<PilotDetail> pilotLicenseDetails = 
+		String username = principal.getName();
 		
-		model.addAttribute("user", user);
+		List<PilotDetail> pilotLicenseDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.LICENSES);
+		List<PilotDetail> pilotMedicalDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.MEDICALS);
+		List<PilotDetail> pilotExamDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.EXAMINATIONS);
+		List<PilotDetail> pilotTypeRatingDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.TYPERATINGS);
+		List<PilotDetail> pilotEndorsementDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.ENDORSEMENTS);
+		
+		model.addAttribute("pilotLicenseDetails", pilotLicenseDetails);
+		model.addAttribute("pilotMedicalDetails", pilotMedicalDetails);
+		model.addAttribute("pilotExamDetails", pilotExamDetails);
+		model.addAttribute("pilotTypeRatingDetails", pilotTypeRatingDetails);
+		model.addAttribute("pilotEndorsementDetails", pilotEndorsementDetails);
 		
 		return "profile/pilotdetails";
 	}
