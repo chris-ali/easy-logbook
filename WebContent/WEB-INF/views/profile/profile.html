@@ -38,7 +38,7 @@
 				// Trigger close account modal
 				$(".triggerCloseAccount").click(function(e) {
         			e.preventDefault();
-        			$("#confirmCloseAccount.closeAccountButton").attr("href", $(this).attr("href"));
+        			$("#confirmCloseAccount .closeAccountButton").attr("href", $(this).attr("href"));
         			$("#confirmCloseAccount").modal();
         		});
 				
@@ -92,7 +92,7 @@
 		
 		<div class="container theme-showcase" role="main">
 		
-			<div th:if="${param.success}" class="alert alert-success" role="alert">
+			<div th:if="${param.update}" class="alert alert-success" role="alert">
 		       <div th:if="${param.user}"><strong>Account Updated!</strong> Successfully updated account with new details</div>
 		       <div th:if="${param.pass}"><strong>Account Updated!</strong> Successfully updated password</div>
 		    </div>
@@ -168,7 +168,7 @@
 					    <p />
 					    
 					    <div class="form-signin">
-					    	<a class="btn btn-lg btn-primary btn-block" th:href="@{/user/close}">Close Account</a>
+					    	<a class="btn btn-lg btn-primary btn-block triggerCloseAccount" th:href="@{/user/close}">Close Account</a>
 					    </div>
 		    		</div>
 		    	</div>
@@ -193,7 +193,7 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger closeAccountButton" th:href="@{/profile}">Close Account</a>
+			        <a class="btn btn-sm btn-danger closeAccountButton" th:href="@{/profile/view}">Close Account</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
