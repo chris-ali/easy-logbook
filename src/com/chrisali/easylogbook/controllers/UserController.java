@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.LogbookEntry;
+import com.chrisali.easylogbook.beans.PilotDetail;
 import com.chrisali.easylogbook.beans.User;
 import com.chrisali.easylogbook.services.AircraftService;
 import com.chrisali.easylogbook.services.LogbookEntryService;
 import com.chrisali.easylogbook.services.LogbookService;
+import com.chrisali.easylogbook.services.PilotDetailsService;
 import com.chrisali.easylogbook.services.UsersService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
@@ -40,6 +42,9 @@ public class UserController {
 	
 	@Autowired
 	private LogbookEntryService logbookEntryService;
+	
+	@Autowired
+	private PilotDetailsService pilotDetailsService;
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -88,6 +93,8 @@ public class UserController {
 	@RequestMapping("profile/details")
 	public String showPilotDetails(Principal principal, Model model) {
 		User user = usersService.getUser(principal.getName());
+		
+		//List<PilotDetail> pilotLicenseDetails = 
 		
 		model.addAttribute("user", user);
 		
