@@ -37,7 +37,19 @@ public class LogbookEntryController {
 	
 	@Autowired
 	private LogbookEntryService logbookEntryService;
-		
+	
+	/**
+	 * Uses error, edit and {@link LogbookEntry} id as arguments to determine whether to create a new {@link LogbookEntry}
+	 * or use preexisting {@link LogbookEntry} to add to {@link Model}
+	 * 
+	 * @param logbookId
+	 * @param entryId
+	 * @param error
+	 * @param edit
+	 * @param model
+	 * @param principal
+	 * @return mapping to createentry page
+	 */
 	@RequestMapping(value="entry/create")
 	public String showCreateLogbookEntry(@RequestParam("logbookId") Integer logbookId,
 										 @RequestParam(value="entryId", required=false) Integer entryId,
@@ -51,14 +63,14 @@ public class LogbookEntryController {
 		model.addAttribute("aircraftList", aircraftList);
 		model.addAttribute("logbook", logbook);
 		
-		// Add logbook entry to model if it hasn't already been done
+		// Add new logbook entry to model if it hasn't already been done
 		if (error == null && edit == null) {
 			LogbookEntry freshLogbookEntry = new LogbookEntry();
 			freshLogbookEntry.setLogbook(logbook);
 			model.addAttribute("logbookEntry", freshLogbookEntry);
 		} 
 		
-		// If edit entry selected, get entry corresponding to entryId model
+		// If edit entry selected, get entry corresponding to entryId and add to model
 		if (entryId != null && edit != null) {
 			LogbookEntry editLogbookEntry = logbookEntryService.getLogbookEntry(logbookId, entryId);
 			editLogbookEntry.setLogbook(logbook);
@@ -68,6 +80,18 @@ public class LogbookEntryController {
 		return "entry/createentry";
 	}
 	
+	/**
+	 * Uses {@link BindingResult} to validate {@link LogbookEntry} form submission, which is sent back via {@link RedirectAttributes} 
+	 * redirect along with binding results if errors are detected.
+	 * 
+	 * @param logbookEntry
+	 * @param result
+	 * @param redirect
+	 * @param model
+	 * @param principal
+	 * @param request
+	 * @return redirect to create/view logbook entries
+	 */
 	@RequestMapping(value="entry/docreate", method=RequestMethod.POST)
 	public String doCreateLogbookEntry(@Validated(FormValidationGroup.class) @ModelAttribute("logbookEntry") LogbookEntry logbookEntry, 
 								  		BindingResult result, 

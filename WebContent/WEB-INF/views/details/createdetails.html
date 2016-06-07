@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	
+	<head>
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"  />
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet" />
+    	
+    	<link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+		<link href="http://getbootstrap.com/examples/signin/signin.css" rel="stylesheet" />
+		<link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css" rel="stylesheet" />
+		<link href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" />
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+	
+		<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    
+	    <meta name="_csrf_header" content="${_csrf.headerName}" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <meta name="description" content="" />
+	    <meta name="author" content="" />
+	    
+	    <title>Create New Logbook Entry</title>
+	</head>
+	
+	<body>
+	
+		<div class="container">
+	
+			<form class="form-signin" th:object="${pilotDetail}" th:action="@{/details/docreate}" method="post">
+				
+				<h2 class="form-signin-heading" th:if="${param.edit == null}">Add Detail</h2>
+				<h2 class="form-signin-heading" th:if="${param.edit}">Edit Detail</h2>
+				
+				<!-- Stores enum type of entry for HTTP request object in controller -->
+				
+				<input type="hidden" name="type" th:value="${type}" />
+				
+				<!-- Date -->
+				
+				<label class="sr-only" for="inputDate">Date</label>
+		        <div class="input-group">
+		        	<div class="input-group-addon">
+		         		<i class="fa fa-calendar"></i>
+		         	</div>
+		         	<input class="form-control" id="inputDate" name="date" th:field="*{date}" placeholder="MM/DD/YYYY" type="text"/>
+		        </div>
+		        <span class="label label-danger" th:if="${#fields.hasErrors('date')}" th:errors="*{date}"></span>
+		        
+		        <p/>
+		        
+		        <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()}">
+					<label class="sr-only" for="inputPilotLicense">License/Rating Type</label>
+				    <select class="form-control" id="inputPilotLicense" name="pilotLicense" >
+				        <option th:each="pilotLicense : ${T(com.chrisali.easylogbook.beans.enums.PilotLicense).values()}" 
+				        		th:value="${pilotLicense}" th:text="${pilotLicense.getLicense()}" />
+				    </select>
+				    
+				    <p/>
+				     
+				    <label class="sr-only" for="inputCategoryRating">Category</label>
+				    <select class="form-control" id="inputCategoryRating" name="categoryRating" >
+				        <option th:each="categoryRating : ${T(com.chrisali.easylogbook.beans.enums.CategoryRating).values()}" 
+				        		th:value="${categoryRating}" th:text="${categoryRating.getCategoryRating()}" />
+				    </select>
+				    
+				    <p/>
+				     
+				    <label class="sr-only" for="inputClassRating">Class</label>
+				    <select class="form-control" id="inputClassRating" name="classRating" >
+				        <option th:each="classRating : ${T(com.chrisali.easylogbook.beans.enums.ClassRating).values()}" 
+				        		th:value="${classRating}" th:text="${classRating.getClassRating()}" />
+				    </select>
+			    </div>
+			    
+			    <p/>
+			    
+			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()}">
+				    <label class="sr-only" for="inputExamination">Checkride/Review</label>
+				    <select class="form-control" id="inputExamination" name="pilotExamination" >
+				        <option th:each="pilotExam : ${T(com.chrisali.easylogbook.beans.enums.PilotExamination).values()}" 
+				        		th:value="${pilotExam}" th:text="${pilotExam.getExam()}" />
+				    </select>
+			    </div>
+			    
+			    <p/>
+			    
+			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()}">
+				    <label class="sr-only" for="inputMedical">Medical</label>
+				    <select class="form-control" id="inputMedical" name="pilotMedical" >
+				        <option th:each="pilotMedical : ${T(com.chrisali.easylogbook.beans.enums.PilotMedical).values()}" 
+				        		th:value="${pilotMedical}" th:text="${pilotMedical.getMedical()}" />
+				    </select>
+			    </div>
+			    
+			    <p/>
+			    
+			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()}">
+					<label class="sr-only" for="inputTypeRating">Type Rating</label> 
+					<input type="text" name='typeRating' id="inputTypeRating" class="form-control"
+						th:field="*{typeRating}"
+						placeholder="Type Rating" /> 
+					<span class="label label-danger" th:if="${#fields.hasErrors('typeRating')}" th:errors="*{typeRating}"></span>
+				</div>
+				
+				<p/>
+				
+				<div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()}">
+					<label class="sr-only" for="inputEndorsement">Endorsement</label> 
+					<input type="text" name='endorsement' id="inputEndorsement" class="form-control"
+						th:field="*{endorsement}"
+						placeholder="Endorsement" /> 
+					<span class="label label-danger" th:if="${#fields.hasErrors('endorsement')}" th:errors="*{endorsement}"></span>
+				</div>
+				
+				<p/>
+				
+				<button class="btn btn-lg  btn-primary btn-block" type="submit">Submit</button>
+				
+				<p />
+			
+				<a class="btn btn-lg btn-primary btn-block" th:href="@{/details/view}">Cancel</a>
+			</form>
+		</div>
+		
+		<!-- DatePicker Script -->
+		<script>
+			$(document).ready(function(){
+				var date_input=$('input[name="date"]'); //our date input has the name "date"
+				var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+				date_input.datepicker({
+					format: 'mm/dd/yyyy',
+					container: container,
+					todayHighlight: true,
+					autoclose: true,
+				});
+			});
+		</script>
+		
+	</body>
+</html>

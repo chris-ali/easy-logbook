@@ -18,6 +18,38 @@
 	    
 	    <script th:inline="javascript" type="text/javascript">
 	    	function onLoad() {
+	    		
+	    		// Modal delete triggers
+	    		$(".triggerLicenseDelete").click(function(e) {
+        			e.preventDefault();
+        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+        			$("#confirmDelete").modal();
+        		});
+	    		
+	    		$(".triggerMedicalDelete").click(function(e) {
+        			e.preventDefault();
+        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+        			$("#confirmDelete").modal();
+        		});
+	    		
+	    		$(".triggerExamDelete").click(function(e) {
+        			e.preventDefault();
+        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+        			$("#confirmDelete").modal();
+        		});
+	    		
+	    		$(".triggerTypeRatingDelete").click(function(e) {
+        			e.preventDefault();
+        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+        			$("#confirmDelete").modal();
+        		});
+	    		
+	    		$(".triggerEndorsementDelete").click(function(e) {
+        			e.preventDefault();
+        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+        			$("#confirmDelete").modal();
+        		});
+	    		
 	    		// Set up tab navigation
 				$('#tabwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
 	    	}
@@ -45,6 +77,9 @@
 		    	<div class="tab-content">
 		    	
 		    		<div class="tab-pane" id="licenses">
+		    			
+		    			<p/>
+		    			
 		    			<div th:if="${pilotLicenseDetails.size() == 0}" class="alert alert-info" role="alert">
 				        	<strong>Getting Started -</strong> Click 'Add License/Rating' below to add your first license or rating
 				      	</div>
@@ -63,7 +98,9 @@
 				            <tbody>
 				              <tr th:each="licenseDetail : ${pilotLicenseDetails}">
 						        <td>
-						        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/details/edit(id=${licenseDetail.id})}" th:inline="text">[[${licenseDetail.pilotLicense}]]</a>
+						        	<a class="btn btn-sm btn-default triggerEdit" 
+						        		th:href="@{/details/create(id=${licenseDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}" 
+						        		th:inline="text">[[${licenseDetail.pilotLicense}]]</a>
 						        </td>
 						        <td th:text="${licenseDetail.classRating}">
 						        </td>
@@ -72,13 +109,16 @@
 						        <td th:text="${licenseDetail.date}">
 						        </td>
 						        <td>
-						        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/details/delete(id=${licenseDetail.id})}">Delete</a>
+						        	<a class="btn btn-sm btn-danger triggerLicenseDelete" th:href="@{/details/delete(id=${licenseDetail.id})}">Delete</a>
 								</td>
 						      </tr>
 				            </tbody>
 				          </table>
 				        </div>
-				        	
+				        
+				        <div class="page-header">
+							<a class="btn btn-primary" th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}">Add License/Rating</a>
+						</div>
 		    		</div>
 		    		
 		    		<div class="tab-pane" id="medicals">
@@ -98,10 +138,25 @@
 		    		</div>
 		    	</div>
 		    </div>
-	      	
-	      	<div class="page-header">
-	    	 
-	    	</div>
+		    
+		    <!-- Confirm Delete Modal -->
+	        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Confirm Delete</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Are you sure you wish to delete this entry?</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/details/view}">Delete</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
 	      	
 	      	<div class="inner" th:replace="templates/footer :: 'footer'"></div>	
 		</div>
