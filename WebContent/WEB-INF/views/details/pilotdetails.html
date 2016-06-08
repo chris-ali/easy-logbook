@@ -84,7 +84,7 @@
 				        	<strong>Getting Started -</strong> Click 'Add License/Rating' below to add your first license or rating
 				      	</div>
 				      	
-				      	<div th:if="${pilotLicenseDetails.size() > 0}" class="col-md-6">
+				      	<div th:if="${pilotLicenseDetails.size() &gt; 0}" class="col-md-6">
 				          <table class="table table-striped">
 				            <thead>
 				              <tr>
@@ -117,24 +117,165 @@
 				        </div>
 				        
 				        <div class="page-header">
-							<a class="btn btn-primary" th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}">Add License/Rating</a>
+							<a class="btn btn-primary" th:if="${pilotLicenseDetails.size() &lt; 10}"
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}">Add License/Rating</a>
 						</div>
 		    		</div>
 		    		
 		    		<div class="tab-pane" id="medicals">
-		    			Medical Certificate goes here
+		    			<p/>
+		    			
+		    			<div th:if="${pilotMedicalDetails.size() == 0}" class="alert alert-info" role="alert">
+				        	<strong>Getting Started -</strong> Click 'Add Medical' below to add a medical certificate
+				      	</div>
+				      	
+				      	<div th:if="${pilotMedicalDetails.size() &gt; 0}" class="col-md-6">
+				          <table class="table table-striped">
+				            <thead>
+				              <tr>
+				                <th>Medical Class</th>
+				                <th>Date</th>
+				                <th> </th>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:each="medicalDetail : ${pilotMedicalDetails}">
+						        <td>
+						        	<a class="btn btn-sm btn-default triggerEdit" 
+						        		th:href="@{/details/create(id=${medicalDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}" 
+						        		th:inline="text">[[${medicalDetail.pilotMedical}]]</a>
+						        </td>
+						        <td th:text="${medicalDetail.date}">
+						        </td>
+						        <td>
+						        	<a class="btn btn-sm btn-danger triggerMedicalDelete" th:href="@{/details/delete(id=${medicalDetail.id})}">Delete</a>
+								</td>
+						      </tr>
+				            </tbody>
+				          </table>
+				        </div>
+				        
+				        <div class="page-header">
+							<a class="btn btn-primary" th:if="${pilotMedicalDetails.size() &lt; 1}" 
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}">Add Medical Certificate</a>
+						</div>
 		    		</div>
 		    		
 		    		<div class="tab-pane" id="examinations">
-		    			Checkrides etc goes here
+		    			<p/>
+		    			
+		    			<div th:if="${pilotExamDetails.size() == 0}" class="alert alert-info" role="alert">
+				        	<strong>Getting Started -</strong> Click 'Add Checkride / Refresher' below to add a checkride 
+				      	</div>
+				      	
+				      	<div th:if="${pilotExamDetails.size() &gt; 0}" class="col-md-6">
+				          <table class="table table-striped">
+				            <thead>
+				              <tr>
+				                <th>Checkride / Refresher</th>
+				                <th>Date</th>
+				                <th> </th>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:each="examDetail : ${pilotExamDetails}">
+						        <td>
+						        	<a class="btn btn-sm btn-default triggerEdit" 
+						        		th:href="@{/details/create(id=${examDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}" 
+						        		th:inline="text">[[${examDetail.pilotExamination}]]</a>
+						        </td>
+						        <td th:text="${examDetail.date}">
+						        </td>
+						        <td>
+						        	<a class="btn btn-sm btn-danger triggerExamDelete" th:href="@{/details/delete(id=${examDetail.id})}">Delete</a>
+								</td>
+						      </tr>
+				            </tbody>
+				          </table>
+				        </div>
+				        
+				        <div class="page-header">
+							<a class="btn btn-primary" th:if="${pilotExamDetails.size() &lt; 20}" 
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}">Add Checkride / Refresher</a>
+						</div>
 		    		</div>
 		    		
 		    		<div class="tab-pane" id="typeratings">
-		    			Type ratings go here
+		    			<p/>
+		    			
+		    			<div th:if="${pilotTypeRatingDetails.size() == 0}" class="alert alert-info" role="alert">
+				        	<strong>Getting Started -</strong> Click 'Add Type Rating' below to add a type rating
+				      	</div>
+				      	
+				      	<div th:if="${pilotTypeRatingDetails.size() &gt; 0}" class="col-md-6">
+				          <table class="table table-striped">
+				            <thead>
+				              <tr>
+				                <th>Type Rating</th>
+				                <th>Date</th>
+				                <th> </th>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:each="pilotTypeRating : ${pilotTypeRatingDetails}">
+						        <td>
+						        	<a class="btn btn-sm btn-default triggerEdit" 
+						        		th:href="@{/details/create(id=${pilotTypeRating.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}" 
+						        		th:inline="text">[[${pilotTypeRating.typeRating}]]</a>
+						        </td>
+						        <td th:text="${pilotTypeRating.date}">
+						        </td>
+						        <td>
+						        	<a class="btn btn-sm btn-danger triggerTypeRatingDelete" th:href="@{/details/delete(id=${pilotTypeRating.id})}">Delete</a>
+								</td>
+						      </tr>
+				            </tbody>
+				          </table>
+				        </div>
+				        
+				        <div class="page-header">
+							<a class="btn btn-primary" th:if="${pilotTypeRatingDetails.size() &lt; 20}" 
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}">Add Type Rating</a>
+						</div>
 		    		</div>
 		    		
 		    		<div class="tab-pane" id="endorsements">
-		    			Endorsements go here
+		    			<p/>
+		    			
+		    			<div th:if="${pilotEndorsementDetails.size() == 0}" class="alert alert-info" role="alert">
+				        	<strong>Getting Started -</strong> Click 'Add Endorsement below to add an endorsement
+				      	</div>
+				      	
+				      	<div th:if="${pilotEndorsementDetails.size() &gt; 0}" class="col-md-6">
+				          <table class="table table-striped">
+				            <thead>
+				              <tr>
+				                <th>Endorsement</th>
+				                <th>Date</th>
+				                <th> </th>
+				              </tr>
+				            </thead>
+				            <tbody>
+				              <tr th:each="pilotEndorsement : ${pilotEndorsementDetails}">
+						        <td>
+						        	<a class="btn btn-sm btn-default triggerEdit" 
+						        		th:href="@{/details/create(id=${pilotEndorsement.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}" 
+						        		th:inline="text">[[${pilotEndorsement.endorsement}]]</a>
+						        </td>
+						        <td th:text="${pilotEndorsement.date}">
+						        </td>
+						        <td>
+						        	<a class="btn btn-sm btn-danger triggerEndorsementDelete" th:href="@{/details/delete(id=${pilotEndorsement.id})}">Delete</a>
+								</td>
+						      </tr>
+				            </tbody>
+				          </table>
+				        </div>
+				        
+				        <div class="page-header">
+							<a class="btn btn-primary" th:if="${pilotEndorsementDetails.size() &lt; 10}" 
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}">Add Endorsement</a>
+						</div>
 		    		</div>
 		    	</div>
 		    </div>
