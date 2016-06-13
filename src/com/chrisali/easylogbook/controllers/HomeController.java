@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SimpleTimeZone;
@@ -31,6 +32,8 @@ public class HomeController {
 	
 	@RequestMapping("/")
 	public String showHome(Principal principal, Model model) {
+		Set<PilotExamination> upcomingExpirations = new LinkedHashSet<>();
+		
 		if (principal != null) {
 			String username = principal.getName();
 			User user = usersService.getUser(username);
@@ -41,11 +44,12 @@ public class HomeController {
 					
 			
 			List<PilotDetail> pilotExaminationDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.EXAMINATIONS);
-			Set<PilotExamination> upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, calendar);
+			upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, calendar);
 			
 			model.addAttribute("user", user);
-			model.addAttribute("upcomingExpiration", upcomingExpirations);
 		}
+		
+		model.addAttribute("upcomingExpirations", upcomingExpirations);
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassHome", "active");
