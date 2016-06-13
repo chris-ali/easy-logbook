@@ -80,7 +80,7 @@
 			    <p/>
 			    
 			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()}">
-				    <label class="sr-only" for="inputExamination">Checkride/Review</label>
+				    <label class="sr-only" for="inputExamination">Currency/Review</label>
 				    <select class="form-control" id="inputExamination" name="pilotExamination" >
 				        <option th:each="pilotExam : ${T(com.chrisali.easylogbook.beans.enums.PilotExamination).values()}" 
 				        		th:value="${pilotExam}" th:text="${pilotExam.getExam()}" />

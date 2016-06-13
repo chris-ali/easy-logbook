@@ -4,7 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
+import java.util.SimpleTimeZone;
 
 import javax.sql.DataSource;
 
@@ -64,16 +69,21 @@ public class PilotDetailsServiceTests {
 	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
 									true, "ROLE_ADMIN");
 	
-	private PilotDetail detail1 = new PilotDetail(user1, "2016-06-02");
-	private PilotDetail detail2 = new PilotDetail(user1, "2012-04-20");
-	private PilotDetail detail3 = new PilotDetail(user1, "2010-10-15");
-	private PilotDetail detail4 = new PilotDetail(user1, "2016-06-02");
-	private PilotDetail detail5 = new PilotDetail(user1, "2012-04-20");
-	private PilotDetail detail6 = new PilotDetail(user1, "2010-10-15");
+	private PilotDetail detail1 = new PilotDetail(user1, "06/02/2016");
+	private PilotDetail detail2 = new PilotDetail(user1, "04/20/2012");
+	private PilotDetail detail3 = new PilotDetail(user1, "10/15/2010");
+	private PilotDetail detail4 = new PilotDetail(user1, "06/02/2016");
+	private PilotDetail detail5 = new PilotDetail(user1, "04/20/2012");
+	private PilotDetail detail6 = new PilotDetail(user1, "10/15/2010");
 	
-	private PilotDetail detail7 = new PilotDetail(user2, "2016-06-02");
-	private PilotDetail detail8 = new PilotDetail(user2, "2012-04-20");
-	private PilotDetail detail9 = new PilotDetail(user2, "2010-10-15");
+	private PilotDetail detail7 = new PilotDetail(user2, "06/02/2016");
+	private PilotDetail detail8 = new PilotDetail(user2, "04/20/2012");
+	private PilotDetail detail9 = new PilotDetail(user2, "10/15/2010");
+	
+	private PilotDetail detail10 = new PilotDetail(user2, "06/15/2014");
+	private PilotDetail detail11 = new PilotDetail(user2, "03/15/2016");
+	
+	private Calendar calendar;
 	
 	private void addTestData() {
 		usersService.createOrUpdate(user1);
@@ -112,6 +122,14 @@ public class PilotDetailsServiceTests {
 		
 		detail9.setPilotMedical(PilotMedical.THIRD_CLASS);
 		pilotDetailsService.createOrUpdate(detail9);
+		
+		detail10.setPilotExamination(PilotExamination.BFR);
+		pilotDetailsService.createOrUpdate(detail10);
+		detail11.setPilotExamination(PilotExamination.PIC);
+		pilotDetailsService.createOrUpdate(detail11);
+		
+		calendar = new GregorianCalendar(new SimpleTimeZone(0, "Zulu"));
+		calendar.setTime(new Date(1465839829000L)); // 06/13/2014
 	}
 	
 	@Before
@@ -134,7 +152,7 @@ public class PilotDetailsServiceTests {
 		assertEquals("Six pilot details entries should exist", 6, pilotDetailsList1.size());
 		
 		List<PilotDetail> pilotDetailsList2 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.ALL);
-		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList2.size());
+		assertEquals("Five pilot details entries should exist", 5, pilotDetailsList2.size());
 		
 		List<PilotDetail> pilotDetailsList3 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.LICENSES);
 		assertEquals("Three pilot license entries should exist", 3, pilotDetailsList3.size());
@@ -149,7 +167,7 @@ public class PilotDetailsServiceTests {
 		assertEquals("One endorsement entry should exist", 1, pilotDetailsList6.size());
 		
 		List<PilotDetail> pilotDetailsList7 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.EXAMINATIONS);
-		assertEquals("One pilot exam entry should exist", 1, pilotDetailsList7.size());
+		assertEquals("Three pilot exam entries should exist", 3, pilotDetailsList7.size());
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
@@ -184,7 +202,7 @@ public class PilotDetailsServiceTests {
 		addTestData();
 		
 		List<PilotDetail> pilotDetailsList1 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.ALL);
-		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList1.size());
+		assertEquals("Five pilot details entries should exist", 5, pilotDetailsList1.size());
 		
 		detail8.setClassRating(ClassRating.SINGLELAND);
 		pilotDetailsService.createOrUpdate(detail8);
@@ -234,7 +252,7 @@ public class PilotDetailsServiceTests {
 		List<PilotDetail> pilotDetailsList3 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.ALL);
 		
 		assertEquals("Five pilot details entries should exist", 5, pilotDetailsList2.size());
-		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList3.size());
+		assertEquals("Five pilot details entries should exist", 5, pilotDetailsList3.size());
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
@@ -252,5 +270,17 @@ public class PilotDetailsServiceTests {
 		
 		assertEquals("Five pilot details entries should exist", 5, pilotDetailsList2.size());
 		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList3.size());
+	}
+	
+	@Test
+	@WithMockUser(username="user", roles={"USER"})
+	public void testUpcomingExpirations() {
+		addTestData();
+		
+		List<PilotDetail> pilotExaminationDetails = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.EXAMINATIONS);
+		Set<PilotExamination> upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, calendar);
+		
+		assertTrue("Set of upcoming expirations contains BFR", upcomingExpirations.contains(PilotExamination.BFR));
+		assertTrue("Set of upcoming expirations contains PIC", upcomingExpirations.contains(PilotExamination.PIC));
 	}
 }

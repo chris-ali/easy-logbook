@@ -1,13 +1,17 @@
 package com.chrisali.easylogbook.services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
 import com.chrisali.easylogbook.beans.PilotDetail;
+import com.chrisali.easylogbook.beans.enums.PilotExamination;
 import com.chrisali.easylogbook.dao.PilotDetailsDao;
 
 @Service("pilotDetailsService")
@@ -75,5 +79,53 @@ public class PilotDetailsService {
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public boolean delete(String username, int id) {
 		return pilotDetailsDao.delete(username, id);
+	}
+	
+	public Set<PilotExamination> getUpcomingExpirations(List<PilotDetail> pilotExaminationDetails, Calendar calendar) {
+		Set<PilotExamination> upcomingExpirations = new LinkedHashSet<>();
+		int currentMonth = calendar.get(Calendar.MONTH) + 1; // Calendar bitmasks are zero-based
+		int currentYear = calendar.get(Calendar.YEAR);
+		
+		for (PilotDetail exam : pilotExaminationDetails) {
+			String[] date = exam.getDate().split("/");
+			
+			int examMonth = Integer.parseInt(date[0]);
+			int examYear = Integer.parseInt(date[2]);
+			
+			switch(exam.getPilotExamination()) {
+			case BFR:
+				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			case CFI_RENEWAL:
+				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			case CHECKRIDE:
+				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			case INSTRUMENT:
+				if (((currentMonth+12) - (examMonth+12)) == 6)
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			case IPC:
+				if (((currentMonth+12) - (examMonth+12)) == 6) 
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			case NIGHT:
+				if (((currentMonth+12) - (examMonth+12)) == 3)
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			case PIC:
+				if (((currentMonth+12) - (examMonth+12)) == 3)
+					upcomingExpirations.add(exam.getPilotExamination());
+				break;
+			default:
+				break;
+			}
+		}
+		
+		return upcomingExpirations;
 	}
 }

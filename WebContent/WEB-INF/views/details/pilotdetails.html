@@ -100,11 +100,11 @@
 						        <td>
 						        	<a class="btn btn-sm btn-default triggerEdit" 
 						        		th:href="@{/details/create(id=${licenseDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}" 
-						        		th:inline="text">[[${licenseDetail.pilotLicense}]]</a>
+						        		th:inline="text">[[${licenseDetail.pilotLicense.getLicense()}]]</a>
 						        </td>
-						        <td th:text="${licenseDetail.classRating}">
+						        <td th:text="${licenseDetail.classRating.getClassRating()}">
 						        </td>
-						        <td th:text="${licenseDetail.categoryRating}">
+						        <td th:text="${licenseDetail.categoryRating.getCategoryRating()}">
 						        </td>
 						        <td th:text="${licenseDetail.date}">
 						        </td>
@@ -133,7 +133,7 @@
 				          <table class="table table-striped">
 				            <thead>
 				              <tr>
-				                <th>Medical Class</th>
+				                <th>Medical</th>
 				                <th>Date</th>
 				                <th> </th>
 				              </tr>
@@ -143,7 +143,7 @@
 						        <td>
 						        	<a class="btn btn-sm btn-default triggerEdit" 
 						        		th:href="@{/details/create(id=${medicalDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}" 
-						        		th:inline="text">[[${medicalDetail.pilotMedical}]]</a>
+						        		th:inline="text">[[${medicalDetail.pilotMedical.getMedical()}]]</a>
 						        </td>
 						        <td th:text="${medicalDetail.date}">
 						        </td>
@@ -165,14 +165,14 @@
 		    			<p/>
 		    			
 		    			<div th:if="${pilotExamDetails.size() == 0}" class="alert alert-info" role="alert">
-				        	<strong>Getting Started -</strong> Click 'Add Checkride / Refresher' below to add a checkride 
+				        	<strong>Getting Started -</strong> Click 'Add Currency / Refresher' below to add a record 
 				      	</div>
 				      	
 				      	<div th:if="${pilotExamDetails.size() &gt; 0}" class="col-md-6">
 				          <table class="table table-striped">
 				            <thead>
 				              <tr>
-				                <th>Checkride / Refresher</th>
+				                <th>Type</th>
 				                <th>Date</th>
 				                <th> </th>
 				              </tr>
@@ -182,7 +182,7 @@
 						        <td>
 						        	<a class="btn btn-sm btn-default triggerEdit" 
 						        		th:href="@{/details/create(id=${examDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}" 
-						        		th:inline="text">[[${examDetail.pilotExamination}]]</a>
+						        		th:inline="text">[[${examDetail.pilotExamination.getExam()}]]</a>
 						        </td>
 						        <td th:text="${examDetail.date}">
 						        </td>
