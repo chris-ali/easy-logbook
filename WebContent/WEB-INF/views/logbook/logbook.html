@@ -34,99 +34,106 @@
 	      	<h2 th:inline="text">Viewing [[${logbook.name}]]</h2>
 			
 			<div th:if="${logbookEntries.size() > 0}">
-	          <table class="table table-condensed">
-	            <thead>
-	              <tr>
-	                <th>Date</th>
-	                <th>Origin</th>
-	                <th>Destination</th>
-	                <th>Tail Number</th>
-	                <th>Make</th>
-	                <th>Model</th>
-	                <th>Instrument Approaches</th>
-	                <th>Day Landings</th>
-	                <th>Night Landings</th>
-	                <th>Airplane SEL</th>
-	                <th>Airplane MEL</th>
-	                <th>Turbine</th>
-	                <th>Glider</th>
-	                <th>Rotorcraft</th>
-	                <th>Night</th>
-	                <th>Actual Instrument</th>
-	                <th>Simulated Instrument</th>
-	                <th>Ground Trainer</th>
-	                <th>Cross Country</th>
-	                <th>Dual Received</th>
-	                <th>Dual Given</th>
-	                <th>Pilot in Command</th>
-	                <th>Second in Command</th>
-	                <th>Total Duration</th>
-	                <th>Remarks</th>
-	              </tr>
-	            </thead>
-	            <tbody>
-	              <tr th:each="entry : ${logbookEntries}">
-			        <td>
-			        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
-					</td>
-			        <td th:text="${entry.origin}"></td>
-			        <td th:text="${entry.destination}"></td>
-			        <td th:text="${entry.aircraft.tailNumber}"></td>
-			        <td th:text="${entry.aircraft.make}"></td>
-			        <td th:text="${entry.aircraft.model}"></td>
-			        <td th:text="${entry.instrumentApproaches}"></td>
-			        <td th:text="${entry.dayLandings}"></td>
-			        <td th:text="${entry.nightLandings}"></td>
-			        <td th:text="${entry.airplaneSel}"></td>
-			        <td th:text="${entry.airplaneMel}"></td>
-			        <td th:text="${entry.turbine}"></td>
-			        <td th:text="${entry.glider}"></td>
-			        <td th:text="${entry.rotorcraft}"></td>
-			        <td th:text="${entry.night}"></td>
-			        <td th:text="${entry.actualInstrument}"></td>
-			        <td th:text="${entry.simulatedInstrument}"></td>
-			        <td th:text="${entry.groundTrainer}"></td>
-			        <td th:text="${entry.crossCountry}"></td>
-			        <td th:text="${entry.dualReceived}"></td>
-			        <td th:text="${entry.dualGiven}"></td>
-			        <td th:text="${entry.pilotInCommand}"></td>
-			        <td th:text="${entry.secondInCommand}"></td>
-			        <td th:text="${entry.totalDuration}"></td>
-			        <td th:text="${entry.remarks}"></td>
-			        <td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
-					</td>
-			      </tr>
-	            </tbody>
-	            <tfoot>
-	              <tr>
-			        <td><strong>Totals:</strong></td>
-			        <td></td>
-			        <td></td>
-			        <td></td>
-			        <td></td>
-			        <td></td>
-			        <td th:text="${totals.instrumentApproaches}"></td>
-			        <td th:text="${totals.dayLandings}"></td>
-			        <td th:text="${totals.nightLandings}"></td>
-			        <td th:text="${totals.airplaneSel}"></td>
-			        <td th:text="${totals.airplaneMel}"></td>
-			        <td th:text="${totals.turbine}"></td>
-			        <td th:text="${totals.glider}"></td>
-			        <td th:text="${totals.rotorcraft}"></td>
-			        <td th:text="${totals.night}"></td>
-			        <td th:text="${totals.actualInstrument}"></td>
-			        <td th:text="${totals.simulatedInstrument}"></td>
-			        <td th:text="${totals.groundTrainer}"></td>
-			        <td th:text="${totals.crossCountry}"></td>
-			        <td th:text="${totals.dualReceived}"></td>
-			        <td th:text="${totals.dualGiven}"></td>
-			        <td th:text="${totals.pilotInCommand}"></td>
-			        <td th:text="${totals.secondInCommand}"></td>
-			        <td th:text="${totals.totalDuration}"></td>
-			       </tr>
-	            </tfoot>
-	          </table>
+				<div class="panel panel-primary">
+				  <div class="panel-heading">
+	              	  <h3 class="panel-title"></h3>
+	              </div>
+	              <div class="panel-body">
+			          <table class="table table-condensed">
+			            <thead>
+			              <tr>
+			                <th>Date</th>
+			                <th>Origin</th>
+			                <th>Destination</th>
+			                <th>Tail Number</th>
+			                <th>Make</th>
+			                <th>Model</th>
+			                <th>Instrument Approaches</th>
+			                <th>Day Landings</th>
+			                <th>Night Landings</th>
+			                <th>Airplane SEL</th>
+			                <th>Airplane MEL</th>
+			                <th>Turbine</th>
+			                <th>Glider</th>
+			                <th>Rotorcraft</th>
+			                <th>Night</th>
+			                <th>Actual Instrument</th>
+			                <th>Simulated Instrument</th>
+			                <th>Ground Trainer</th>
+			                <th>Cross Country</th>
+			                <th>Dual Received</th>
+			                <th>Dual Given</th>
+			                <th>Pilot in Command</th>
+			                <th>Second in Command</th>
+			                <th>Total Duration</th>
+			                <th>Remarks</th>
+			              </tr>
+			            </thead>
+			            <tbody>
+			              <tr th:each="entry : ${logbookEntries}">
+					        <td>
+					        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
+							</td>
+					        <td th:text="${entry.origin}"></td>
+					        <td th:text="${entry.destination}"></td>
+					        <td th:text="${entry.aircraft.tailNumber}"></td>
+					        <td th:text="${entry.aircraft.make}"></td>
+					        <td th:text="${entry.aircraft.model}"></td>
+					        <td th:text="${entry.instrumentApproaches}"></td>
+					        <td th:text="${entry.dayLandings}"></td>
+					        <td th:text="${entry.nightLandings}"></td>
+					        <td th:text="${entry.airplaneSel}"></td>
+					        <td th:text="${entry.airplaneMel}"></td>
+					        <td th:text="${entry.turbine}"></td>
+					        <td th:text="${entry.glider}"></td>
+					        <td th:text="${entry.rotorcraft}"></td>
+					        <td th:text="${entry.night}"></td>
+					        <td th:text="${entry.actualInstrument}"></td>
+					        <td th:text="${entry.simulatedInstrument}"></td>
+					        <td th:text="${entry.groundTrainer}"></td>
+					        <td th:text="${entry.crossCountry}"></td>
+					        <td th:text="${entry.dualReceived}"></td>
+					        <td th:text="${entry.dualGiven}"></td>
+					        <td th:text="${entry.pilotInCommand}"></td>
+					        <td th:text="${entry.secondInCommand}"></td>
+					        <td th:text="${entry.totalDuration}"></td>
+					        <td th:text="${entry.remarks}"></td>
+					        <td>
+					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
+							</td>
+					      </tr>
+			            </tbody>
+			            <tfoot>
+			              <tr>
+					        <td><strong>Totals:</strong></td>
+					        <td></td>
+					        <td></td>
+					        <td></td>
+					        <td></td>
+					        <td></td>
+					        <td th:text="${totals.instrumentApproaches}"></td>
+					        <td th:text="${totals.dayLandings}"></td>
+					        <td th:text="${totals.nightLandings}"></td>
+					        <td th:text="${totals.airplaneSel}"></td>
+					        <td th:text="${totals.airplaneMel}"></td>
+					        <td th:text="${totals.turbine}"></td>
+					        <td th:text="${totals.glider}"></td>
+					        <td th:text="${totals.rotorcraft}"></td>
+					        <td th:text="${totals.night}"></td>
+					        <td th:text="${totals.actualInstrument}"></td>
+					        <td th:text="${totals.simulatedInstrument}"></td>
+					        <td th:text="${totals.groundTrainer}"></td>
+					        <td th:text="${totals.crossCountry}"></td>
+					        <td th:text="${totals.dualReceived}"></td>
+					        <td th:text="${totals.dualGiven}"></td>
+					        <td th:text="${totals.pilotInCommand}"></td>
+					        <td th:text="${totals.secondInCommand}"></td>
+					        <td th:text="${totals.totalDuration}"></td>
+					       </tr>
+			            </tfoot>
+			          </table>
+		           </div>
+			     </div>
 	        </div>
 	        
 	        <!-- JQuery to activate modal edit/delete functions -->

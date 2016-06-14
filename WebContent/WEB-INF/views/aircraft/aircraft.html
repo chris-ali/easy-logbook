@@ -26,31 +26,38 @@
 	        	<strong>Getting Started -</strong> Click 'Create Aircraft' below to create your first aircraft
 	      	</div>
 			
-			<div th:if="${aircraftList.size() > 0}" class="col-md-6">
-	          <table class="table table-striped">
-	            <thead>
-	              <tr>
-	                <th>Tail Number</th>
-	                <th>Make</th>
-	                <th>Model</th>
-	                <th> </th>
-	              </tr>
-	            </thead>
-	            <tbody>
-	              <tr th:each="aircraft : ${aircraftList}">
-			        <td>
-			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/aircraft/edit(id=${aircraft.id})}" th:inline="text">[[${aircraft.tailNumber}]]</a>
-			        </td>
-			        <td th:text="${aircraft.make}">
-			        </td>
-			        <td th:text="${aircraft.model}">
-			        </td>
-			        <td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/aircraft/delete(id=${aircraft.id})}">Delete</a>
-					</td>
-			      </tr>
-	            </tbody>
-	          </table>
+			<div th:if="${aircraftList.size() > 0}" class="">
+			  <div class="panel panel-primary">
+				  <div class="panel-heading">
+	              	  <h3 class="panel-title">Aircraft</h3>
+	              </div>
+	              <div class="panel-body">
+			          <table class="table table-striped">
+			            <thead>
+			              <tr>
+			                <th>Tail Number</th>
+			                <th>Make</th>
+			                <th>Model</th>
+			                <th> </th>
+			              </tr>
+			            </thead>
+			            <tbody>
+			              <tr th:each="aircraft : ${aircraftList}">
+					        <td>
+					        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/aircraft/edit(id=${aircraft.id})}" th:inline="text">[[${aircraft.tailNumber}]]</a>
+					        </td>
+					        <td th:text="${aircraft.make}">
+					        </td>
+					        <td th:text="${aircraft.model}">
+					        </td>
+					        <td>
+					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/aircraft/delete(id=${aircraft.id})}">Delete</a>
+							</td>
+					      </tr>
+			            </tbody>
+			          </table>
+			        </div>
+		        </div>
 	        </div>
 	        
 	        <!-- JQuery to activate modal edit/delete functions -->

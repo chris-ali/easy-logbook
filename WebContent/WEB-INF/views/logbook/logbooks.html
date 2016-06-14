@@ -26,59 +26,66 @@
 	        	<strong>Getting Started -</strong> Click 'Create Logbook' below to create your first logbook
 	      	</div>
 			
-			<div th:if="${logbooks.size() > 0}" class="col-md-6">
-	          <table class="table table-striped">
-	            <thead>
-	              <tr>
-	                <th>Logbooks</th>
-	                <th></th>
-	                <th>Single Engine</th>
-	                <th>Multi Engine</th>
-	                <th>Turbine</th>
-	                <th>Pilot in Command</th>
-	                <th>Cross Country</th>
-	                <th>Total Time</th>
-	                <th></th>
-	              </tr>
-	            </thead>
-	            <tbody>
-	              <tr th:each="logbook : ${logbooks}">
-			        <td>
-			        	<a class="btn btn-sm btn-default" th:href="@{/logbook/show(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
-			        </td>
-			        <td>
-			        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/logbook/edit(id=${logbook.id})}">Edit</a>
-					</td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
-			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].airplaneMel}">
-			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].turbine}">
-			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].pilotInCommand}">
-			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].crossCountry}">
-			        </td>
-			        <td th:text="${logbookTotals[__${logbook.id}__].totalDuration}">
-			        </td>
-					<td>
-			        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/logbook/delete(id=${logbook.id})}">Delete</a>
-					</td>
-			      </tr>
-	            </tbody>
-	            <tfoot th:if="${logbooks.size() > 1}">
-	              <tr>
-	                <td><strong>Overall Totals</strong></td>
-	                <td></td>
-	              	<td th:text="${overallTotals.airplaneSel}"></td>
-	              	<td th:text="${overallTotals.airplaneMel}"></td>
-	              	<td th:text="${overallTotals.turbine}"></td>
-	              	<td th:text="${overallTotals.pilotInCommand}"></td>
-	              	<td th:text="${overallTotals.crossCountry}"></td>
-	              	<td th:text="${overallTotals.totalDuration}"></td>
-	              </tr>	
-	            </tfoot>
-	          </table>
+			<div th:if="${logbooks.size() > 0}" class="">
+			  <div class="panel panel-primary">
+				  <div class="panel-heading">
+	              	  <h3 class="panel-title">Logbooks</h3>
+	              </div>
+	              <div class="panel-body">
+			          <table class="table table-striped">
+			            <thead>
+			              <tr>
+			                <th>Logbooks</th>
+			                <th></th>
+			                <th>Single Engine</th>
+			                <th>Multi Engine</th>
+			                <th>Turbine</th>
+			                <th>Pilot in Command</th>
+			                <th>Cross Country</th>
+			                <th>Total Time</th>
+			                <th></th>
+			              </tr>
+			            </thead>
+			            <tbody>
+			              <tr th:each="logbook : ${logbooks}">
+					        <td>
+					        	<a class="btn btn-sm btn-default" th:href="@{/logbook/show(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
+					        </td>
+					        <td>
+					        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/logbook/edit(id=${logbook.id})}">Edit</a>
+							</td>
+					        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
+					        </td>
+					        <td th:text="${logbookTotals[__${logbook.id}__].airplaneMel}">
+					        </td>
+					        <td th:text="${logbookTotals[__${logbook.id}__].turbine}">
+					        </td>
+					        <td th:text="${logbookTotals[__${logbook.id}__].pilotInCommand}">
+					        </td>
+					        <td th:text="${logbookTotals[__${logbook.id}__].crossCountry}">
+					        </td>
+					        <td th:text="${logbookTotals[__${logbook.id}__].totalDuration}">
+					        </td>
+							<td>
+					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/logbook/delete(id=${logbook.id})}">Delete</a>
+							</td>
+					      </tr>
+			            </tbody>
+			            <tfoot th:if="${logbooks.size() > 1}">
+			              <tr>
+			                <td><strong>Overall Totals</strong></td>
+			                <td></td>
+			              	<td th:text="${overallTotals.airplaneSel}"></td>
+			              	<td th:text="${overallTotals.airplaneMel}"></td>
+			              	<td th:text="${overallTotals.turbine}"></td>
+			              	<td th:text="${overallTotals.pilotInCommand}"></td>
+			              	<td th:text="${overallTotals.crossCountry}"></td>
+			              	<td th:text="${overallTotals.totalDuration}"></td>
+			              </tr>	
+			            </tfoot>
+			          </table>
+			      </div>
+		      </div>
 	        </div>
 	        
 	        <!-- JQuery to activate modal edit/delete functions -->
