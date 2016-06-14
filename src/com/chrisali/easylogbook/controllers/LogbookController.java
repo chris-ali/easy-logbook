@@ -70,6 +70,10 @@ public class LogbookController {
 		for (Logbook logbook : logbooks)
 			logbookTotals.put(logbook.getId(), logbookService.logbookTotals(principal.getName(), logbook.getId()));
 		model.addAttribute("logbookTotals", logbookTotals);
+
+		// Totals for all logbooks belonging to user
+		LogbookEntry overallTotals = logbookService.overallLogbookTotals(principal.getName());
+		model.addAttribute("overallTotals", overallTotals);
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassLogbook", "active");

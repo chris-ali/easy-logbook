@@ -30,6 +30,8 @@
 	      	<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
 	        	<strong>First Aircraft -</strong> To create a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
 	      	</div>
+	      	
+	      	<h2 th:inline="text">Viewing [[${logbook.name}]]</h2>
 			
 			<div th:if="${logbookEntries.size() > 0}">
 	          <table class="table table-condensed">

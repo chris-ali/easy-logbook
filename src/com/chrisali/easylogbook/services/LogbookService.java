@@ -60,6 +60,13 @@ public class LogbookService {
 		return logbookDao.exists(username, name);
 	}
 	
+	/**
+	 * Calculates a total of all entries in a single logbook  
+	 * 
+	 * @param username
+	 * @param id
+	 * @return {@link LogbookEntry} of totals for a logbook
+	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public LogbookEntry logbookTotals(String username, int id) {
 		List<LogbookEntry> logbookEntries = logbookEntryDao.getLogbookEntries(id);
@@ -92,5 +99,47 @@ public class LogbookService {
 		}
 		
 		return totals;
+	}
+	
+	/**
+	 * Calculates an overall total of all entries for all logbooks owned by a particular user
+	 * 
+	 * @param username
+	 * @return {@link LogbookEntry} of totals for all logbooks
+	 */
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	public LogbookEntry overallLogbookTotals(String username) {
+		List<Logbook> logbooks = logbookDao.getLogbooks(username);
+		
+		LogbookEntry overallTotals = new LogbookEntry();
+		
+		for(Logbook logbook : logbooks) {
+			LogbookEntry totals = logbookTotals(username, logbook.getId());
+			
+			overallTotals.setInstrumentApproaches((totals.getInstrumentApproaches() + overallTotals.getInstrumentApproaches()));
+			overallTotals.setDayLandings((totals.getDayLandings() + overallTotals.getDayLandings()));
+			overallTotals.setNightLandings((totals.getNightLandings() + overallTotals.getNightLandings()));
+			
+			overallTotals.setAirplaneSel((totals.getAirplaneSel() + overallTotals.getAirplaneSel()));
+			overallTotals.setAirplaneMel((totals.getAirplaneMel() + overallTotals.getAirplaneMel()));
+			overallTotals.setTurbine((totals.getTurbine() + overallTotals.getTurbine()));
+			overallTotals.setGlider((totals.getGlider() + overallTotals.getGlider()));
+			overallTotals.setRotorcraft((totals.getRotorcraft() + overallTotals.getRotorcraft()));
+			
+			overallTotals.setNight((totals.getNight() + overallTotals.getNight()));
+			overallTotals.setActualInstrument((totals.getActualInstrument() + overallTotals.getActualInstrument()));
+			overallTotals.setSimulatedInstrument((totals.getSimulatedInstrument() + overallTotals.getSimulatedInstrument()));
+			overallTotals.setGroundTrainer((totals.getGroundTrainer() + overallTotals.getGroundTrainer()));
+			
+			overallTotals.setCrossCountry((totals.getCrossCountry() + overallTotals.getCrossCountry()));
+			overallTotals.setDualReceived((totals.getDualReceived() + overallTotals.getDualReceived()));
+			overallTotals.setDualGiven((totals.getDualGiven() + overallTotals.getDualGiven()));
+			overallTotals.setPilotInCommand((totals.getPilotInCommand() + overallTotals.getPilotInCommand()));
+			overallTotals.setSecondInCommand((totals.getSecondInCommand() + overallTotals.getSecondInCommand()));
+			
+			overallTotals.setTotalDuration((totals.getTotalDuration() + overallTotals.getTotalDuration()));
+		}
+		
+		return overallTotals;
 	}
 }

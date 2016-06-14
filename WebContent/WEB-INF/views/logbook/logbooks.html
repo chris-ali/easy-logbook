@@ -66,6 +66,18 @@
 					</td>
 			      </tr>
 	            </tbody>
+	            <tfoot th:if="${logbooks.size() > 1}">
+	              <tr>
+	                <td><strong>Overall Totals</strong></td>
+	                <td></td>
+	              	<td th:text="${overallTotals.airplaneSel}"></td>
+	              	<td th:text="${overallTotals.airplaneMel}"></td>
+	              	<td th:text="${overallTotals.turbine}"></td>
+	              	<td th:text="${overallTotals.pilotInCommand}"></td>
+	              	<td th:text="${overallTotals.crossCountry}"></td>
+	              	<td th:text="${overallTotals.totalDuration}"></td>
+	              </tr>	
+	            </tfoot>
 	          </table>
 	        </div>
 	        
