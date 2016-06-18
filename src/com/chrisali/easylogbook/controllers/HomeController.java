@@ -69,15 +69,4 @@ public class HomeController {
 		
 		return "home/features";
 	}
-	
-	@RequestMapping("/admin")
-	public String showAdmin(Model model) {
-		List<User> users = usersService.getAllUsers();
-		model.addAttribute("users", users);
-		
-		// Active class used on header fragment
-		model.addAttribute("activeClassAdmin", "active");
-		
-		return "home/admin";
-	}
 }

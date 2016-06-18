@@ -10,7 +10,7 @@
 		
 		<meta charset="ISO-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
 		
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
@@ -31,7 +31,7 @@
 	        	<strong>First Aircraft -</strong> To create a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
 	      	</div>
 	      	
-	      	<h2 th:inline="text">Viewing [[${logbook.name}]]</h2>
+	      	<h2 class="logbook_title" th:inline="text">Viewing [[${logbook.name}]]</h2>
 			
 			<div th:if="${logbookEntries.size() > 0}">
 				<div class="panel panel-primary">

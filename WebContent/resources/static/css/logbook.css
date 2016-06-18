@@ -1,5 +1,26 @@
 @CHARSET "ISO-8859-1";
 
+.logbook_title {
+	position: fixed;
+}
+
+.panel {
+	position: absolute;
+	margin-top: 60px;
+}
+
+.page-header {
+	position: fixed;
+	padding-top: 420px;
+}
+
+.footer {
+	position: fixed;
+	padding-top: 520px;
+}
+
+
+
 .table> thead:first-child>tr:first-child>th:first-child {
     position: fixed;
     height: 52px;
