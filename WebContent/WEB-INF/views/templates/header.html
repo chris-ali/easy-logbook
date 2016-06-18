@@ -44,6 +44,7 @@
 	                <li><a href="user/logout" th:href="@{#}" onclick="$('#form').submit();">Log Out</a></li>
 	              </ul>
 	            </li>
+	            <li th:class="${activeClassAdmin}" sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/admin}">Admin</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>

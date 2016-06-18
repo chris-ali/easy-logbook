@@ -1,10 +1,117 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-Admin Page Goes Here
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+	<head>
+	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+		
+		<meta charset="ISO-8859-1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	    
+	    <title>Admin</title>
+	</head>
+	<body>
+		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'theme_header'"></nav>
+		
+		<div class="container theme-showcase" role="main">
+		  <div class="panel panel-primary">
+			  <div class="panel-heading">
+              	  <h3 class="panel-title">User List</h3>
+              </div>
+              <div class="panel-body">
+		          <table class="table table-striped">
+		            <thead>
+		              <tr>
+		                <th>User Name</th>
+		                <th>Name</th>
+		                <th>Authority</th>
+		                <th>Enabled</th>
+		                <th> </th>
+		              </tr>
+		            </thead>
+		            <tbody>
+		              <tr th:each="user : ${usersList}">
+				        <td>
+				        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/user/edit(username=${user.username})}" th:inline="text">[[${user.username}]]</a>
+				        </td>
+				        <td th:text="${user.name}">
+				        </td>
+				        <td th:text="${user.authority}">
+				        </td>
+				        <td th:text="${user.enabled}">
+				        </td>
+				        <td>
+				        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/user/delete(username=${user.username})}">Delete</a>
+						</td>
+				      </tr>
+		            </tbody>
+		          </table>
+		        </div>
+	        </div>
+	        
+	        <!-- JQuery to activate modal edit/delete functions -->
+	        <script type="text/javascript">
+	        	$(document).ready(function() {
+	        		$(".triggerDelete").click(function(e) {
+	        			e.preventDefault();
+	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
+	        			$("#confirmDelete").modal();
+	        		});
+	        		
+	        		$(".triggerEdit").click(function(e) {
+	        			e.preventDefault();
+	        			$("#editUser .editButton").attr("href", $(this).attr("href"));
+	        			$("#editUser").modal();
+	        		});
+	        	});
+	        </script>
+	        
+	        <!-- Confirm Delete Modal -->
+	        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Confirm Delete</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Are you sure you wish to delete this user?</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/admin/admin}">Delete</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+			
+			<!-- Edit Aircraft Modal -->
+	        <div class="modal fade" id="editUser" tabindex="-1" role="dialog">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			        <h4 class="modal-title">Edit User</h4>
+			      </div>
+			      <div class="modal-body">
+			        <p>Insert edit form here</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			        <a class="btn btn-sm btn-danger editButton" th:href="@{/admin/admin}">Edit</a>
+			      </div>
+			    </div><!-- /.modal-content -->
+			  </div><!-- /.modal-dialog -->
+			</div><!-- /.modal -->
+		
+			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
+		</div>
+	</body>
 </html>

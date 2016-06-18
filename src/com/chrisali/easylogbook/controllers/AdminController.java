@@ -18,8 +18,8 @@ public class AdminController {
 
 	@RequestMapping("/admin")
 	public String showAdmin(Model model) {
-		List<User> users = usersService.getAllUsers();
-		model.addAttribute("users", users);
+		List<User> usersList = usersService.getAllUsers();
+		model.addAttribute("usersList", usersList);
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassAdmin", "active");
