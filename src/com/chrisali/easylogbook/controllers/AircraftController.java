@@ -33,7 +33,9 @@ public class AircraftController {
 	private LogbookEntryService logbookEntryService;
 	
 	@RequestMapping("aircraft/overview")
-	public String showAllAircraft(Principal principal, Model model) {
+	public String showAllAircraft(Principal principal, Model model, 
+								  @RequestParam(value="page", required=false) int page,
+								  @RequestParam(value="results", required=false) int resultsSize) {
 		
 		// Get all aircraft tied to user
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());

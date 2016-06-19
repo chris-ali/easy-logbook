@@ -36,7 +36,9 @@ public class LogbookController {
 	
 	@RequestMapping(value="logbook/show", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
-							  @RequestParam("id") int id) {
+									@RequestParam("id") int id,
+									@RequestParam(value="page", required=false) int page,
+									@RequestParam(value="results", required=false) int resultsSize) {
 		// All aircraft tied to user
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
 		model.addAttribute("aircraftList", aircraftList);

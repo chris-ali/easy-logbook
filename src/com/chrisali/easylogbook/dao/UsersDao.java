@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,7 +41,13 @@ public class UsersDao extends AbstractDao {
 	
 	@SuppressWarnings("unchecked")
 	public List<User> getAllUsers() {
-		List<User> users = getSession().createQuery("from User").list();
+		int pageNumber = 0, resultsSize = 10; //Delete me later
+		Criteria criteria = getSession().createCriteria(User.class)
+				.setMaxResults(resultsSize)
+				.setFirstResult(pageNumber * resultsSize)
+				.addOrder(Order.asc("username"));
+		
+		List<User> users = criteria.list();
 		
 		closeSession();
 		
