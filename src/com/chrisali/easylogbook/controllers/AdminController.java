@@ -19,9 +19,9 @@ public class AdminController {
 
 	@RequestMapping("/admin")
 	public String showAdmin(Model model, 
-							@RequestParam(value="page", required=false) int page,
+							@RequestParam(value="page", required=false) int pageNumber,
 							@RequestParam(value="results", required=false) int resultsSize) {
-		List<User> usersList = usersService.getAllUsers();
+		List<User> usersList = usersService.getAllUsers(pageNumber, resultsSize);
 		model.addAttribute("usersList", usersList);
 		
 		// Active class used on header fragment

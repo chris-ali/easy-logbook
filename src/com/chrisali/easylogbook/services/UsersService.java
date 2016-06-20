@@ -24,8 +24,8 @@ public class UsersService {
 	}
 	
 	@Secured("ROLE_ADMIN")
-	public List<User> getAllUsers() {
-		return usersDao.getAllUsers();
+	public List<User> getAllUsers(int pageNumber, int resultsSize) {
+		return usersDao.getAllUsers(pageNumber, resultsSize);
 	}
 	
 	public User getUser(String username) {

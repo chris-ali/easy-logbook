@@ -83,7 +83,7 @@ public class LogbookDaoTests {
 		usersDao.createOrUpdate(user1);
 		
 		
-		List<User> users1 = usersDao.getAllUsers();
+		List<User> users1 = usersDao.getAllUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -105,7 +105,7 @@ public class LogbookDaoTests {
 		logbookDao.createOrUpdate(logbook5);
 
 		List<Logbook> logbookList2 = logbookDao.getLogbooks();
-		List<User> users2 = usersDao.getAllUsers();
+		List<User> users2 = usersDao.getAllUsers(0, 10);
 		
 		assertEquals("Five logbooks should be created and retrieved", 5, logbookList2.size());
 		assertEquals("Four users should be created and retrieved", 4, users2.size());

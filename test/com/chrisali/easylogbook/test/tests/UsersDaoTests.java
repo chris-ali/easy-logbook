@@ -65,7 +65,7 @@ public class UsersDaoTests {
 	public void testCreateRetrieve() {
 		usersDao.createOrUpdate(user1);
 		
-		List<User> users1 = usersDao.getAllUsers();
+		List<User> users1 = usersDao.getAllUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -74,7 +74,7 @@ public class UsersDaoTests {
 		usersDao.createOrUpdate(user3);
 		usersDao.createOrUpdate(user4);
 		
-		List<User> users2 = usersDao.getAllUsers();
+		List<User> users2 = usersDao.getAllUsers(0, 10);
 		
 		assertEquals("Four users should be created and retrieved", 4, users2.size());
 	}
@@ -91,13 +91,13 @@ public class UsersDaoTests {
 	public void testDelete() {
 		addTestData();
 		
-		List<User> users1 = usersDao.getAllUsers();
+		List<User> users1 = usersDao.getAllUsers(0, 10);
 		assertEquals("Four users should be created and retrieved", 4, users1.size());
 		
 		assertTrue("User be deleted from database", usersDao.delete(user2.getUsername()));
 		assertTrue("User be deleted from database", usersDao.delete(user1.getUsername()));
 		
-		List<User> users2 = usersDao.getAllUsers();
+		List<User> users2 = usersDao.getAllUsers(0, 10);
 		
 		assertEquals("Two users should be left in database", 2, users2.size());
 	}
@@ -106,7 +106,7 @@ public class UsersDaoTests {
 	public void testUpdate() {
 		addTestData();
 		
-		List<User> users1 = usersDao.getAllUsers();
+		List<User> users1 = usersDao.getAllUsers(0, 10);
 		assertEquals("Four users should be created and retrieved", 4, users1.size());
 		
 		user2.setName("Chris Ali");

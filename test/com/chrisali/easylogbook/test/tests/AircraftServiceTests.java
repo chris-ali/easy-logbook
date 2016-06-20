@@ -101,7 +101,7 @@ public class AircraftServiceTests {
 	public void testAdminCreateRetrieve() {
 		usersService.createOrUpdate(user1);
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -124,7 +124,7 @@ public class AircraftServiceTests {
 		aircraftService.createOrUpdate(aircraft7);
 
 		List<Aircraft> aircraftList2 = aircraftService.getAllAircraft();
-		List<User> users2 = usersService.getAllUsers();
+		List<User> users2 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("Seven aircraft should be created and retrieved", 7, aircraftList2.size());
 		assertEquals("Four users should be created and retrieved", 4, users2.size());
@@ -141,7 +141,7 @@ public class AircraftServiceTests {
 	public void testNoAuthCreateRetrieve() {
 		usersService.createOrUpdate(user1);
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -164,7 +164,7 @@ public class AircraftServiceTests {
 		aircraftService.createOrUpdate(aircraft7);
 
 		List<Aircraft> aircraftList2 = aircraftService.getAllAircraft();
-		List<User> users2 = usersService.getAllUsers();
+		List<User> users2 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("Seven aircraft should be created and retrieved", 7, aircraftList2.size());
 		assertEquals("Four users should be created and retrieved", 4, users2.size());

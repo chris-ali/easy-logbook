@@ -124,7 +124,7 @@ public class LogbookEntryDaoTests {
 		addTestData();
 
 		List<Logbook> logbookList = logbookDao.getLogbooks();
-		List<User> users = usersDao.getAllUsers();
+		List<User> users = usersDao.getAllUsers(0, 10);
 		
 		assertEquals("Three logbooks should be created and retrieved", 3, logbookList.size());
 		assertEquals("Two users should be created and retrieved", 2, users.size());

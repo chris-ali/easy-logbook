@@ -40,8 +40,7 @@ public class UsersDao extends AbstractDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<User> getAllUsers() {
-		int pageNumber = 0, resultsSize = 10; //Delete me later
+	public List<User> getAllUsers(int pageNumber, int resultsSize) {
 		Criteria criteria = getSession().createCriteria(User.class)
 				.setMaxResults(resultsSize)
 				.setFirstResult(pageNumber * resultsSize)

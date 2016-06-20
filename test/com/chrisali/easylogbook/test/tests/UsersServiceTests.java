@@ -81,7 +81,7 @@ public class UsersServiceTests {
 		
 		usersService.createOrUpdate(user1);
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -90,7 +90,7 @@ public class UsersServiceTests {
 		usersService.createOrUpdate(user3);
 		usersService.createOrUpdate(user4);
 		
-		List<User> users2 = usersService.getAllUsers();
+		List<User> users2 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("Four users should be created and retrieved", 4, users2.size());
 	}
@@ -100,7 +100,7 @@ public class UsersServiceTests {
 		
 		usersService.createOrUpdate(user1);
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -109,7 +109,7 @@ public class UsersServiceTests {
 		usersService.createOrUpdate(user3);
 		usersService.createOrUpdate(user4);
 		
-		List<User> users2 = usersService.getAllUsers();
+		List<User> users2 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("Four users should be created and retrieved", 4, users2.size());
 	}
@@ -127,13 +127,13 @@ public class UsersServiceTests {
 	public void testAdminDelete() {
 		addTestData();
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		assertEquals("Four users should be created and retrieved", 4, users1.size());
 		
 		assertTrue("User be deleted from database", usersService.delete(user2.getUsername()));
 		assertTrue("User be deleted from database", usersService.delete(user1.getUsername()));
 		
-		List<User> users2 = usersService.getAllUsers();
+		List<User> users2 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("Two users should be left in database", 2, users2.size());
 	}
@@ -142,13 +142,13 @@ public class UsersServiceTests {
 	public void testNoAuthDelete() {
 		addTestData();
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		assertEquals("Four users should be created and retrieved", 4, users1.size());
 		
 		assertTrue("User be deleted from database", usersService.delete(user2.getUsername()));
 		assertTrue("User be deleted from database", usersService.delete(user1.getUsername()));
 		
-		List<User> users2 = usersService.getAllUsers();
+		List<User> users2 = usersService.getAllUsers(0, 10);
 		
 		assertEquals("Two users should be left in database", 2, users2.size());
 	}
@@ -158,7 +158,7 @@ public class UsersServiceTests {
 	public void testAdminUpdate() {
 		addTestData();
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		assertEquals("Four users should be created and retrieved", 4, users1.size());
 		
 		user2.setName("Chris Ali");
@@ -178,7 +178,7 @@ public class UsersServiceTests {
 	public void testNoAuthUpdate() {
 		addTestData();
 		
-		List<User> users1 = usersService.getAllUsers();
+		List<User> users1 = usersService.getAllUsers(0, 10);
 		assertEquals("Four users should be created and retrieved", 4, users1.size());
 		
 		user2.setName("Chris Ali");
