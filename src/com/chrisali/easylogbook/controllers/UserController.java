@@ -70,7 +70,7 @@ public class UserController {
 	}
 
 	@RequestMapping("user/close")
-	public String doCloseAccount(Principal principal, Model model) {
+	public String doCloseAccount(Principal principal) {
 		String username = principal.getName();
 		
 		List<Logbook> logbooks = logbookService.getLogbooks(username);

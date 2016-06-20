@@ -44,7 +44,7 @@
 	                <li><a href="user/logout" th:href="@{#}" onclick="$('#form').submit();">Log Out</a></li>
 	              </ul>
 	            </li>
-	            <li th:class="${activeClassAdmin}" sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/admin}">Admin</a></li>
+	            <li th:class="${activeClassAdmin}" sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/view}">Admin</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
@@ -65,6 +65,7 @@
                 <li sec:authorize="!isAuthenticated()"><a th:href="@{/user/login}">Log in</a></li>
                 <li sec:authorize="isAuthenticated()"><a th:href="@{/profile/view}">Profile</a></li>
                 <li sec:authorize="isAuthenticated()"><a href="/user/logout" th:href="@{#}" onclick="$('#form').submit();">Log out</a></li>
+                <li th:class="${activeClassAdmin}" sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/view}">Admin</a></li>
               </ul>
             </nav>
           </div>

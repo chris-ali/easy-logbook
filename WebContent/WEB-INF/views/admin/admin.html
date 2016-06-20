@@ -48,7 +48,7 @@
 				        <td th:text="${user.enabled}">
 				        </td>
 				        <td>
-				        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/user/delete(username=${user.username})}">Delete</a>
+				        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/admin/delete(username=${user.username})}">Delete</a>
 						</td>
 				      </tr>
 		            </tbody>
@@ -101,11 +101,27 @@
 			        <h4 class="modal-title">Edit User</h4>
 			      </div>
 			      <div class="modal-body">
-			        <p>Insert edit form here</p>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger editButton" th:href="@{/admin/admin}">Edit</a>
+			        <form class="form-signin" th:object="${user}" th:action="@{/admin/edituser}" method="post">
+				
+						<label for="inputEnabled">Enabled</label>
+					    <select class="form-control" id="inputEnabled" name="enabled" >
+					        <option value="true">True</option>
+					        <option value="fase">False</option>
+					    </select>
+						
+						<p />
+						
+						<label for="inputRole">Role</label>
+					    <select class="form-control" id="inputRole" name="authority" >
+					        <option value="ROLE_USER">User</option>
+					        <option value="ROLE_ADMIN">Admin</option>
+					    </select>
+					    
+					    <p />
+						
+						<button class="btn btn-primary" type="submit">Submit</button>
+			
+					</form>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
