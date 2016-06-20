@@ -39,7 +39,7 @@
 		            <tbody>
 		              <tr th:each="user : ${usersList}">
 				        <td>
-				        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/user/edit(username=${user.username})}" th:inline="text">[[${user.username}]]</a>
+				        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/admin/edituser(username=${user.username})}" th:inline="text">[[${user.username}]]</a>
 				        </td>
 				        <td th:text="${user.name}">
 				        </td>
@@ -54,6 +54,22 @@
 		            </tbody>
 		          </table>
 		        </div>
+		        
+		        <nav>
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</nav>
 	        </div>
 	        
 	        <!-- JQuery to activate modal edit/delete functions -->
@@ -68,9 +84,39 @@
 	        		$(".triggerEdit").click(function(e) {
 	        			e.preventDefault();
 	        			$("#editUser .editButton").attr("href", $(this).attr("href"));
+	        			$("#userEdit").attr("action", $(this).attr("href"));
 	        			$("#editUser").modal();
 	        		});
+	        		
+	        		$("#userEdit").submit(function(e) {
+	        			e.preventDefault();
+	        			editSubmit();
+	        		});
 	        	});
+	        	
+	        	function editSubmit() {
+        			var editDetails = {}
+        			editDetails["enabled"] = $("#inputEnabled").val();
+        			editDetails["authority"] = $("#inputAuthority").val();
+        			
+        			$.ajax({
+        				type : "POST",
+        				contentType : "application/json",
+        				url : $(".triggerEdit").attr("href"),
+        				data : JSON.stringify(editDetails),
+        				dataType : 'json',
+        				timeout : 100000,
+        				success : function(data) {
+        					console.log("SUCCESS: ", data);
+        				},
+        				error : function(e) {
+        					console.log("ERROR: ", e);
+        				},
+        				done : function(e) {
+        					console.log("DONE");
+        				}
+        			});
+        		}
 	        </script>
 	        
 	        <!-- Confirm Delete Modal -->
@@ -86,13 +132,13 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/admin/admin}">Delete</a>
+			        <a class="btn btn-sm btn-danger deleteButton" th:href="@{/admin/view}">Delete</a>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
 			
-			<!-- Edit Aircraft Modal -->
+			<!-- Edit User Modal -->
 	        <div class="modal fade" id="editUser" tabindex="-1" role="dialog">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
@@ -101,7 +147,7 @@
 			        <h4 class="modal-title">Edit User</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form class="form-signin" th:object="${user}" th:action="@{/admin/edituser}" method="post">
+			        <form class="form-signin" id="userEdit" th:action="@{/admin/view}" method="post">
 				
 						<label for="inputEnabled">Enabled</label>
 					    <select class="form-control" id="inputEnabled" name="enabled" >

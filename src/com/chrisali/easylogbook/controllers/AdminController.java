@@ -6,8 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
@@ -48,8 +51,10 @@ public class AdminController {
 		return "admin/admin";
 	}
 	
-	@RequestMapping("/admin/edituser")
-	public String doAdminEdit(User user) {
+	@RequestMapping(value="/admin/edituser", method=RequestMethod.POST, produces="application/json")
+	@ResponseBody
+	public String doAdminEdit(@RequestBody User user,
+							  @RequestParam("username") String username) {
 		usersService.createOrUpdate(user);
 		
 		return "redirect:/admin/view";
