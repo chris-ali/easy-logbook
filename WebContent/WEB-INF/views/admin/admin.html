@@ -11,6 +11,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
+		<!-- Default header name is	X-CSRF-TOKEN -->
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
@@ -39,7 +42,7 @@
 		            <tbody>
 		              <tr th:each="user : ${usersList}">
 				        <td>
-				        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/admin/edituser(username=${user.username})}" th:inline="text">[[${user.username}]]</a>
+				        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/admin/edituser}" th:inline="text">[[${user.username}]]</a>
 				        </td>
 				        <td th:text="${user.name}">
 				        </td>
@@ -75,6 +78,15 @@
 	        <!-- JQuery to activate modal edit/delete functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
+	        		
+	        		// Adds CSRF token
+	        		var token = $("meta[name='_csrf']").attr("content");
+	        		var header = "X-CSRF-TOKEN";
+					
+					$(document).ajaxSend(function(e, xhr, options) {
+						xhr.setRequestHeader(header, token);
+					});
+	        		
 	        		$(".triggerDelete").click(function(e) {
 	        			e.preventDefault();
 	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
@@ -85,6 +97,7 @@
 	        			e.preventDefault();
 	        			$("#editUser .editButton").attr("href", $(this).attr("href"));
 	        			$("#userEdit").attr("action", $(this).attr("href"));
+	        			$("#editModalTitle").text("Editing User: " + $(this).text());
 	        			$("#editUser").modal();
 	        		});
 	        		
@@ -94,8 +107,13 @@
 	        		});
 	        	});
 	        	
+	        	// On press of edit button in modal
 	        	function editSubmit() {
+	        		var splitModalTitle = $("#editModalTitle").text().split(" ");
+	        		var username = splitModalTitle[2];
+	        		
         			var editDetails = {}
+        			editDetails["username"] = username;
         			editDetails["enabled"] = $("#inputEnabled").val();
         			editDetails["authority"] = $("#inputAuthority").val();
         			
@@ -144,7 +162,7 @@
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title">Edit User</h4>
+			        <h4 id="editModalTitle" class="modal-title">Editing User</h4>
 			      </div>
 			      <div class="modal-body">
 			        <form class="form-signin" id="userEdit" th:action="@{/admin/view}" method="post">
@@ -152,13 +170,13 @@
 						<label for="inputEnabled">Enabled</label>
 					    <select class="form-control" id="inputEnabled" name="enabled" >
 					        <option value="true">True</option>
-					        <option value="fase">False</option>
+					        <option value="false">False</option>
 					    </select>
 						
 						<p />
 						
-						<label for="inputRole">Role</label>
-					    <select class="form-control" id="inputRole" name="authority" >
+						<label for="inputAuthority">Role</label>
+					    <select class="form-control" id="inputAuthority" name="authority" >
 					        <option value="ROLE_USER">User</option>
 					        <option value="ROLE_ADMIN">Admin</option>
 					    </select>

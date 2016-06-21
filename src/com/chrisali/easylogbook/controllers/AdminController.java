@@ -2,6 +2,7 @@ package com.chrisali.easylogbook.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,8 +54,15 @@ public class AdminController {
 	
 	@RequestMapping(value="/admin/edituser", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
-	public String doAdminEdit(@RequestBody User user,
-							  @RequestParam("username") String username) {
+	public String doAdminEdit(@RequestBody Map<String, Object> editDetails) {
+		String username = (String)editDetails.get("username");
+		String enabled = (String)editDetails.get("enabled");
+		String authority = (String)editDetails.get("authority");
+		
+		User user = usersService.getUser(username);
+		user.setAuthority(authority);
+		user.setEnabled(Boolean.valueOf(enabled));
+		
 		usersService.createOrUpdate(user);
 		
 		return "redirect:/admin/view";
