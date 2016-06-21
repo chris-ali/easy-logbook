@@ -11,9 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
@@ -111,7 +113,7 @@ public class LogbookController {
 		
 		model.addAttribute("logbook", logbook);
 		
-		return "logbook/logbookcreated";
+		return "redirect:/logbook/overview";
 	}
 	
 	@RequestMapping(value="logbook/delete", method=RequestMethod.GET)
@@ -130,6 +132,21 @@ public class LogbookController {
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassLogbook", "active");
+		
+		return "redirect:/logbook/overview";
+	}
+	
+	@RequestMapping(value="logbook/edit", method=RequestMethod.POST, produces="application/json")
+	@ResponseBody
+	public String editLogbook(Principal principal, @RequestBody Map<String, Object> editDetails) {
+		String username = principal.getName();
+		String id = (String)editDetails.get("id");
+		String name = (String)editDetails.get("name");
+		
+		Logbook logbook = logbookService.getLogbook(username, Integer.parseInt(id));
+		logbook.setName(name);
+		
+		//logbookService.createOrUpdate(logbook);
 		
 		return "redirect:/logbook/overview";
 	}

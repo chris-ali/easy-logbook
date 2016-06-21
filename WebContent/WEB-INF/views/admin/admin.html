@@ -101,13 +101,14 @@
 	        			$("#editUser").modal();
 	        		});
 	        		
+	        		// Calls AJAX to send JSON
 	        		$("#userEdit").submit(function(e) {
 	        			e.preventDefault();
 	        			editSubmit();
 	        		});
 	        	});
 	        	
-	        	// On press of edit button in modal
+	        	// On press of edit button in edit modal
 	        	function editSubmit() {
 	        		var splitModalTitle = $("#editModalTitle").text().split(" ");
 	        		var username = splitModalTitle[2];

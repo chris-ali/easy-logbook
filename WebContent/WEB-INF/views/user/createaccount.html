@@ -25,7 +25,8 @@
 	    	var errorMessage = "Passwords do not match"; ///*[[${UnmatchedPasswords.user.password}]]*/ 
 	    	/*]]>*/
 			function onLoad() {
-				//CSRF Stuff
+	    		
+				// Adds CSRF token
 				var token = $("input[name='_csrf']").val();
 				var header= "X-­‐CSRF-­‐TOKEN";
 				

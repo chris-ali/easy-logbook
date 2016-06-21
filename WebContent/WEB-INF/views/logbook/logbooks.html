@@ -11,6 +11,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
+		<!-- Default header name is	X-CSRF-TOKEN -->
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
@@ -49,10 +52,10 @@
 			            <tbody>
 			              <tr th:each="logbook : ${logbooks}">
 					        <td>
-					        	<a class="btn btn-sm btn-default" th:href="@{/logbook/show(id=${logbook.id})}" th:inline="text">[[${logbook.name}]]</a>
+					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${logbook.id}" th:href="@{/logbook/edit}" th:inline="text">[[${logbook.name}]]</a>
 					        </td>
 					        <td>
-					        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/logbook/edit(id=${logbook.id})}">Edit</a>
+					        	<a class="btn btn-sm btn-default" th:href="@{/logbook/view(id=${logbook.id})}">View</a>
 							</td>
 					        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
 					        </td>
@@ -88,9 +91,18 @@
 		      </div>
 	        </div>
 	        
-	        <!-- JQuery to activate modal edit/delete functions -->
+	        <!-- JQuery for edit/delete functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
+	        		
+	        		// Adds CSRF token
+	        		var token = $("meta[name='_csrf']").attr("content");
+	        		var header = "X-CSRF-TOKEN";
+					
+					$(document).ajaxSend(function(e, xhr, options) {
+						xhr.setRequestHeader(header, token);
+					});
+	        		
 	        		$(".triggerDelete").click(function(e) {
 	        			e.preventDefault();
 	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
@@ -100,9 +112,63 @@
 	        		$(".triggerEdit").click(function(e) {
 	        			e.preventDefault();
 	        			$("#confirmEdit .editButton").attr("href", $(this).attr("href"));
+	        			$("#editModalTitle").text("Editing: " + $(this).text());
+	        			$("#logbookId").text($(this).attr("id"));
 	        			$("#confirmEdit").modal();
 	        		});
+	        		
+	        		// Calls AJAX to send JSON
+	        		$("#logbookEdit").submit(function(e) {
+	        			e.preventDefault();
+	        			editSubmit();
+	        		});
+	        		
+	        		// Checks that new name is not equal to old and fits size restrictions
+	        		$("#inputName").keyup(function (){
+	        			var splitModalTitle = $("#editModalTitle").text().split(" ");
+		        		var oldName = splitModalTitle[1];
+		        		var newName = $("#inputName").val();
+		        		
+		        		/*<![CDATA[*/
+		        		if (oldName == newName) {
+		        			$("#nameError").text("New name must be different from old name");
+		        			$("#editSubmit").prop('disabled', true);
+		        		} else if (newName.length < 5 || newName.length > 60) {
+		        			$("#nameError").text("New name must be between 5 and 60 characters");
+		        			$("#editSubmit").prop('disabled', true);
+		        		} else {
+		        			$("#nameError").text("");
+		        			$("#editSubmit").prop('disabled', false);
+		        		}
+		        		/*]]>*/	
+	        		});
 	        	});
+	        	
+	        	// On press of edit button in edit modal
+	        	function editSubmit() {
+	        		var logbookId = $("#logbookId").text();
+	        		var editDetails = {}
+	        		editDetails["id"] = logbookId;
+	        		editDetails["name"] = $("#inputName").val();
+	        		
+	        		$.ajax({
+	        			type : "POST",
+        				contentType : "application/json",
+        				url : $(".triggerEdit").attr("href"),
+        				data : JSON.stringify(editDetails),
+        				dataType : 'json',
+        				timeout : 100000,
+        				success : function(data) {
+        					console.log("SUCCESS: ", data);
+        				},
+        				error : function(e) {
+        					console.log("ERROR: ", e);
+        				},
+        				done : function(e) {
+        					console.log("DONE");
+        				}
+	        		});
+	        	}
 	        </script>
 	        
 	        <!-- Confirm Delete Modal -->
@@ -130,14 +196,19 @@
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title">Edit Name</h4>
+			        <h4 id="editModalTitle" class="modal-title">Editing Logbook: </h4>
+			        <p id="logbookId" hidden="true"/>
 			      </div>
 			      <div class="modal-body">
-			        <p>Edit Form Here</p>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-primary deleteButton" th:href="@{/logbook/overview}">Edit</a>
+			      	<form class="form-signin" id="logbookEdit" th:action="@{/logbook/overview}" method="post">
+						<label for="inputName" class="sr-only">New Name</label> 
+						<input type="text" id="inputName" class="form-control" placeholder="New Name" />
+						<span class="label label-danger" id="nameError"></span>
+						
+						<p />
+						
+						<button class="btn btn-primary" id="editSubmit" type="submit">Submit</button>
+					</form>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
