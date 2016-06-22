@@ -42,7 +42,7 @@
 		            <tbody>
 		              <tr th:each="user : ${usersList}">
 				        <td>
-				        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/admin/edituser}" th:inline="text">[[${user.username}]]</a>
+				        	<a class="btn btn-sm btn-default triggerEdit" th:id="${user.username}" th:href="@{/admin/edituser}" th:inline="text">[[${user.username}]]</a>
 				        </td>
 				        <td th:text="${user.name}">
 				        </td>
@@ -97,6 +97,14 @@
 	        			e.preventDefault();
 	        			$("#editModal .editButton").attr("href", $(this).attr("href"));
 	        			$("#userEdit").attr("action", $(this).attr("href"));
+	        			
+	        			// Get parent's siblings (table rows) to fill in make and model
+	        			var authority = $("#" + $(this).text()).parent().siblings()[1].innerHTML; 
+	        			var enabled = $("#" + $(this).text()).parent().siblings()[2].innerHTML;
+	        			
+	        			$("#inputAuthority").val(authority);
+	        			$("#inputEnabled").val(enabled);
+	        			
 	        			$("#editModalTitle").text("Editing User: " + $(this).text());
 	        			$("#editModal").modal();
 	        		});
@@ -105,6 +113,7 @@
 	        		$("#userEdit").submit(function(e) {
 	        			e.preventDefault();
 	        			editSubmit();
+	        			setTimeout(function() {location.reload(true)}, 250);
 	        		});
 	        	});
 	        	
@@ -164,6 +173,7 @@
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        <h4 id="editModalTitle" class="modal-title">Editing User</h4>
+			        
 			      </div>
 			      <div class="modal-body">
 			        <form class="form-signin" id="userEdit" th:action="@{/admin/view}" method="post">
