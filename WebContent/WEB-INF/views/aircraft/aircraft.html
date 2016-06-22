@@ -11,6 +11,9 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
+		<!-- Default header name is	X-CSRF-TOKEN -->
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
@@ -44,7 +47,7 @@
 			            <tbody>
 			              <tr th:each="aircraft : ${aircraftList}">
 					        <td>
-					        	<a class="btn btn-sm btn-default triggerEdit" th:href="@{/aircraft/edit(id=${aircraft.id})}" th:inline="text">[[${aircraft.tailNumber}]]</a>
+					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${aircraft.id}" th:href="@{/aircraft/edit}" th:inline="text">[[${aircraft.tailNumber}]]</a>
 					        </td>
 					        <td th:text="${aircraft.make}">
 					        </td>
@@ -63,6 +66,15 @@
 	        <!-- JQuery to activate modal edit/delete functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
+
+	        		// Adds CSRF token
+	        		var token = $("meta[name='_csrf']").attr("content");
+	        		var header = "X-CSRF-TOKEN";
+					
+					$(document).ajaxSend(function(e, xhr, options) {
+						xhr.setRequestHeader(header, token);
+					});
+					
 	        		$(".triggerDelete").click(function(e) {
 	        			e.preventDefault();
 	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
@@ -71,10 +83,99 @@
 	        		
 	        		$(".triggerEdit").click(function(e) {
 	        			e.preventDefault();
-	        			$("#editAircraft .editButton").attr("href", $(this).attr("href"));
-	        			$("#editAircraft").modal();
+	        			$("#editModal .editButton").attr("href", $(this).attr("href"));
+	        			$("#editModalTitle").text("Editing " + $(this).text());
+	        			$("#aircraftId").text($(this).attr("id"));
+						
+	        			// Get parent's siblings (table rows) to fill in make and model
+	        			var make = $("#" + $(this).attr("id")).parent().siblings()[0].innerHTML;
+	        			var model = $("#" + $(this).attr("id")).parent().siblings()[1].innerHTML;
+	        			var tailNumber = $(this).text();
+	        			
+	        			$("#inputMake").val(make);
+	        			$("#inputModel").val(model);
+	        			$("#inputTailNumber").val(tailNumber);
+	        			
+	        			$("#editModal").modal();
+	        		});
+	        		
+	        		// Calls AJAX to send JSON
+	        		$("#aircraftEdit").submit(function(e) {
+	        			e.preventDefault();
+	        			editSubmit();
+	        			// Give db time to update before refresh
+	        			setTimeout(function() {location.reload(true)}, 250);
+	        		});
+	        		
+	        		// Check that new values fit size restrictions
+	        		$("#inputMake").keyup(function (){
+		        		var newName = $("#inputMake").val();
+		        		
+		        		/*<![CDATA[*/
+		        		if (newName.length < 5 || newName.length > 45) {
+		        			$("#makeError").text("New make must be between 5 and 45 characters");
+		        			$("#editSubmit").prop('disabled', true);
+		        		} else {
+		        			$("#makeError").text("");
+		        			$("#editSubmit").prop('disabled', false);
+		        		}
+		        		/*]]>*/	
+	        		});
+	        		
+	        		$("#inputModel").keyup(function (){
+		        		var newName = $("#inputModel").val();
+		        		
+		        		/*<![CDATA[*/
+		        		if (newName.length < 2 || newName.length > 45) {
+		        			$("#modelError").text("New model must be between 2 and 45 characters");
+		        			$("#editSubmit").prop('disabled', true);
+		        		} else {
+		        			$("#modelError").text("");
+		        			$("#editSubmit").prop('disabled', false);
+		        		}
+		        		/*]]>*/	
+	        		});
+	        		
+	        		$("#inputTailNumber").keyup(function (){
+		        		var newName = $("#inputTailNumber").val();
+		        		
+		        		/*<![CDATA[*/
+		        		if (newName.length < 5 || newName.length > 45) {
+		        			$("#tailNumberError").text("New Tail Number must be between 5 and 45 characters");
+		        			$("#editSubmit").prop('disabled', true);
+		        		} else {
+		        			$("#tailNumberError").text("");
+		        			$("#editSubmit").prop('disabled', false);
+		        		}
+		        		/*]]>*/	
 	        		});
 	        	});
+	        	
+	        	function editSubmit() {
+	        		var editDetails = {}
+	        		editDetails["id"] = $("#aircraftId").text();
+	        		editDetails["make"] = $("#inputMake").val();
+	        		editDetails["model"] = $("#inputModel").val();
+	        		editDetails["tailNumber"] = $("#inputTailNumber").val();
+	        		
+	        		$.ajax({
+	        			type : "POST",
+	        			contentType : "application/json",
+	        			url : $(".triggerEdit").attr("href"),
+	        			data : JSON.stringify(editDetails),
+	        			dataType : 'json',
+	        			timeout : 10000,
+	        			success : function(data) {
+	        				console.log("SUCCESS: ", data);
+	        			},
+	        			error : function(e) {
+	        				console.log("ERROR: ", e);
+	        			},
+	        			done : function(e) {
+	        				console.log("DONE");
+	        			}
+	        		});
+	        	}
 	        </script>
 	        
 	        <!-- Confirm Delete Modal -->
@@ -97,19 +198,35 @@
 			</div><!-- /.modal -->
 			
 			<!-- Edit Aircraft Modal -->
-	        <div class="modal fade" id="editAircraft" tabindex="-1" role="dialog">
+	        <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title">Edit Aircraft</h4>
+			        <h4 id="editModalTitle" class="modal-title">Editing </h4>
+			        <p id="aircraftId" hidden="true"/>
 			      </div>
 			      <div class="modal-body">
-			        <p>Insert edit form here</p>
-			      </div>
-			      <div class="modal-footer">
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			        <a class="btn btn-sm btn-danger editButton" th:href="@{/aircraft/overview}">Edit</a>
+			      	<form class="form-signin" id="aircraftEdit" th:action="@{/aircraft/overview}" method="post">
+						<label for="inputMake" class="sr-only">New Name</label> 
+						<input type="text" id="inputMake" class="form-control" placeholder="New Make" />
+						<span class="label label-danger" id="makeError"></span>
+						
+						<p />
+						<label for="inputModel" class="sr-only">New Model</label> 
+						<input type="text" id="inputModel" class="form-control" placeholder="New Model" />
+						<span class="label label-danger" id="modelError"></span>
+						
+						<p />
+						
+						<label for="inputTailNumber" class="sr-only">New Tail Number</label> 
+						<input type="text" id="inputTailNumber" class="form-control" placeholder="New Tail Number" />
+						<span class="label label-danger" id="tailNumberError"></span>
+						
+						<p />
+						
+						<button class="btn btn-primary" id="editSubmit" type="submit">Submit</button>
+					</form>
 			      </div>
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->

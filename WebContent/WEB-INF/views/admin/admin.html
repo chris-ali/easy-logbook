@@ -95,10 +95,10 @@
 	        		
 	        		$(".triggerEdit").click(function(e) {
 	        			e.preventDefault();
-	        			$("#editUser .editButton").attr("href", $(this).attr("href"));
+	        			$("#editModal .editButton").attr("href", $(this).attr("href"));
 	        			$("#userEdit").attr("action", $(this).attr("href"));
 	        			$("#editModalTitle").text("Editing User: " + $(this).text());
-	        			$("#editUser").modal();
+	        			$("#editModal").modal();
 	        		});
 	        		
 	        		// Calls AJAX to send JSON
@@ -158,7 +158,7 @@
 			</div><!-- /.modal -->
 			
 			<!-- Edit User Modal -->
-	        <div class="modal fade" id="editUser" tabindex="-1" role="dialog">
+	        <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">

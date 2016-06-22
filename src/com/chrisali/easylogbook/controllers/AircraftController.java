@@ -2,6 +2,7 @@ package com.chrisali.easylogbook.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -9,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
@@ -34,8 +38,8 @@ public class AircraftController {
 	
 	@RequestMapping("aircraft/overview")
 	public String showAllAircraft(Principal principal, Model model, 
-								  @RequestParam(value="page", required=false) int page,
-								  @RequestParam(value="results", required=false) int resultsSize) {
+								  @RequestParam(value="page", required=false) Integer page,
+								  @RequestParam(value="results", required=false) Integer resultsSize) {
 		
 		// Get all aircraft tied to user
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
@@ -102,6 +106,26 @@ public class AircraftController {
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassAircraft", "active");
+		
+		return "redirect:/aircraft/overview";
+	}
+	
+	@RequestMapping(value="aircraft/edit", method=RequestMethod.POST, produces="application/json")
+	@ResponseBody
+	public String doEditAircraft(Principal principal, @RequestBody Map<String, Object> editDetails) {
+		String username = principal.getName();
+		
+		String aircraftId = (String)editDetails.get("id");
+		String make = (String)editDetails.get("make");
+		String modelName = (String)editDetails.get("model");
+		String tailNumber = (String)editDetails.get("tailNumber");
+		
+		Aircraft aircraft = aircraftService.getAircraft(username, Integer.valueOf(aircraftId));
+		aircraft.setMake(make);
+		aircraft.setModel(modelName);
+		aircraft.setTailNumber(tailNumber);
+		
+		aircraftService.createOrUpdate(aircraft);
 		
 		return "redirect:/aircraft/overview";
 	}

@@ -146,7 +146,7 @@ public class LogbookController {
 		Logbook logbook = logbookService.getLogbook(username, Integer.parseInt(id));
 		logbook.setName(name);
 		
-		//logbookService.createOrUpdate(logbook);
+		logbookService.createOrUpdate(logbook);
 		
 		return "redirect:/logbook/overview";
 	}

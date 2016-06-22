@@ -111,30 +111,32 @@
 	        		
 	        		$(".triggerEdit").click(function(e) {
 	        			e.preventDefault();
-	        			$("#confirmEdit .editButton").attr("href", $(this).attr("href"));
-	        			$("#editModalTitle").text("Editing: " + $(this).text());
+	        			$("#editModal .editButton").attr("href", $(this).attr("href"));
+	        			$("#editModalTitle").text("Editing " + $(this).text());
 	        			$("#logbookId").text($(this).attr("id"));
-	        			$("#confirmEdit").modal();
+
+	        			// Fill in input with old name
+	        			$("#inputName").val($(this).text());
+	        			
+	        			$("#editSubmit").prop('disabled', true);
+	        			$("#editModal").modal();
 	        		});
 	        		
 	        		// Calls AJAX to send JSON
 	        		$("#logbookEdit").submit(function(e) {
 	        			e.preventDefault();
 	        			editSubmit();
+	        			// Give db time to update before refresh
+	        			setTimeout(function() {location.reload(true)}, 250);
 	        		});
 	        		
-	        		// Checks that new name is not equal to old and fits size restrictions
+	        		// Checks that new name fits size restrictions
 	        		$("#inputName").keyup(function (){
-	        			var splitModalTitle = $("#editModalTitle").text().split(" ");
-		        		var oldName = splitModalTitle[1];
 		        		var newName = $("#inputName").val();
 		        		
 		        		/*<![CDATA[*/
-		        		if (oldName == newName) {
-		        			$("#nameError").text("New name must be different from old name");
-		        			$("#editSubmit").prop('disabled', true);
-		        		} else if (newName.length < 5 || newName.length > 60) {
-		        			$("#nameError").text("New name must be between 5 and 60 characters");
+		        		if (newName.length < 5 || newName.length > 45) {
+		        			$("#nameError").text("New name must be between 5 and 45 characters");
 		        			$("#editSubmit").prop('disabled', true);
 		        		} else {
 		        			$("#nameError").text("");
@@ -146,9 +148,8 @@
 	        	
 	        	// On press of edit button in edit modal
 	        	function editSubmit() {
-	        		var logbookId = $("#logbookId").text();
 	        		var editDetails = {}
-	        		editDetails["id"] = logbookId;
+	        		editDetails["id"] = $("#logbookId").text();
 	        		editDetails["name"] = $("#inputName").val();
 	        		
 	        		$.ajax({
@@ -191,12 +192,12 @@
 			</div><!-- /.modal -->
 			
 			<!-- Edit Modal -->
-	        <div class="modal fade" id="confirmEdit" tabindex="-1" role="dialog">
+	        <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 id="editModalTitle" class="modal-title">Editing Logbook: </h4>
+			        <h4 id="editModalTitle" class="modal-title">Editing </h4>
 			        <p id="logbookId" hidden="true"/>
 			      </div>
 			      <div class="modal-body">
