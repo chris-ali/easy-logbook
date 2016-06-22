@@ -46,6 +46,9 @@ public class AdminController {
 		List<User> usersList = usersService.getPaginatedUsers(pageNumber, resultsSize);
 		model.addAttribute("usersList", usersList);
 		
+		Integer numberPages = (int) ((usersService.getTotalNumberUsers() + resultsSize) / resultsSize);
+		model.addAttribute("numberPages", numberPages);
+		
 		// Active class used on header fragment
 		model.addAttribute("activeClassAdmin", "active");
 		

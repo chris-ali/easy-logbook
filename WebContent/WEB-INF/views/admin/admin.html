@@ -6,6 +6,7 @@
 	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
+	    <link href="../resources/static/css/admin.css" rel="stylesheet" />
 		
 		<meta charset="ISO-8859-1" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -58,14 +59,14 @@
 		          </table>
 		        </div>
 		        
-		        <nav>
+		        <nav class="pageBar">
 				  <ul class="pagination">
 				    <li>
 				      <a href="#" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <li><a href="#">1</a></li>
+				    <li th:each="i : ${numberPages}"><a th:href="@{/admin/view(page=${i-1},results=20)}" th:inline="text">[[${i}]]</a></li>
 				    <li>
 				      <a href="#" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
