@@ -81,18 +81,16 @@ public class UsersServiceTests {
 		
 		usersService.createOrUpdate(user1);
 		
-		List<User> users1 = usersService.getAllUsers(0, 10);
+		List<User> users1 = usersService.getPaginatedUsers(0, 10);
 		
-		assertEquals("One user should be created and retrieved", 1, users1.size());
+		assertEquals("One user should be created and retrieved", 1, (long)usersService.getTotalNumberUsers());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
 		usersService.createOrUpdate(user2);
 		usersService.createOrUpdate(user3);
 		usersService.createOrUpdate(user4);
 		
-		List<User> users2 = usersService.getAllUsers(0, 10);
-		
-		assertEquals("Four users should be created and retrieved", 4, users2.size());
+		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
@@ -100,18 +98,16 @@ public class UsersServiceTests {
 		
 		usersService.createOrUpdate(user1);
 		
-		List<User> users1 = usersService.getAllUsers(0, 10);
+		List<User> users1 = usersService.getPaginatedUsers(0, 10);
 		
-		assertEquals("One user should be created and retrieved", 1, users1.size());
+		assertEquals("One user should be created and retrieved", 1, (long)usersService.getTotalNumberUsers());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
 		usersService.createOrUpdate(user2);
 		usersService.createOrUpdate(user3);
 		usersService.createOrUpdate(user4);
 		
-		List<User> users2 = usersService.getAllUsers(0, 10);
-		
-		assertEquals("Four users should be created and retrieved", 4, users2.size());
+		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
 	}
 	
 	@Test
@@ -126,40 +122,30 @@ public class UsersServiceTests {
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
 	public void testAdminDelete() {
 		addTestData();
-		
-		List<User> users1 = usersService.getAllUsers(0, 10);
-		assertEquals("Four users should be created and retrieved", 4, users1.size());
+		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
 		
 		assertTrue("User be deleted from database", usersService.delete(user2.getUsername()));
 		assertTrue("User be deleted from database", usersService.delete(user1.getUsername()));
 		
-		List<User> users2 = usersService.getAllUsers(0, 10);
-		
-		assertEquals("Two users should be left in database", 2, users2.size());
+		assertEquals("Two users should be left in database", 2, (long)usersService.getTotalNumberUsers());
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthDelete() {
 		addTestData();
-		
-		List<User> users1 = usersService.getAllUsers(0, 10);
-		assertEquals("Four users should be created and retrieved", 4, users1.size());
+		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
 		
 		assertTrue("User be deleted from database", usersService.delete(user2.getUsername()));
 		assertTrue("User be deleted from database", usersService.delete(user1.getUsername()));
 		
-		List<User> users2 = usersService.getAllUsers(0, 10);
-		
-		assertEquals("Two users should be left in database", 2, users2.size());
+		assertEquals("Two users should be left in database", 2, (long)usersService.getTotalNumberUsers());
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
 	public void testAdminUpdate() {
 		addTestData();
-		
-		List<User> users1 = usersService.getAllUsers(0, 10);
-		assertEquals("Four users should be created and retrieved", 4, users1.size());
+		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
 		
 		user2.setName("Chris Ali");
 		usersService.createOrUpdate(user2);
@@ -177,9 +163,7 @@ public class UsersServiceTests {
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthUpdate() {
 		addTestData();
-		
-		List<User> users1 = usersService.getAllUsers(0, 10);
-		assertEquals("Four users should be created and retrieved", 4, users1.size());
+		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
 		
 		user2.setName("Chris Ali");
 		usersService.createOrUpdate(user2);

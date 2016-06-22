@@ -24,8 +24,13 @@ public class UsersService {
 	}
 	
 	@Secured("ROLE_ADMIN")
-	public List<User> getAllUsers(int pageNumber, int resultsSize) {
-		return usersDao.getAllUsers(pageNumber, resultsSize);
+	public List<User> getPaginatedUsers(int pageNumber, int resultsSize) {
+		return usersDao.getPaginatedUsers(pageNumber, resultsSize);
+	}
+	
+	@Secured("ROLE_ADMIN")
+	public Long getTotalNumberUsers() {
+		return usersDao.getTotalNumberUsers();
 	}
 	
 	public User getUser(String username) {

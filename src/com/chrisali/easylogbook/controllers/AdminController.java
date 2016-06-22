@@ -43,7 +43,7 @@ public class AdminController {
 							@RequestParam(value="results", required=false) Integer resultsSize) {
 		pageNumber = (pageNumber == null) ? 0 : pageNumber;
 		resultsSize = (resultsSize == null) ? 10 : resultsSize;
-		List<User> usersList = usersService.getAllUsers(pageNumber, resultsSize);
+		List<User> usersList = usersService.getPaginatedUsers(pageNumber, resultsSize);
 		model.addAttribute("usersList", usersList);
 		
 		// Active class used on header fragment

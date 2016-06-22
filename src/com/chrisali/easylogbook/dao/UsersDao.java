@@ -40,7 +40,7 @@ public class UsersDao extends AbstractDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<User> getAllUsers(int pageNumber, int resultsSize) {
+	public List<User> getPaginatedUsers(int pageNumber, int resultsSize) {
 		Criteria criteria = getSession().createCriteria(User.class)
 				.setMaxResults(resultsSize)
 				.setFirstResult(pageNumber * resultsSize)
@@ -51,6 +51,15 @@ public class UsersDao extends AbstractDao {
 		closeSession();
 		
 		return users;
+	}
+	
+	public Long getTotalNumberUsers() {
+		Query criteria = getSession().createQuery("Select count (username) from User");
+		Long count = (Long)criteria.uniqueResult();
+		
+		closeSession();
+		
+		return count;
 	}
 	
 	public User getUser(String username) {

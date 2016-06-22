@@ -139,7 +139,7 @@ public class LogbookEntryServiceTests {
 		addTestData();
 
 		List<Logbook> logbookList = logbookService.getAllLogbooks();
-		List<User> users = usersService.getAllUsers(0, 10);
+		List<User> users = usersService.getPaginatedUsers(0, 10);
 		
 		assertEquals("Three logbooks should be created and retrieved", 3, logbookList.size());
 		assertEquals("Two users should be created and retrieved", 2, users.size());
@@ -169,7 +169,7 @@ public class LogbookEntryServiceTests {
 		addTestData();
 
 		List<Logbook> logbookList = logbookService.getAllLogbooks();
-		List<User> users = usersService.getAllUsers(0, 10);
+		List<User> users = usersService.getPaginatedUsers(0, 10);
 		
 		assertEquals("Three logbooks should be created and retrieved", 3, logbookList.size());
 		assertEquals("Two users should be created and retrieved", 2, users.size());

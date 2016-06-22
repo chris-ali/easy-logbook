@@ -86,7 +86,7 @@ public class AircraftDaoTests {
 	public void testCreateRetrieve() {
 		usersDao.createOrUpdate(user1);
 		
-		List<User> users1 = usersDao.getAllUsers(0, 10);
+		List<User> users1 = usersDao.getPaginatedUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
@@ -109,7 +109,7 @@ public class AircraftDaoTests {
 		aircraftDao.createOrUpdate(aircraft7);
 
 		List<Aircraft> aircraftList2 = aircraftDao.getAircraft();
-		List<User> users2 = usersDao.getAllUsers(0, 10);
+		List<User> users2 = usersDao.getPaginatedUsers(0, 10);
 		
 		assertEquals("Seven aircraft should be created and retrieved", 7, aircraftList2.size());
 		assertEquals("Four users should be created and retrieved", 4, users2.size());
