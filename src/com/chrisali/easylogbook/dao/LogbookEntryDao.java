@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ import com.chrisali.easylogbook.beans.LogbookEntry;
 public class LogbookEntryDao extends AbstractDao {
 
 	@SuppressWarnings("unchecked")
-	public List<LogbookEntry> getLogbookEntries(int logbookId) {
+	public List<LogbookEntry> getAllLogbookEntries(int logbookId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
 				.createAlias("logbook", "l")
 				.add(Restrictions.eq("l.id", logbookId));
@@ -31,7 +32,24 @@ public class LogbookEntryDao extends AbstractDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<LogbookEntry> getLogbookEntries(int logbookId, int aircraftId) {
+	public List<LogbookEntry> getPaginatedLogbookEntries(int logbookId, 
+														 int pageNumber,
+														 int resultsSize) {
+		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
+				.setMaxResults(resultsSize)
+				.setFirstResult(pageNumber*resultsSize)
+				.addOrder(Order.asc("date"))
+				.createAlias("logbook", "l")
+				.add(Restrictions.eq("l.id", logbookId));
+		
+		List<LogbookEntry> logbookEntries = criteria.list();
+		closeSession();
+		
+		return logbookEntries;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<LogbookEntry> getLogbookEntriesByAircraft(int logbookId, int aircraftId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
 				.createAlias("logbook", "l")
 				.add(Restrictions.eq("l.id", logbookId))

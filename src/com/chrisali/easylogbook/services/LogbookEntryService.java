@@ -21,13 +21,22 @@ public class LogbookEntryService {
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
-	public List<LogbookEntry> getLogbookEntries(int logbookId) {
-		return logbookEntryDao.getLogbookEntries(logbookId);
+	public List<LogbookEntry> getPaginatedLogbookEntries(int logbookId, 
+														 int pageNumber,
+														 int resultsSize) {
+		return logbookEntryDao.getPaginatedLogbookEntries(logbookId, 
+														  pageNumber, 
+														  resultsSize);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
-	public List<LogbookEntry> getLogbookEntries(int logbookId, int aircraftId) {
-		return logbookEntryDao.getLogbookEntries(logbookId, aircraftId);
+	public List<LogbookEntry> getAllLogbookEntries(int logbookId) {
+		return logbookEntryDao.getAllLogbookEntries(logbookId);
+	}
+	
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	public List<LogbookEntry> getLogbookEntriesByAircraft(int logbookId, int aircraftId) {
+		return logbookEntryDao.getLogbookEntriesByAircraft(logbookId, aircraftId);
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})

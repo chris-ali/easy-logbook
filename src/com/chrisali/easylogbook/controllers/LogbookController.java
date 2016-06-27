@@ -50,7 +50,7 @@ public class LogbookController {
 		model.addAttribute("logbook", logbook);
 		
 		// Entries tied to single logbook above
-		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(id);
+		List<LogbookEntry> logbookEntries = logbookEntryService.getAllLogbookEntries(id);
 		model.addAttribute("logbookEntries", logbookEntries);
 		
 		// Totals for single logbook above
@@ -123,7 +123,7 @@ public class LogbookController {
 		model.addAttribute("logbook", logbook);
 		
 		// Delete all entries in logbook before deleting logbook 
-		List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId());
+		List<LogbookEntry> logbookEntries = logbookEntryService.getAllLogbookEntries(logbook.getId());
 		
 		for(LogbookEntry entry : logbookEntries)
 			logbookEntryService.delete(id, entry.getId());

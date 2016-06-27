@@ -47,7 +47,7 @@ public class LogbookService {
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public boolean delete(String username, int id) {
-		List<LogbookEntry> logbookEntries = logbookEntryDao.getLogbookEntries(id);
+		List<LogbookEntry> logbookEntries = logbookEntryDao.getAllLogbookEntries(id);
 		
 		// Need to delete all entries belonging to this logbook first
 		for(LogbookEntry entry : logbookEntries)
@@ -69,7 +69,7 @@ public class LogbookService {
 	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public LogbookEntry logbookTotals(String username, int id) {
-		List<LogbookEntry> logbookEntries = logbookEntryDao.getLogbookEntries(id);
+		List<LogbookEntry> logbookEntries = logbookEntryDao.getAllLogbookEntries(id);
 		LogbookEntry totals = new LogbookEntry();
 		
 		// Iterate through list of entries and add together all summable fields

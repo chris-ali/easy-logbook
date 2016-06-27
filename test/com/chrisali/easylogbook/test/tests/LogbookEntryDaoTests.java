@@ -136,16 +136,16 @@ public class LogbookEntryDaoTests {
 		Logbook logbook = logbookDao.getLogbook(user1.getUsername(), logbook1.getId());
 		assertEquals("User 1's retrieved aircraft should match logbook1", logbook, logbook1);
 		
-		List<LogbookEntry> logbookEntries1 = logbookEntryDao.getLogbookEntries(logbook1.getId());
+		List<LogbookEntry> logbookEntries1 = logbookEntryDao.getAllLogbookEntries(logbook1.getId());
 		assertEquals("Two entries should be in this logbook", 2, logbookEntries1.size());
 		
-		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getLogbookEntries(logbook2.getId());
+		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getAllLogbookEntries(logbook2.getId());
 		assertEquals("One entry should be in this logbook", 1, logbookEntries2.size());
 		
-		List<LogbookEntry> logbookEntries3 = logbookEntryDao.getLogbookEntries(logbook2.getId(), aircraft2.getId());
+		List<LogbookEntry> logbookEntries3 = logbookEntryDao.getLogbookEntriesByAircraft(logbook2.getId(), aircraft2.getId());
 		assertEquals("One entry should be in this logbook belonging to this aircraft", 1, logbookEntries3.size());
 		
-		List<LogbookEntry> logbookEntries4 = logbookEntryDao.getLogbookEntries(logbook1.getId(), aircraft2.getId());
+		List<LogbookEntry> logbookEntries4 = logbookEntryDao.getLogbookEntriesByAircraft(logbook1.getId(), aircraft2.getId());
 		assertEquals("Zero entries should be in this logbook belonging to this aircraft", 0, logbookEntries4.size());
 	}
 	
@@ -164,13 +164,13 @@ public class LogbookEntryDaoTests {
 		List<Logbook> logbookList1 = logbookDao.getLogbooks();
 		assertEquals("Three logbooks should be created and retrieved", 3, logbookList1.size());
 		
-		List<LogbookEntry> logbookEntryList1 = logbookEntryDao.getLogbookEntries(logbook2.getId());
+		List<LogbookEntry> logbookEntryList1 = logbookEntryDao.getAllLogbookEntries(logbook2.getId());
 		assertEquals("One logbook entry should be in logbook2", 1, logbookEntryList1.size());
 		
 		assertTrue("Entry belonging to logbook2 should be deleted from database", logbookEntryDao.delete(logbook2.getId(), logbookEntry2.getId()));
 		assertFalse("Entry not belonging to logbook1 should not be deleted from database", logbookEntryDao.delete(logbook2.getId(), logbookEntry3.getId()));
 		
-		List<LogbookEntry> logbookEntryList2 = logbookEntryDao.getLogbookEntries(logbook2.getId());
+		List<LogbookEntry> logbookEntryList2 = logbookEntryDao.getAllLogbookEntries(logbook2.getId());
 		
 		assertEquals("Zero entries should remain in logbook2", 0, logbookEntryList2.size());
 		

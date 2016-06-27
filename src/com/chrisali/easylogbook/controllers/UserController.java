@@ -75,7 +75,7 @@ public class UserController {
 		
 		List<Logbook> logbooks = logbookService.getLogbooks(username);
 		for (Logbook logbook : logbooks) {
-			List<LogbookEntry> entries = logbookEntryService.getLogbookEntries(logbook.getId());
+			List<LogbookEntry> entries = logbookEntryService.getAllLogbookEntries(logbook.getId());
 
 			for (LogbookEntry entry : entries)
 				logbookEntryService.delete(logbook.getId(), entry.getId());

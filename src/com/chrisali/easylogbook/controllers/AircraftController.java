@@ -96,7 +96,7 @@ public class AircraftController {
 		// Delete all logbook entries tied to aircraft before deleting aircraft
 		for (Logbook logbook : logbooks) {
 		
-			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntries(logbook.getId(), aircraft.getId());
+			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntriesByAircraft(logbook.getId(), aircraft.getId());
 			
 			for(LogbookEntry entry : logbookEntries)
 				logbookEntryService.delete(logbook.getId(), entry.getId());
