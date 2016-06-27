@@ -172,28 +172,7 @@ public class PilotDetailsServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthCreateRetrieve() {
-		addTestData();
-		
-		List<PilotDetail> pilotDetailsList1 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.ALL);
-		assertEquals("Six pilot details entries should exist", 6, pilotDetailsList1.size());
-		
-		List<PilotDetail> pilotDetailsList2 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.ALL);
-		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList2.size());
-		
-		List<PilotDetail> pilotDetailsList3 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.LICENSES);
-		assertEquals("Three pilot license entries should exist", 3, pilotDetailsList3.size());
-		
-		List<PilotDetail> pilotDetailsList4 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.MEDICALS);
-		assertEquals("One pilot medical entry should exist", 1, pilotDetailsList4.size());
-		
-		List<PilotDetail> pilotDetailsList5 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.TYPERATINGS);
-		assertEquals("One type rating entry should exist", 1, pilotDetailsList5.size());
-		
-		List<PilotDetail> pilotDetailsList6 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.ENDORSEMENTS);
-		assertEquals("One endorsement entry should exist", 1, pilotDetailsList6.size());
-		
-		List<PilotDetail> pilotDetailsList7 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.EXAMINATIONS);
-		assertEquals("One pilot exam entry should exist", 1, pilotDetailsList7.size());
+		testCreateRetrieve();
 	}
 	
 	@Test
@@ -219,22 +198,7 @@ public class PilotDetailsServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthUpdate() {
-		addTestData();
-		
-		List<PilotDetail> pilotDetailsList1 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.ALL);
-		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList1.size());
-		
-		detail8.setClassRating(ClassRating.SINGLELAND);
-		pilotDetailsService.createOrUpdate(detail8);
-		PilotDetail updatedDetail8 = pilotDetailsService.getPilotDetail(user2.getUsername(), detail8.getId());
-		
-		assertEquals("Pilot details should be equal", detail8, updatedDetail8);
-		
-		detail6.setDate("2016-06-04");
-		pilotDetailsService.createOrUpdate(detail6);
-		PilotDetail updatedDetail6 = pilotDetailsService.getPilotDetail(user1.getUsername(), detail6.getId());
-		
-		assertEquals("Pilot details should be equal", detail6, updatedDetail6);
+		testUpdate();
 	}
 	
 	@Test
@@ -257,19 +221,7 @@ public class PilotDetailsServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthDelete() {
-		addTestData();
-		
-		List<PilotDetail> pilotDetailsList1 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.ALL);
-		assertEquals("Six pilot details entries should exist", 6, pilotDetailsList1.size());
-		
-		assertTrue("Detail belonging to user 1 should be deleted from database", pilotDetailsService.delete(user1.getUsername(), detail3.getId()));
-		assertFalse("Detail not belonging to user 1 should not be deleted from database", pilotDetailsService.delete(user1.getUsername(), detail8.getId()));
-		
-		List<PilotDetail> pilotDetailsList2 = pilotDetailsService.getPilotDetails(user1.getUsername(), PilotDetailsType.ALL);
-		List<PilotDetail> pilotDetailsList3 = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.ALL);
-		
-		assertEquals("Five pilot details entries should exist", 5, pilotDetailsList2.size());
-		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList3.size());
+		testDelete();
 	}
 	
 	@Test

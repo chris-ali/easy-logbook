@@ -94,7 +94,7 @@ public class LogbookServiceTests {
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
-	public void testAdminCreateRetrieve() {
+	public void testCreateRetrieve() {
 		usersService.createOrUpdate(user1);
 		
 		
@@ -135,42 +135,7 @@ public class LogbookServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthCreateRetrieve() {
-		usersService.createOrUpdate(user1);
-		
-		
-		List<User> users1 = usersService.getPaginatedUsers(0, 10);
-		
-		assertEquals("One user should be created and retrieved", 1, users1.size());
-		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
-		
-		usersService.createOrUpdate(user2);
-		
-		logbookService.createOrUpdate(logbook1);
-		logbookService.createOrUpdate(logbook2);
-		
-		List<Logbook> logbookList1 = logbookService.getAllLogbooks();
-		
-		assertEquals("Two logbooks should be created and retrieved", 2, logbookList1.size());
-		
-		usersService.createOrUpdate(user3);
-		usersService.createOrUpdate(user4);
-		
-		logbookService.createOrUpdate(logbook3);
-		logbookService.createOrUpdate(logbook4);
-		logbookService.createOrUpdate(logbook5);
-
-		List<Logbook> logbookList2 = logbookService.getAllLogbooks();
-		List<User> users2 = usersService.getPaginatedUsers(0, 10);
-		
-		assertEquals("Five logbooks should be created and retrieved", 5, logbookList2.size());
-		assertEquals("Four users should be created and retrieved", 4, users2.size());
-		
-		List<Logbook> logbooksUser2 = logbookService.getLogbooks(user2.getUsername());
-		
-		assertEquals("Two logbooks should belong to user2", 2, logbooksUser2.size());
-		
-		Logbook logbook = logbookService.getLogbook(user1.getUsername(), logbook1.getId());
-		assertEquals("User 1's retrieved aircraft should match logbook1", logbook, logbook1);
+		testCreateRetrieve();
 	}
 	
 	@Test
@@ -184,15 +149,12 @@ public class LogbookServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthExists() {
-		addTestData();
-		
-		assertTrue("Logbook should exist in database", logbookService.exists(user3.getUsername(), logbook4.getName()));
-		assertFalse("Logbook not belonging to user 3 should not exist in database", logbookService.exists(user3.getUsername(), "123456"));
+		testExists();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
-	public void testAdminDelete() {
+	public void testDelete() {
 		addTestData();
 		
 		List<Logbook> logbookList1 = logbookService.getAllLogbooks();
@@ -208,22 +170,12 @@ public class LogbookServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthDelete() {
-		addTestData();
-		
-		List<Logbook> logbookList1 = logbookService.getAllLogbooks();
-		assertEquals("Five logbooks should be created and retrieved", 5, logbookList1.size());
-		
-		assertTrue("Logbook belonging to user4 should be deleted from database", logbookService.delete(user4.getUsername(), logbook5.getId()));
-		assertFalse("Aircraft not belonging to user4 should not be deleted from database", logbookService.delete(user4.getUsername(), logbook2.getId()));
-		
-		List<Logbook> logbookList2 = logbookService.getLogbooks(user4.getUsername());
-		
-		assertEquals("Zero logbooks should belong to user4", 0, logbookList2.size());
+		testDelete();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
-	public void testAdminUpdate() {
+	public void testUpdate() {
 		addTestData();
 		
 		List<Logbook> logbookList2 = logbookService.getAllLogbooks();
@@ -238,15 +190,6 @@ public class LogbookServiceTests {
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
 	public void testNoAuthUpdate() {
-		addTestData();
-		
-		List<Logbook> logbookList2 = logbookService.getAllLogbooks();
-		assertEquals("Five logbooks should be created and retrieved", 5, logbookList2.size());
-		
-		logbook2.setName("MyUpdatedLogbook");
-		logbookService.createOrUpdate(logbook2);
-		Logbook updatedLogbook = logbookService.getLogbook(user2.getUsername(), logbook2.getId());
-		
-		assertEquals("Logbooks should be equal", logbook2, updatedLogbook);
+		testUpdate();
 	}
 }
