@@ -62,6 +62,16 @@ public class LogbookEntryDao extends AbstractDao {
 		return logbookEntries;
 	}
 	
+	public Long getTotalNumberLogbookEntries(int logbookId) {
+		Query criteria = getSession().createQuery("Select count (id) from LogbookEntry le where le.logbook.id = " + logbookId);
+		
+		Long count = (Long)criteria.uniqueResult();
+		
+		closeSession();
+		
+		return count;
+	}
+	
 	public LogbookEntry getLogbookEntry(int logbookId, int entryId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
 				.add(Restrictions.eq("id", entryId))

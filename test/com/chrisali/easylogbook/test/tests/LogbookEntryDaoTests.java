@@ -136,10 +136,14 @@ public class LogbookEntryDaoTests {
 		Logbook logbook = logbookDao.getLogbook(user1.getUsername(), logbook1.getId());
 		assertEquals("User 1's retrieved aircraft should match logbook1", logbook, logbook1);
 		
-		List<LogbookEntry> logbookEntries1 = logbookEntryDao.getAllLogbookEntries(logbook1.getId());
+		assertEquals("Two entries should be in this logbook", 2, (long)logbookEntryDao.getTotalNumberLogbookEntries(logbook1.getId()));
+		
+		assertEquals("One entry should be in this logbook", 1, (long)logbookEntryDao.getTotalNumberLogbookEntries(logbook2.getId()));
+		
+		List<LogbookEntry> logbookEntries1 = logbookEntryDao.getPaginatedLogbookEntries(logbook1.getId(), 0, 10);
 		assertEquals("Two entries should be in this logbook", 2, logbookEntries1.size());
 		
-		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getAllLogbookEntries(logbook2.getId());
+		List<LogbookEntry> logbookEntries2 = logbookEntryDao.getPaginatedLogbookEntries(logbook2.getId(), 0, 10);
 		assertEquals("One entry should be in this logbook", 1, logbookEntries2.size());
 		
 		List<LogbookEntry> logbookEntries3 = logbookEntryDao.getLogbookEntriesByAircraft(logbook2.getId(), aircraft2.getId());

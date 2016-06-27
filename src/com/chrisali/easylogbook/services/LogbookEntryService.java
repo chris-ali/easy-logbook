@@ -45,6 +45,11 @@ public class LogbookEntryService {
 	}
 	
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
+	public Long getTotalNumberLogbookEntries(int logbookId){
+		return logbookEntryDao.getTotalNumberLogbookEntries(logbookId);
+	}
+	
+	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public boolean delete(int logbookId, int entryId) {
 		return logbookEntryDao.delete(logbookId, entryId);
 	}
