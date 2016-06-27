@@ -18,6 +18,7 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	    <script src="../resources/static/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
 	    
 	    <title>Admin</title>
 	</head>
@@ -58,26 +59,12 @@
 		            </tbody>
 		          </table>
 		        </div>
-		        
-		        <nav class="pageBar">
-				  <ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li th:each="i : ${numberPages}"><a th:href="@{/admin/view(page=${i-1},results=20)}" th:inline="text">[[${i}]]</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
-				</nav>
+				
+				<ul id="pagination" class="pagination-sm pageBar"></ul>
 	        </div>
 	        
 	        <!-- JQuery to activate modal edit/delete functions -->
-	        <script type="text/javascript">
+	        <script type="text/javascript" th:inline="javascript">
 	        	$(document).ready(function() {
 	        		
 	        		// Adds CSRF token
@@ -146,6 +133,19 @@
         				}
         			});
         		}
+	        	
+	        	/*<![CDATA[*/
+	        	$('#pagination').twbsPagination({
+	                totalPages: /*[[${numberPages}]]*/ '1',
+	                visiblePages: 10,
+	                href: '?page={{pageNumber}}&results=10',
+	                hrefVariable: '{{pageNumber}}',
+	                first: '&laquo;',
+	                prev:  '&lsaquo;',
+	                next:  '&rsaquo;',
+	                last: '&raquo;',
+	            });
+	        	/*]]>*/
 	        </script>
 	        
 	        <!-- Confirm Delete Modal -->

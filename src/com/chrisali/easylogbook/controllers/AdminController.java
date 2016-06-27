@@ -41,7 +41,8 @@ public class AdminController {
 	public String showAdmin(Model model, 
 							@RequestParam(value="page", required=false) Integer pageNumber,
 							@RequestParam(value="results", required=false) Integer resultsSize) {
-		pageNumber = (pageNumber == null) ? 0 : pageNumber;
+		pageNumber = (pageNumber == null) ? 0 : 
+					 (pageNumber <= 0)    ? 0 : --pageNumber;
 		resultsSize = (resultsSize == null) ? 10 : resultsSize;
 		List<User> usersList = usersService.getPaginatedUsers(pageNumber, resultsSize);
 		model.addAttribute("usersList", usersList);
