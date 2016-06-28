@@ -126,10 +126,10 @@ public class LogbookEntryController {
 	}
 	
 	@RequestMapping(value="entry/delete", method=RequestMethod.GET)
-	public String deleteLogbook(Principal principal, 
-								@RequestParam("logbookId") int logbookId, 
-								@RequestParam("entryId") int entryId, 
-								Model model){
+	public String deleteLogbookEntry(Principal principal, 
+									 @RequestParam("logbookId") int logbookId, 
+									 @RequestParam("entryId") int entryId, 
+									 Model model){
 		// Get logbook attached to user
 		Logbook logbook = logbookService.getLogbook(principal.getName(), logbookId);
 		model.addAttribute("logbook", logbook);

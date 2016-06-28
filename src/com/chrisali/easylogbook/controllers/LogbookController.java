@@ -39,8 +39,12 @@ public class LogbookController {
 	@RequestMapping(value="logbook/show", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
 									@RequestParam("id") int id,
-									@RequestParam(value="page", required=false) int page,
-									@RequestParam(value="results", required=false) int resultsSize) {
+									@RequestParam(value="page", required=false) Integer pageNumber,
+									@RequestParam(value="results", required=false) Integer resultsSize) {
+		pageNumber = (pageNumber == null) ? 0 : 
+			 		 (pageNumber <= 0)    ? 0 : --pageNumber;
+		resultsSize = (resultsSize == null) ? 10 : resultsSize;
+		
 		// All aircraft tied to user
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
 		model.addAttribute("aircraftList", aircraftList);
@@ -49,9 +53,12 @@ public class LogbookController {
 		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
 		model.addAttribute("logbook", logbook);
 		
-		// Entries tied to single logbook above
-		List<LogbookEntry> logbookEntries = logbookEntryService.getAllLogbookEntries(id);
+		// Entries tied to single logbook above for a certain page from request param
+		List<LogbookEntry> logbookEntries = logbookEntryService.getPaginatedLogbookEntries(id, pageNumber, resultsSize);
+		Integer numberPages = (int) ((logbookEntryService.getTotalNumberLogbookEntries(id) + resultsSize) / resultsSize);
+		
 		model.addAttribute("logbookEntries", logbookEntries);
+		model.addAttribute("numberPages", numberPages);
 		
 		// Totals for single logbook above
 		LogbookEntry totals = logbookService.logbookTotals(principal.getName(), id);

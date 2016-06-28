@@ -88,14 +88,13 @@ public class AircraftController {
 	@RequestMapping(value="aircraft/delete")
 	public String deleteAircraft(Principal principal, Model model, @RequestParam("id") int aircraftId){
 		
-		// Get all aircraft tied to user
+		// Get all logbooks tied to user
 		String username = principal.getName();
 		Aircraft aircraft = aircraftService.getAircraft(username, aircraftId);
 		List<Logbook> logbooks = logbookService.getLogbooks(username);
 		
 		// Delete all logbook entries tied to aircraft before deleting aircraft
 		for (Logbook logbook : logbooks) {
-		
 			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntriesByAircraft(logbook.getId(), aircraft.getId());
 			
 			for(LogbookEntry entry : logbookEntries)
@@ -112,20 +111,37 @@ public class AircraftController {
 	
 	@RequestMapping(value="aircraft/edit", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
-	public String doEditAircraft(Principal principal, @RequestBody Map<String, Object> editDetails) {
+	public String doEditAircraft(Principal principal, Model model, @RequestBody Map<String, Object> editDetails) {
 		String username = principal.getName();
 		
+		// Data parsed from JSON
 		String aircraftId = (String)editDetails.get("id");
 		String make = (String)editDetails.get("make");
 		String modelName = (String)editDetails.get("model");
 		String tailNumber = (String)editDetails.get("tailNumber");
 		
+		// Update details of aircraft
 		Aircraft aircraft = aircraftService.getAircraft(username, Integer.valueOf(aircraftId));
 		aircraft.setMake(make);
 		aircraft.setModel(modelName);
 		aircraft.setTailNumber(tailNumber);
 		
+		// Edit all logbook entries tied to aircraft in db before editing aircraft in db
+		List<Logbook> logbooks = logbookService.getLogbooks(username);
+		
+		for (Logbook logbook : logbooks) {
+			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntriesByAircraft(logbook.getId(), aircraft.getId());
+			
+			for(LogbookEntry entry : logbookEntries) {
+				entry.setAircraft(aircraft);
+				logbookEntryService.createOrUpdate(entry);
+			}
+		}
+		
 		aircraftService.createOrUpdate(aircraft);
+		
+		// Active class used on header fragment
+		model.addAttribute("activeClassAircraft", "active");
 		
 		return "redirect:/aircraft/overview";
 	}

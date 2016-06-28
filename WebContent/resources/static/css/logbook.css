@@ -1,5 +1,10 @@
 @CHARSET "ISO-8859-1";
 
+.pageBar {
+	margin-left: 20px;
+}
+
+/*
 .logbook_title {
 	position: fixed;
 }
@@ -18,7 +23,6 @@
 	position: fixed;
 	padding-top: 520px;
 }
-
 
 
 .table> thead:first-child>tr:first-child>th:first-child {
@@ -107,3 +111,4 @@
 .table> tfoot > tr > td:nth-child(4) {
     padding-left: 310px;
 }
+*/

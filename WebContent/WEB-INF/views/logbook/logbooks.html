@@ -55,7 +55,7 @@
 					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${logbook.id}" th:href="@{/logbook/edit}" th:inline="text">[[${logbook.name}]]</a>
 					        </td>
 					        <td>
-					        	<a class="btn btn-sm btn-default" th:href="@{/logbook/view(id=${logbook.id})}">View</a>
+					        	<a class="btn btn-sm btn-default" th:href="@{/logbook/show(id=${logbook.id})}">View</a>
 							</td>
 					        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
 					        </td>

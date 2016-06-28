@@ -15,6 +15,7 @@
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	    <script src="../resources/static/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
 		
 		<title>Logbook</title>
 	</head>
@@ -133,6 +134,8 @@
 			            </tfoot>
 			          </table>
 		           </div>
+		           
+		           <ul id="pagination" class="pagination-sm pageBar"></ul>
 			     </div>
 	        </div>
 	        
@@ -145,6 +148,19 @@
 	        			$("#confirmDelete").modal();
 	        		});
 	        	});
+	        	
+	        	/*<![CDATA[*/
+	        	$('#pagination').twbsPagination({
+	                totalPages: /*[[${numberPages}]]*/ '1',
+	                visiblePages: 10,
+	                href: '?page={{pageNumber}}&results=10',
+	                hrefVariable: '{{pageNumber}}',
+	                first: '&laquo;',
+	                prev:  '&lsaquo;',
+	                next:  '&rsaquo;',
+	                last: '&raquo;',
+	            });
+	        	/*]]>*/
 	        </script>
 	        
 	        <!-- Confirm Delete Modal -->

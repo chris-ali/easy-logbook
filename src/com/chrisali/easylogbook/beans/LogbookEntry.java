@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -28,11 +28,11 @@ public class LogbookEntry implements Serializable {
 	@GeneratedValue
 	private int id;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="logbooks_id", referencedColumnName="id")
 	private Logbook logbook;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name="aircraft_id", referencedColumnName="id"),
 		@JoinColumn(name="tailNumber", referencedColumnName="tailNumber"),
