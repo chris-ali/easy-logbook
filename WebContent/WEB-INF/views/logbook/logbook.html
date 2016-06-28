@@ -8,13 +8,14 @@
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
 	    <link href="../resources/static/css/logbook.css" rel="stylesheet" />
 		
-		<meta charset="ISO-8859-1" />
+		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-		<!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		
 	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap-wizard/1.2/jquery.bootstrap.wizard.js" type="text/javascript"></script>
 	    <script src="../resources/static/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
 		
 		<title>Logbook</title>
@@ -44,30 +45,26 @@
 			            <thead>
 			              <tr>
 			                <th>Date</th>
-			                <th>Origin</th>
-			                <th>Destination</th>
-			                <th>Tail Number</th>
-			                <th>Make</th>
-			                <th>Model</th>
-			                <th>Instrument Approaches</th>
-			                <th>Day Landings</th>
-			                <th>Night Landings</th>
-			                <th>Airplane SEL</th>
-			                <th>Airplane MEL</th>
+			                <th>Route</th>
+			                <th>Aircraft</th>
+			                <th>Inst. Appr.</th>
+			                <th>Day Land.</th>
+			                <th>Night Land.</th>
+			                <th>ASEL</th>
+			                <th>AMEL</th>
 			                <th>Turbine</th>
 			                <th>Glider</th>
 			                <th>Rotorcraft</th>
 			                <th>Night</th>
-			                <th>Actual Instrument</th>
-			                <th>Simulated Instrument</th>
-			                <th>Ground Trainer</th>
-			                <th>Cross Country</th>
-			                <th>Dual Received</th>
+			                <th>Act. Inst.</th>
+			                <th>Sim. Inst.</th>
+			                <th>Simulator</th>
+			                <th>XC</th>
+			                <th>Dual Rec.</th>
 			                <th>Dual Given</th>
-			                <th>Pilot in Command</th>
-			                <th>Second in Command</th>
-			                <th>Total Duration</th>
-			                <th>Remarks</th>
+			                <th>PIC</th>
+			                <th>SIC</th>
+			                <th>Total</th>
 			              </tr>
 			            </thead>
 			            <tbody>
@@ -75,11 +72,8 @@
 					        <td>
 					        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
 							</td>
-					        <td th:text="${entry.origin}"></td>
-					        <td th:text="${entry.destination}"></td>
-					        <td th:text="${entry.aircraft.tailNumber}"></td>
-					        <td th:text="${entry.aircraft.make}"></td>
-					        <td th:text="${entry.aircraft.model}"></td>
+					        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
+					        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>
 					        <td th:text="${entry.instrumentApproaches}"></td>
 					        <td th:text="${entry.dayLandings}"></td>
 					        <td th:text="${entry.nightLandings}"></td>
@@ -98,18 +92,14 @@
 					        <td th:text="${entry.pilotInCommand}"></td>
 					        <td th:text="${entry.secondInCommand}"></td>
 					        <td th:text="${entry.totalDuration}"></td>
-					        <td th:text="${entry.remarks}"></td>
 					        <td>
-					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
+					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
 							</td>
 					      </tr>
 			            </tbody>
 			            <tfoot>
 			              <tr>
 					        <td><strong>Totals:</strong></td>
-					        <td></td>
-					        <td></td>
-					        <td></td>
 					        <td></td>
 					        <td></td>
 					        <td th:text="${totals.instrumentApproaches}"></td>
@@ -136,10 +126,11 @@
 		           </div>
 		           
 		           <ul id="pagination" class="pagination-sm pageBar"></ul>
+					
 			     </div>
 	        </div>
 	        
-	        <!-- JQuery to activate modal edit/delete functions -->
+	        <!-- JQuery to activate modal edit/delete, tabbing and tooltip functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
 	        		$(".triggerDelete").click(function(e) {
@@ -147,6 +138,12 @@
 	        			$("#confirmDelete .deleteButton").attr("href", $(this).attr("href"));
 	        			$("#confirmDelete").modal();
 	        		});
+	        		
+	        		$(".tip-bottom").tooltip({
+	        	        placement : 'bottom'
+	        	    });
+	        		
+	        		$('#tabwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
 	        	});
 	        	
 	        	/*<![CDATA[*/
