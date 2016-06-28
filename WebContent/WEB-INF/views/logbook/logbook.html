@@ -41,88 +41,172 @@
 	              	  <h3 class="panel-title"></h3>
 	              </div>
 	              <div class="panel-body">
-			          <table class="table table-condensed">
-			            <thead>
-			              <tr>
-			                <th>Date</th>
-			                <th>Route</th>
-			                <th>Aircraft</th>
-			                <th>Inst. Appr.</th>
-			                <th>Day Land.</th>
-			                <th>Night Land.</th>
-			                <th>ASEL</th>
-			                <th>AMEL</th>
-			                <th>Turbine</th>
-			                <th>Glider</th>
-			                <th>Rotorcraft</th>
-			                <th>Night</th>
-			                <th>Act. Inst.</th>
-			                <th>Sim. Inst.</th>
-			                <th>Simulator</th>
-			                <th>XC</th>
-			                <th>Dual Rec.</th>
-			                <th>Dual Given</th>
-			                <th>PIC</th>
-			                <th>SIC</th>
-			                <th>Total</th>
-			              </tr>
-			            </thead>
-			            <tbody>
-			              <tr th:each="entry : ${logbookEntries}">
-					        <td>
-					        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
-							</td>
-					        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
-					        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>
-					        <td th:text="${entry.instrumentApproaches}"></td>
-					        <td th:text="${entry.dayLandings}"></td>
-					        <td th:text="${entry.nightLandings}"></td>
-					        <td th:text="${entry.airplaneSel}"></td>
-					        <td th:text="${entry.airplaneMel}"></td>
-					        <td th:text="${entry.turbine}"></td>
-					        <td th:text="${entry.glider}"></td>
-					        <td th:text="${entry.rotorcraft}"></td>
-					        <td th:text="${entry.night}"></td>
-					        <td th:text="${entry.actualInstrument}"></td>
-					        <td th:text="${entry.simulatedInstrument}"></td>
-					        <td th:text="${entry.groundTrainer}"></td>
-					        <td th:text="${entry.crossCountry}"></td>
-					        <td th:text="${entry.dualReceived}"></td>
-					        <td th:text="${entry.dualGiven}"></td>
-					        <td th:text="${entry.pilotInCommand}"></td>
-					        <td th:text="${entry.secondInCommand}"></td>
-					        <td th:text="${entry.totalDuration}"></td>
-					        <td>
-					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
-							</td>
-					      </tr>
-			            </tbody>
-			            <tfoot>
-			              <tr>
-					        <td><strong>Totals:</strong></td>
-					        <td></td>
-					        <td></td>
-					        <td th:text="${totals.instrumentApproaches}"></td>
-					        <td th:text="${totals.dayLandings}"></td>
-					        <td th:text="${totals.nightLandings}"></td>
-					        <td th:text="${totals.airplaneSel}"></td>
-					        <td th:text="${totals.airplaneMel}"></td>
-					        <td th:text="${totals.turbine}"></td>
-					        <td th:text="${totals.glider}"></td>
-					        <td th:text="${totals.rotorcraft}"></td>
-					        <td th:text="${totals.night}"></td>
-					        <td th:text="${totals.actualInstrument}"></td>
-					        <td th:text="${totals.simulatedInstrument}"></td>
-					        <td th:text="${totals.groundTrainer}"></td>
-					        <td th:text="${totals.crossCountry}"></td>
-					        <td th:text="${totals.dualReceived}"></td>
-					        <td th:text="${totals.dualGiven}"></td>
-					        <td th:text="${totals.pilotInCommand}"></td>
-					        <td th:text="${totals.secondInCommand}"></td>
-					        <td th:text="${totals.totalDuration}"></td>
-					       </tr>
-			            </tfoot>
-			          </table>
+	              
+	              		<div id="tabwizard" class="tabbable tabs-left">
+					    	<ul>
+								<li><a href="#category" data-toggle="tab">Category/Class</a></li>
+								<li><a href="#conditions" data-toggle="tab">Conditions of Flight</a></li>
+								<li><a href="#piloting" data-toggle="tab">Type of Piloting</a></li>
+							</ul>
+							
+							<div class="tab-content">
+							
+								<div class="tab-pane" id="category">
+									<table class="table table-condensed">
+							            <thead>
+							              <tr>
+							                <th>Date</th>
+							                <th>Route</th>
+							                <th>Aircraft</th>
+							                <th>ASEL</th>
+							                <th>AMEL</th>
+							                <th>Turbine</th>
+							                <th>Glider</th>
+							                <th>Rotorcraft</th>
+							                <th>Total</th>
+							              </tr>
+							            </thead>
+							            <tbody>
+							              <tr th:each="entry : ${logbookEntries}">
+									        <td>
+									        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
+											</td>
+									        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
+									        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>
+									        <td th:text="${entry.airplaneSel}"></td>
+									        <td th:text="${entry.airplaneMel}"></td>
+									        <td th:text="${entry.turbine}"></td>
+									        <td th:text="${entry.glider}"></td>
+									        <td th:text="${entry.rotorcraft}"></td>
+									        <td th:text="${entry.totalDuration}"></td>
+									        <td>
+									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
+											</td>
+									      </tr>
+							            </tbody>
+							            <tfoot>
+							              <tr>
+									        <td><strong>Totals:</strong></td>
+									        <td></td>
+									        <td></td>
+									        <td th:text="${totals.airplaneSel}"></td>
+									        <td th:text="${totals.airplaneMel}"></td>
+									        <td th:text="${totals.turbine}"></td>
+									        <td th:text="${totals.glider}"></td>
+									        <td th:text="${totals.rotorcraft}"></td>
+									        <td th:text="${totals.totalDuration}"></td>
+									       </tr>
+							            </tfoot>
+							         </table>
+								</div>
+								
+								<div class="tab-pane" id="conditions">
+									<table class="table table-condensed">
+							            <thead>
+							              <tr>
+							                <th>Date</th>
+							                <th>Route</th>
+							                <th>Aircraft</th>
+							                <th>Inst. Appr.</th>
+							                <th>Day Land.</th>
+							                <th>Night Land.</th>
+							                <th>Night</th>
+							                <th>Act. Inst.</th>
+							                <th>Sim. Inst.</th>
+							                <th>Simulator</th>
+							                <th>Total</th>
+							              </tr>
+							            </thead>
+							            <tbody>
+							              <tr th:each="entry : ${logbookEntries}">
+									        <td>
+									        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
+											</td>
+									        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
+									        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>
+									        <td th:text="${entry.instrumentApproaches}"></td>
+									        <td th:text="${entry.dayLandings}"></td>
+									        <td th:text="${entry.nightLandings}"></td>
+									        <td th:text="${entry.night}"></td>
+									        <td th:text="${entry.actualInstrument}"></td>
+									        <td th:text="${entry.simulatedInstrument}"></td>
+									        <td th:text="${entry.groundTrainer}"></td>
+									        <td th:text="${entry.totalDuration}"></td>
+									        <td>
+									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
+											</td>
+									      </tr>
+							            </tbody>
+							            <tfoot>
+							              <tr>
+									        <td><strong>Totals:</strong></td>
+									        <td></td>
+									        <td></td>
+									        <td th:text="${totals.instrumentApproaches}"></td>
+									        <td th:text="${totals.dayLandings}"></td>
+									        <td th:text="${totals.nightLandings}"></td>
+									        <td th:text="${totals.night}"></td>
+									        <td th:text="${totals.actualInstrument}"></td>
+									        <td th:text="${totals.simulatedInstrument}"></td>
+									        <td th:text="${totals.groundTrainer}"></td>
+									        <td th:text="${totals.totalDuration}"></td>
+									       </tr>
+							            </tfoot>
+							         </table>
+								</div>
+								
+								<div class="tab-pane" id="piloting">
+									<table class="table table-condensed">
+							            <thead>
+							              <tr>
+							                <th>Date</th>
+							                <th>Route</th>
+							                <th>Aircraft</th>
+							                <th>XC</th>
+							                <th>Dual Rec.</th>
+							                <th>Dual Given</th>
+							                <th>PIC</th>
+							                <th>SIC</th>
+							                <th>Total</th>
+							              </tr>
+							            </thead>
+							            <tbody>
+							              <tr th:each="entry : ${logbookEntries}">
+									        <td>
+									        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
+											</td>
+									        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
+									        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>
+									        <td th:text="${entry.crossCountry}"></td>
+									        <td th:text="${entry.dualReceived}"></td>
+									        <td th:text="${entry.dualGiven}"></td>
+									        <td th:text="${entry.pilotInCommand}"></td>
+									        <td th:text="${entry.secondInCommand}"></td>
+									        <td th:text="${entry.totalDuration}"></td>
+									        <td>
+									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
+											</td>
+									      </tr>
+							            </tbody>
+							            <tfoot>
+							              <tr>
+									        <td><strong>Totals:</strong></td>
+									        <td></td>
+									        <td></td>
+									        <td th:text="${totals.crossCountry}"></td>
+									        <td th:text="${totals.dualReceived}"></td>
+									        <td th:text="${totals.dualGiven}"></td>
+									        <td th:text="${totals.pilotInCommand}"></td>
+									        <td th:text="${totals.secondInCommand}"></td>
+									        <td th:text="${totals.totalDuration}"></td>
+									       </tr>
+							            </tfoot>
+							         </table>
+								</div>
+							
+							</div>
+					   </div>
+			          
 		           </div>
 		           
 		           <ul id="pagination" class="pagination-sm pageBar"></ul>
