@@ -80,7 +80,7 @@
 									        <td th:text="${entry.rotorcraft}"></td>
 									        <td th:text="${entry.totalDuration}"></td>
 									        <td>
-									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
+									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
 											</td>
 									      </tr>
 							            </tbody>
@@ -133,7 +133,7 @@
 									        <td th:text="${entry.groundTrainer}"></td>
 									        <td th:text="${entry.totalDuration}"></td>
 									        <td>
-									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
+									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
 											</td>
 									      </tr>
 							            </tbody>
@@ -184,7 +184,7 @@
 									        <td th:text="${entry.secondInCommand}"></td>
 									        <td th:text="${entry.totalDuration}"></td>
 									        <td>
-									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">X</a>
+									        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/entry/delete(logbookId=${logbook.id}, entryId=${entry.id})}">Delete</a>
 											</td>
 									      </tr>
 							            </tbody>
@@ -223,7 +223,9 @@
 	        			$("#confirmDelete").modal();
 	        		});
 	        		
-	        		$(".tip-bottom").tooltip({
+	        		$("body").tooltip({
+	        			selector: '[data-toggle="tooltip"]',
+	                    container: 'body',
 	        	        placement : 'bottom'
 	        	    });
 	        		
