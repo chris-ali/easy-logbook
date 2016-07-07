@@ -41,6 +41,7 @@
 			                <th>Tail Number</th>
 			                <th>Make</th>
 			                <th>Model</th>
+			                <th>Logged Time</th>
 			                <th> </th>
 			              </tr>
 			            </thead>
@@ -52,6 +53,8 @@
 					        <td th:text="${aircraft.make}">
 					        </td>
 					        <td th:text="${aircraft.model}">
+					        </td>
+					        <td th:text="${aircraftTotals[__${aircraft.tailNumber}__]}">
 					        </td>
 					        <td>
 					        	<a class="btn btn-sm btn-danger triggerDelete" th:href="@{/aircraft/delete(id=${aircraft.id})}">Delete</a>

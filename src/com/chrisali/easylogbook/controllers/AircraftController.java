@@ -1,6 +1,7 @@
 package com.chrisali.easylogbook.controllers;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +45,13 @@ public class AircraftController {
 		// Get all aircraft tied to user
 		List<Aircraft> aircraftList = aircraftService.getAircraft(principal.getName());
 		model.addAttribute("aircraftList", aircraftList);
+		
+		// Create list of totals for each aircraft belonging to user
+		Map<String, Float> aircraftTotals = new HashMap<>();
+		for (Aircraft aircraft : aircraftList)
+			aircraftTotals.put(aircraft.getTailNumber(), 
+							   aircraftService.aircraftTotals(principal.getName(), aircraft.getId()));
+		model.addAttribute("aircraftTotals", aircraftTotals);
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassAircraft", "active");
