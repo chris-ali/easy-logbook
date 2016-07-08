@@ -95,4 +95,14 @@ public class AircraftDao extends AbstractDao {
 	public boolean exists(String username, String tailNumber) {
 		return getAircraft(username, tailNumber) != null;
 	}
+	
+	public float loggedTimeAircraft(int id) {
+		Query query = getSession().createQuery("select sum(totalDuration) from LogbookEntry where aircraft_id=:id");
+		query.setInteger("id", id);
+		
+		double totalTime = (double)query.uniqueResult();
+		closeSession();
+		
+		return (float) totalTime;
+	}
 }

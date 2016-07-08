@@ -240,4 +240,21 @@ public class LogbookEntryServiceTests {
 	public void testNoAuthUpdate() {
 		testUpdate();
 	}
+	
+	@Test
+	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	public void testTotaling() {
+		addTestData();
+		
+		float totalTimeForAircraft1 = aircraftService.loggedTimeAircraft(aircraft1.getId());
+		float totalTimeForAircraft2 = aircraftService.loggedTimeAircraft(aircraft2.getId());
+		
+		assertEquals("Total time for aircraft 1 is  0.8", 0.8f, totalTimeForAircraft1, 0.1f);
+		assertEquals("Total time for aircraft 2 is 12.8", 12.8f, totalTimeForAircraft2, 0.1f);
+	}
+	
+	@Test(expected = AuthenticationCredentialsNotFoundException.class)
+	public void testNoAuthTotaling() {
+		testTotaling();
+	}
 }

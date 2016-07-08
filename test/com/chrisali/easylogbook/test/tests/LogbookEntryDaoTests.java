@@ -105,7 +105,6 @@ public class LogbookEntryDaoTests {
 		logbookEntry3.setPilotInCommand(2.8f);
 		logbookEntry3.setTotalDuration(2.8f);
 		logbookEntryDao.createOrUpdate(logbookEntry3);
-		
 	}
 	
 	@Before
@@ -201,5 +200,16 @@ public class LogbookEntryDaoTests {
 		LogbookEntry updatedLogbookEntry2 = logbookEntryDao.getLogbookEntry(logbook1.getId(), logbookEntry3.getId());
 		
 		assertEquals("Logbook entries should be equal", logbookEntry3, updatedLogbookEntry2);
+	}
+	
+	@Test
+	public void testTotaling() {
+		addTestData();
+		
+		float totalTimeForAircraft1 = aircraftDao.loggedTimeAircraft(aircraft1.getId());
+		float totalTimeForAircraft2 = aircraftDao.loggedTimeAircraft(aircraft2.getId());
+		
+		assertEquals("Total time for aircraft 1 is  0.8", 0.8f, totalTimeForAircraft1, 0.1f);
+		assertEquals("Total time for aircraft 2 is 12.8", 12.8f, totalTimeForAircraft2, 0.1f);
 	}
 }

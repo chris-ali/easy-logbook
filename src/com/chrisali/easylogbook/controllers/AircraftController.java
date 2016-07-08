@@ -50,7 +50,7 @@ public class AircraftController {
 		Map<String, Float> aircraftTotals = new HashMap<>();
 		for (Aircraft aircraft : aircraftList)
 			aircraftTotals.put(aircraft.getTailNumber(), 
-							   aircraftService.aircraftTotals(principal.getName(), aircraft.getId()));
+							   aircraftService.loggedTimeAircraft(aircraft.getId()));
 		model.addAttribute("aircraftTotals", aircraftTotals);
 		
 		// Active class used on header fragment
