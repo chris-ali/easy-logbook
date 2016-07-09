@@ -47,8 +47,9 @@
 			            </thead>
 			            <tbody>
 			              <tr th:each="aircraft : ${aircraftList}">
-					        <td>
-					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${aircraft.id}" th:href="@{/aircraft/edit}" th:inline="text">[[${aircraft.tailNumber}]]</a>
+					        <td data-toggle="tooltip" class="tip-bottom" title="Edit Aircraft">
+					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${aircraft.id}" th:href="@{/aircraft/edit}" 
+					        		th:inline="text">[[${aircraft.tailNumber}]]</a>
 					        </td>
 					        <td th:text="${aircraft.make}">
 					        </td>
@@ -66,7 +67,7 @@
 		        </div>
 	        </div>
 	        
-	        <!-- JQuery to activate modal edit/delete functions -->
+	        <!-- JQuery to activate modal edit/delete and tooltip functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
 
@@ -101,6 +102,13 @@
 	        			
 	        			$("#editModal").modal();
 	        		});
+	        		
+	        		// Tooltips
+	        		$("body").tooltip({
+	        			selector: '[data-toggle="tooltip"]',
+	                    container: 'body',
+	        	        placement : 'bottom'
+	        	    });
 	        		
 	        		// Calls AJAX to send JSON
 	        		$("#aircraftEdit").submit(function(e) {

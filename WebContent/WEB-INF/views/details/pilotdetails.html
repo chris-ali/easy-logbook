@@ -50,6 +50,13 @@
         			$("#confirmDelete").modal();
         		});
 	    		
+	    		// Tooltips
+        		$("body").tooltip({
+        			selector: '[data-toggle="tooltip"]',
+                    container: 'body',
+        	        placement : 'bottom'
+        	    });
+	    		
 	    		// Set up tab navigation
 				$('#tabwizard').bootstrapWizard({'tabClass': 'nav nav-tabs'});
 	    	}
@@ -63,6 +70,8 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top" th:replace="templates/header :: 'theme_header'"></nav>
 		
 		<div class="container theme-showcase" role="main">
+			<h3>Pilot Information</h3>
+		
 	      	<div id="tabwizard" class="tabbable tabs-left">
 		    	<ul>
 				  	<li><a href="#licenses" data-toggle="tab">Licenses and Ratings</a></li>
@@ -102,7 +111,7 @@
 						            </thead>
 						            <tbody>
 						              <tr th:each="licenseDetail : ${pilotLicenseDetails}">
-								        <td>
+								        <td data-toggle="tooltip" class="tip-bottom" title="Edit License Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
 								        		th:href="@{/details/create(id=${licenseDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}" 
 								        		th:inline="text">[[${licenseDetail.pilotLicense.getLicense()}]]</a>
@@ -152,7 +161,7 @@
 						            </thead>
 						            <tbody>
 						              <tr th:each="medicalDetail : ${pilotMedicalDetails}">
-								        <td>
+								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Medical Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
 								        		th:href="@{/details/create(id=${medicalDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}" 
 								        		th:inline="text">[[${medicalDetail.pilotMedical.getMedical()}]]</a>
@@ -198,7 +207,7 @@
 						            </thead>
 						            <tbody>
 						              <tr th:each="examDetail : ${pilotExamDetails}">
-								        <td>
+								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Checkride Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
 								        		th:href="@{/details/create(id=${examDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}" 
 								        		th:inline="text">[[${examDetail.pilotExamination.getExam()}]]</a>
@@ -244,7 +253,7 @@
 						            </thead>
 						            <tbody>
 						              <tr th:each="pilotTypeRating : ${pilotTypeRatingDetails}">
-								        <td>
+								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Type Rating Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
 								        		th:href="@{/details/create(id=${pilotTypeRating.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}" 
 								        		th:inline="text">[[${pilotTypeRating.typeRating}]]</a>
@@ -290,7 +299,7 @@
 						            </thead>
 						            <tbody>
 						              <tr th:each="pilotEndorsement : ${pilotEndorsementDetails}">
-								        <td>
+								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Endorsement Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
 								        		th:href="@{/details/create(id=${pilotEndorsement.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}" 
 								        		th:inline="text">[[${pilotEndorsement.endorsement}]]</a>

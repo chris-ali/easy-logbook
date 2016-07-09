@@ -51,11 +51,12 @@
 			            </thead>
 			            <tbody>
 			              <tr th:each="logbook : ${logbooks}">
-					        <td>
-					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${logbook.id}" th:href="@{/logbook/edit}" th:inline="text">[[${logbook.name}]]</a>
+					        <td data-toggle="tooltip" class="tip-bottom" title="Rename Logbook">
+					        	<a class="btn btn-sm btn-default triggerEdit" th:id="${logbook.id}" th:href="@{/logbook/edit}" 
+					        		th:inline="text">[[${logbook.name}]]</a>
 					        </td>
 					        <td>
-					        	<a class="btn btn-sm btn-default" th:href="@{/logbook/show(id=${logbook.id})}">View</a>
+					        	<a class="btn btn-sm btn-primary" th:href="@{/logbook/show(id=${logbook.id})}">View</a>
 							</td>
 					        <td th:text="${logbookTotals[__${logbook.id}__].airplaneSel}">
 					        </td>
@@ -91,7 +92,7 @@
 		      </div>
 	        </div>
 	        
-	        <!-- JQuery for edit/delete functions -->
+	        <!-- JQuery for edit/delete and tooltip functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
 	        		
@@ -144,6 +145,13 @@
 		        		}
 		        		/*]]>*/	
 	        		});
+	        		
+	        		// Tooltips
+	        		$("body").tooltip({
+	        			selector: '[data-toggle="tooltip"]',
+	                    container: 'body',
+	        	        placement : 'bottom'
+	        	    });
 	        	});
 	        	
 	        	// On press of edit button in edit modal

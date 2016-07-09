@@ -32,13 +32,11 @@
 	      	<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
 	        	<strong>First Aircraft -</strong> To create a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
 	      	</div>
-	      	
-	      	<h2 class="logbook_title" th:inline="text">Viewing [[${logbook.name}]]</h2>
 			
 			<div th:if="${logbookEntries.size() > 0}">
 				<div class="panel panel-primary">
 				  <div class="panel-heading">
-	              	  <h3 class="panel-title"></h3>
+	              	  <h3 class="panel-title" th:inline="text">[[${logbook.name}]]</h3>
 	              </div>
 	              <div class="panel-body">
 	              
@@ -68,8 +66,9 @@
 							            </thead>
 							            <tbody>
 							              <tr th:each="entry : ${logbookEntries}">
-									        <td>
-									        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" th:inline="text">[[${entry.date}]]</a>
+									        <td data-toggle="tooltip" class="tip-bottom" title="Edit Entry">
+									        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" 
+									        		th:inline="text">[[${entry.date}]]</a>
 											</td>
 									        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
 									        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>
