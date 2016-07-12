@@ -30,6 +30,15 @@ public class HomeController {
 	@Autowired
 	private PilotDetailsService pilotDetailsService;
 	
+	/**
+	 * Shows home page. If user logged in, gets current date and compares it to set of upcoming currency expirations logged from
+	 * getUpcominExpirations from {@link PilotDetailsService}. This is used to alert the user of upcoming expirations via Bootstrap modal.
+	 * Adds active CSS header class and logged in user to model 
+	 * 
+	 * @param principal
+	 * @param model
+	 * @return path to home.html
+	 */
 	@RequestMapping("/")
 	public String showHome(Principal principal, Model model) {
 		Set<PilotExamination> upcomingExpirations = new LinkedHashSet<>();
@@ -41,7 +50,6 @@ public class HomeController {
 			SimpleTimeZone timeZone = new SimpleTimeZone(0, "Zulu");
 			Calendar calendar = new GregorianCalendar(timeZone);
 			calendar.setTime(new Date());
-					
 			
 			List<PilotDetail> pilotExaminationDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.EXAMINATIONS);
 			upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, calendar);
@@ -57,6 +65,13 @@ public class HomeController {
 		return "home/home";
 	}
 	
+	/**
+	 * Shows features page on homepage. Adds active CSS class and logged in user to model
+	 * 
+	 * @param principal
+	 * @param model
+	 * @return path to home.html
+	 */
 	@RequestMapping("/features")
 	public String showFeatures(Principal principal, Model model) {
 		if (principal != null) {

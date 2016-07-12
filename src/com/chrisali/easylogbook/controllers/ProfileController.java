@@ -26,6 +26,13 @@ public class ProfileController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/**
+	 * Shows profile overview page. Adds {@link User} object to Model.
+	 * 
+	 * @param principal
+	 * @param model
+	 * @return path 
+	 */
 	@RequestMapping("profile/view")
 	public String showProfile(Principal principal, Model model) {
 		User user = usersService.getUser(principal.getName());
@@ -35,6 +42,15 @@ public class ProfileController {
 		return "profile/profile";
 	}
 	
+	/**
+	 * Does update of {@link User} information. Uses specific members of binding results fields to ensure that object is only judged on parameters
+	 * user edited in form. Adds user object to Model
+	 * 
+	 * @param user
+	 * @param result
+	 * @param model
+	 * @return redirect to showProfile() with GET parameters showing update of user info succeeded or path to profile.html
+	 */
 	@RequestMapping("profile/update")
 	public String doUpdateProfile(@Validated(FormValidationGroup.class) @ModelAttribute("user") User user, BindingResult result, Model model) {
 		if (result.hasFieldErrors("username") || result.hasFieldErrors("name") || result.hasFieldErrors("email"))
@@ -45,6 +61,15 @@ public class ProfileController {
 		return "redirect:/profile/view?update=true&user=true";
 	}
 	
+	/**
+	 * Does update of {@link User} password. Gets user object from database so that old password can be verified with user's input, returning
+	 * form validation errors for password or old password
+	 * 
+	 * @param user
+	 * @param result
+	 * @param model
+	 * @return redirect to showProfile() with GET parameters showing update of password succeeded or path to profile.html
+	 */
 	@RequestMapping("profile/password")
 	public String doUpdatePassword(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
 		User userFromDatabase = usersService.getUser(user.getUsername());

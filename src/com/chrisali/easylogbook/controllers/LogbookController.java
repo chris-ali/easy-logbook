@@ -36,6 +36,17 @@ public class LogbookController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
+	/**
+	 * Shows logbook and all entries associated with it. Uses pagination to organize number of entries per page. Adds number
+	 * of pages, logbook entries list, aircraft list, logbook totals and active CSS header class to Model.
+	 * 
+	 * @param principal
+	 * @param model
+	 * @param id of logbook
+	 * @param pageNumber (not required, defaults to page 1)
+	 * @param resultsSize (not required, defaults to 10 per page)
+	 * @return path to logbook.html
+	 */
 	@RequestMapping(value="logbook/show", method=RequestMethod.GET)
 	public String showSingleLogbook(Principal principal, Model model, 
 									@RequestParam("id") int id,
@@ -70,13 +81,21 @@ public class LogbookController {
 		return "logbook/logbook";
 	}
 	
+	/**
+	 * Shows an listing of all {@link Logbook} tied to user. Adds list of logbooks, map of {@link LogbookEntry} totals, 
+	 * logbook entry of overall totals, and CSS header class to Model
+	 * 
+	 * @param principal
+	 * @param model
+	 * @return path to logbooks.html
+	 */
 	@RequestMapping(value="logbook/overview")
 	public String showAllLogbooks(Principal principal, Model model) {
 		// All logbooks tied to user
 		List<Logbook> logbooks = logbookService.getLogbooks(principal.getName());
 		model.addAttribute("logbooks", logbooks);
 		
-		// Get totals for each logbook in user's list, add them to a map
+		// Get totals for each logbook in user's list, add them to a map with keys using logbook's id
 		Map<Integer, LogbookEntry> logbookTotals = new HashMap<>();
 		for (Logbook logbook : logbooks)
 			logbookTotals.put(logbook.getId(), logbookService.logbookTotals(principal.getName(), logbook.getId()));
@@ -123,6 +142,15 @@ public class LogbookController {
 		return "redirect:/logbook/overview";
 	}
 	
+	/**
+	 * Does delete of {@link Logbook} object. Deletes all {@link LogbookEntry} tied to logbook beforehand. Adds
+	 * active CSS header class to Model.
+	 * 
+	 * @param principal
+	 * @param id of logbook
+	 * @param model
+	 * @return redirect to showAllLogbooks()
+	 */
 	@RequestMapping(value="logbook/delete", method=RequestMethod.GET)
 	public String deleteLogbook(Principal principal, @RequestParam("id") int id, Model model){
 		// Get logbook attached to user
@@ -143,6 +171,13 @@ public class LogbookController {
 		return "redirect:/logbook/overview";
 	}
 	
+	/**
+	 * Does edit of logbook object using JSON data passed in by Map
+	 * 
+	 * @param principal
+	 * @param editDetails
+	 * @return redirect to showAllLogbooks()
+	 */
 	@RequestMapping(value="logbook/edit", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public String editLogbook(Principal principal, @RequestBody Map<String, Object> editDetails) {

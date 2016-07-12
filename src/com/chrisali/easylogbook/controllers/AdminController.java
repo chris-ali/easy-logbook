@@ -36,7 +36,16 @@ public class AdminController {
 	
 	@Autowired
 	private LogbookEntryService logbookEntryService;
-
+	
+	/**
+	 * Shows admin page, with paginated list of {@link User}; number of pages, list of users and active 
+	 * CSS header class are added to Model
+	 * 
+	 * @param model
+	 * @param pageNumber (not required, defaults to page 1)
+	 * @param resultsSize (not required, defaults to 10 per page)
+	 * @return path to admin.html
+	 */
 	@RequestMapping("/admin/view")
 	public String showAdmin(Model model, 
 							@RequestParam(value="page", required=false) Integer pageNumber,
@@ -56,6 +65,12 @@ public class AdminController {
 		return "admin/admin";
 	}
 	
+	/**
+	 * Does edit of a specific {@link User}, based on JSON data passed in for username, enabled and authority parameters
+	 * 
+	 * @param editDetails
+	 * @return redirect to showAdmin()
+	 */
 	@RequestMapping(value="/admin/edituser", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public String doAdminEdit(@RequestBody Map<String, Object> editDetails) {
@@ -72,6 +87,14 @@ public class AdminController {
 		return "redirect:/admin/view";
 	}
 	
+	/**
+	 * Does delete of specified {@link User}; first deletes items in all databases tied to user, then deletes
+	 * user from database 
+	 * 
+	 * @param principal
+	 * @param username
+	 * @return redirect to showAdmin()
+	 */
 	@RequestMapping("/admin/delete")
 	public String doCloseAccount(Principal principal,
 								 @RequestParam("username") String username) {

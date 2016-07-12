@@ -31,7 +31,14 @@ public class PilotDetailsController {
 	
 	@Autowired
 	private PilotDetailsService pilotDetailsService;
-
+	
+	/**
+	 * Shows pilot information page. Adds all {@link PilotDetail} lists to Model
+	 * 
+	 * @param principal
+	 * @param model
+	 * @return path to pilotdetails.html
+	 */
 	@RequestMapping("details/view")
 	public String showPilotDetails(Principal principal, Model model) {
 		
@@ -54,15 +61,16 @@ public class PilotDetailsController {
 	
 	/**
 	 * Uses error, edit and {@link PilotDetail} id as arguments to determine whether to create a new {@link PilotDetail}
-	 * or use preexisting {@link PilotDetail} to add to {@link Model} 
+	 * or use preexisting {@link PilotDetail} to add to {@link Model}. Adds type of pilot detail to determine visible fields
+	 * on form
 	 * 
 	 * @param type
-	 * @param pilotDetail
-	 * @param error
-	 * @param edit
+	 * @param id of pilot detail (not required)
+	 * @param error (not required)
+	 * @param edit (not required)
 	 * @param principal
 	 * @param model
-	 * @return mapping to createdetails page
+	 * @return path to createdetails.html
 	 */
 	@RequestMapping(value="details/create")
 	public String showCreateDetails(@RequestParam("type") String type,
@@ -71,7 +79,7 @@ public class PilotDetailsController {
 									@RequestParam(value="edit", required=false) Boolean edit,
 									Principal principal,
 									Model model) {
-		// Add new pilot detail to model if it hasn't already been done
+		// Add new pilot detail to model if it hasn't already been done and error and edit aren't specified
 		if (error == null && edit == null) {
 			PilotDetail newDetail = new PilotDetail(usersService.getUser(principal.getName()), "");
 			model.addAttribute("pilotDetail", newDetail);
@@ -88,16 +96,16 @@ public class PilotDetailsController {
 	
 	/**
 	 * Uses {@link BindingResult} to validate {@link PilotDetail} form submission, which is sent back via {@link RedirectAttributes} 
-	 * redirect along with binding results if errors are detected. The errors it picks up are a function of which {@link PilotDetailsType}
-	 * enum is specified
+	 * redirect along with binding results if errors are detected, and persisted using a session attribute tag on {@link PilotDetailsController}. 
+	 * The errors it picks up are a function of which {@link PilotDetailsType} enum is specified. Uses {@link HttpServletRequest} to get
+	 * type parameter to use as switch parameter to determine what field errors to judge pilot detail object on
 	 * 
 	 * @param pilotDetail
-	 * @param type
 	 * @param result
 	 * @param redirect
 	 * @param request
 	 * @param model
-	 * @return redirect to create/view pilot details 
+	 * @return redirect to showPilotDetails() or to showCreateDetails() if errors found
 	 */
 	@RequestMapping("details/docreate")
 	public String doCreateDetails(@Validated(FormValidationGroup.class) @ModelAttribute("pilotDetail") PilotDetail pilotDetail, 
@@ -105,6 +113,7 @@ public class PilotDetailsController {
 								  RedirectAttributes redirect,
 								  HttpServletRequest request,
 								  Model model) {
+		// Get pilot detail type from HTTP request GET
 		String type = (String) request.getParameter("type");
 		// Switch using pilotDetailType to reject result if certain fields are filled out
 		// Prevents incorrect rejections from occurring if fields on other tab pages are
@@ -142,6 +151,13 @@ public class PilotDetailsController {
 		return "redirect:/details/view";
 	}
 	
+	/**
+	 * Deletes {@link PilotDetail} object from database
+	 * 
+	 * @param principal
+	 * @param id of pilot detail
+	 * @return redirect to showPilotDetails()
+	 */
 	@RequestMapping("details/delete")
 	public String doDeleteDetails(Principal principal, @RequestParam("id") int id) {
 				

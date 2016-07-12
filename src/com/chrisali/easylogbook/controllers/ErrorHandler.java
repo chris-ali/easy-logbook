@@ -11,16 +11,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorHandler {
 	
+	/**
+	 * @param e
+	 * @return path to databaseerror.html if DataAccessException thrown
+	 */
 	@ExceptionHandler(DataAccessException.class)
 	public String handleDatabaseException(DataAccessException e) {
 		return "error/databaseerror";
 	}
 	
+	/**
+	 * @param e
+	 * @return path to accessdenied.html if AccessDeniedException thrown
+	 */
 	@ExceptionHandler(AccessDeniedException.class)
 	public String handleAccessDeniedException(AccessDeniedException e) {
 		return "error/accessdenied";
 	}
 	
+	/**
+	 * @return path to accessdenied.html
+	 */
 	@RequestMapping("/error/accessdenied")
 	public String showAccessDenied() {
 		return "error/accessdenied";

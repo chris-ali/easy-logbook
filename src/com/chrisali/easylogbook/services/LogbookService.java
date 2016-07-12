@@ -20,31 +20,61 @@ public class LogbookService {
 	@Autowired
 	private LogbookEntryDao logbookEntryDao;
 	
+	/**
+	 * Creates or updates {@link Logbook} object into database
+	 * 
+	 * @param logbook
+	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public void createOrUpdate(Logbook logbook) {
 		logbookDao.createOrUpdate(logbook);
 	}
 	
+	/**
+	 * @return all {@link Logbook} objects in database
+	 */
 	@Secured("ROLE_ADMIN")
 	public List<Logbook> getAllLogbooks() {
 		return logbookDao.getLogbooks();
 	}
 	
+	/**
+	 * @param username
+	 * @return List of {@link Logbook} belonging to user
+	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public List<Logbook> getLogbooks(String username) {
 		return logbookDao.getLogbooks(username);
 	}
 	
+	/**
+	 * @param username
+	 * @param name of {@link Logbook}
+	 * @return logbook from database for a username and logbook name
+	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public Logbook getLogbook(String username, String name) {
 		return logbookDao.getLogbook(username, name);
 	}
 	
+	/**
+	 * @param username
+	 * @param id of {@link Logbook}
+	 * @return logbook from database for a username and logbook id
+	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public Logbook getLogbook(String username, int id) {
 		return logbookDao.getLogbook(username, id);
 	}
 	
+	/**
+	 * Deletes {@link Logbook} object from database; deletes all {@link LogbookEntry} objects 
+	 * associated with logbook beforehand 
+	 * 
+	 * @param username
+	 * @param id
+	 * @return if logbook was successfully deleted
+	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public boolean delete(String username, int id) {
 		List<LogbookEntry> logbookEntries = logbookEntryDao.getAllLogbookEntries(id);
@@ -55,7 +85,12 @@ public class LogbookService {
 		
 		return logbookDao.delete(username, id);
 	}
-
+	
+	/**
+	 * @param username
+	 * @param name of {@link Logbook}
+	 * @return if logbook object exists in database
+	 */
 	public boolean exists(String username, String name) {
 		return logbookDao.exists(username, name);
 	}
@@ -64,7 +99,7 @@ public class LogbookService {
 	 * Calculates a total of all entries in a single logbook  
 	 * 
 	 * @param username
-	 * @param id
+	 * @param id of logbook
 	 * @return {@link LogbookEntry} of totals for a logbook
 	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
@@ -102,17 +137,19 @@ public class LogbookService {
 	}
 	
 	/**
-	 * Calculates an overall total of all entries for all logbooks owned by a particular user
+	 * Calculates an overall total of all entries for all {@link Logbook} owned by a particular user
 	 * 
 	 * @param username
-	 * @return {@link LogbookEntry} of totals for all logbooks
+	 * @return {@link LogbookEntry} of totals for all logbooks belonging to a user
 	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public LogbookEntry overallLogbookTotals(String username) {
 		List<Logbook> logbooks = logbookDao.getLogbooks(username);
 		
+		// Create blank logbook entry
 		LogbookEntry overallTotals = new LogbookEntry();
 		
+		// Get all totals for each logbook; add totals to overallTotals
 		for(Logbook logbook : logbooks) {
 			LogbookEntry totals = logbookTotals(username, logbook.getId());
 			

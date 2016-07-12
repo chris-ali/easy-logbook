@@ -40,7 +40,7 @@ public class LogbookEntryController {
 	
 	/**
 	 * Uses error, edit and {@link LogbookEntry} id as arguments to determine whether to create a new {@link LogbookEntry}
-	 * or use preexisting {@link LogbookEntry} to add to {@link Model}
+	 * or edit preexisting {@link LogbookEntry}, persisted as session attribute, to add to {@link Model}
 	 * 
 	 * @param logbookId
 	 * @param entryId
@@ -48,7 +48,7 @@ public class LogbookEntryController {
 	 * @param edit
 	 * @param model
 	 * @param principal
-	 * @return mapping to createentry page
+	 * @return path to createentry.html
 	 */
 	@RequestMapping(value="entry/create")
 	public String showCreateLogbookEntry(@RequestParam("logbookId") Integer logbookId,
@@ -63,7 +63,7 @@ public class LogbookEntryController {
 		model.addAttribute("aircraftList", aircraftList);
 		model.addAttribute("logbook", logbook);
 		
-		// Add new logbook entry to model if it hasn't already been done
+		// Add new logbook entry to model if it hasn't already been done and error and edit parameters dont exist
 		if (error == null && edit == null) {
 			LogbookEntry freshLogbookEntry = new LogbookEntry();
 			freshLogbookEntry.setLogbook(logbook);
@@ -82,7 +82,8 @@ public class LogbookEntryController {
 	
 	/**
 	 * Uses {@link BindingResult} to validate {@link LogbookEntry} form submission, which is sent back via {@link RedirectAttributes} 
-	 * redirect along with binding results if errors are detected.
+	 * redirect; if specified parameters violate BindingResult object, DuplicateKeyException is thrown createentry.html's path
+	 * will be returned with form errors. Adds active CSS header class to model  
 	 * 
 	 * @param logbookEntry
 	 * @param result
@@ -90,7 +91,7 @@ public class LogbookEntryController {
 	 * @param model
 	 * @param principal
 	 * @param request
-	 * @return redirect to create/view logbook entries
+	 * @return redirect to showCreateLogbookEntry(), or showCreateLogbookEntry() if errors in binding result
 	 */
 	@RequestMapping(value="entry/docreate", method=RequestMethod.POST)
 	public String doCreateLogbookEntry(@Validated(FormValidationGroup.class) @ModelAttribute("logbookEntry") LogbookEntry logbookEntry, 
@@ -125,6 +126,15 @@ public class LogbookEntryController {
 		return "redirect:/logbook/show?id=" + logbookId;
 	}
 	
+	/**
+	 * Does delete of {@link LogbookEntry} from database. Adds active CSS header class to model
+	 * 
+	 * @param principal
+	 * @param logbookId
+	 * @param entryId
+	 * @param model
+	 * @return redirect to {@link LogbookController#showSingleLogbook(Principal, Model, int, Integer, Integer)}
+	 */
 	@RequestMapping(value="entry/delete", method=RequestMethod.GET)
 	public String deleteLogbookEntry(Principal principal, 
 									 @RequestParam("logbookId") int logbookId, 

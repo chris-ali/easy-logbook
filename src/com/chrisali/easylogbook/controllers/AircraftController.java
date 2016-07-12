@@ -37,9 +37,19 @@ public class AircraftController {
 	@Autowired
 	private LogbookEntryService logbookEntryService;
 	
+	/**
+	 * Shows all {@link Aircraft} tied to single user, using pagination to organize list. 
+	 * Adds list of aircraft, total time logged on aircraft and active CSS header class to model
+	 * 
+	 * @param principal
+	 * @param model
+	 * @param pageNumber (not required, defaults to page 1)
+	 * @param resultsSize (not required, defaults to 10 per page)
+	 * @return path to aircraft.html
+	 */
 	@RequestMapping("aircraft/overview")
 	public String showAllAircraft(Principal principal, Model model, 
-								  @RequestParam(value="page", required=false) Integer page,
+								  @RequestParam(value="page", required=false) Integer pageNumber,
 								  @RequestParam(value="results", required=false) Integer resultsSize) {
 		
 		// Get all aircraft tied to user
@@ -59,12 +69,29 @@ public class AircraftController {
 		return "aircraft/aircraft";
 	}
 	
+	/**
+	 * Shows create aircraft page; adds new aircraft object to model
+	 * 
+	 * @param model
+	 * @return path to createaircraft.html
+	 */
 	@RequestMapping(value="aircraft/create")
 	public String showCreateAircraft(Model model) {
 		model.addAttribute("aircraft", new Aircraft());
 		return "aircraft/createaircraft";
 	}
 	
+	/**
+	 * Does creation of {@link Aircraft} into database; if specified parameters violate BindingResult object,
+	 * aircraft already exists in database or DuplicateKeyException is thrown createaircraft.html's path
+	 * will be returned with form errors. Adds aircraft object and active CSS header class to model  
+	 * 
+	 * @param aircraft
+	 * @param result
+	 * @param model
+	 * @param principal
+	 * @return path to createaircraft.html or redirects to showAllAircraft()
+	 */
 	@RequestMapping(value="aircraft/docreate")
 	public String doCreateAircraft(@Validated(FormValidationGroup.class) Aircraft aircraft, 
 								  BindingResult result, Model model, Principal principal) {
@@ -93,6 +120,15 @@ public class AircraftController {
 		return "redirect:/aircraft/overview";
 	}
 	
+	/**
+	 * Deletes specified {@link Aircraft} from database; deletes all {@link LogbookEntry} tied to aircraft object beforehand.
+	 * Adds active CSS header class to model.
+	 * 
+	 * @param principal
+	 * @param model
+	 * @param aircraftId
+	 * @return redirect to showAllAircraft()
+	 */
 	@RequestMapping(value="aircraft/delete")
 	public String deleteAircraft(Principal principal, Model model, @RequestParam("id") int aircraftId){
 		
@@ -117,6 +153,15 @@ public class AircraftController {
 		return "redirect:/aircraft/overview";
 	}
 	
+	/**
+	 * Does edit of {@link Aircraft} using JSON data passed in via Map. Edits all logbook entries tied to aircraft object beforehand.
+	 * Adds active CSS header class to model  
+	 * 
+	 * @param principal
+	 * @param model
+	 * @param editDetails
+	 * @return
+	 */
 	@RequestMapping(value="aircraft/edit", method=RequestMethod.POST, produces="application/json")
 	@ResponseBody
 	public String doEditAircraft(Principal principal, Model model, @RequestBody Map<String, Object> editDetails) {

@@ -37,6 +37,11 @@ public class PilotDetailsService {
 		ALL;
 	}
 	
+	/**
+	 * Creates or updates {@link PilotDetail} object in database 
+	 * 
+	 * @param pilotDetail
+	 */
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public void createOrUpdate(PilotDetail pilotDetail) {
 		pilotDetailsDao.createOrUpdate(pilotDetail);
@@ -48,7 +53,7 @@ public class PilotDetailsService {
 	 * 
 	 * @param username
 	 * @param detailsType
-	 * @return list of {@link PilotDetail} objects
+	 * @return List of {@link PilotDetail} objects
 	 */
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public List<PilotDetail> getPilotDetails(String username, PilotDetailsType detailsType) {
@@ -71,16 +76,36 @@ public class PilotDetailsService {
 		}
 	}
 	
+	/**
+	 * @param username
+	 * @param id of {@link PilotDetail}
+	 * @return pilot detail object from database
+	 */
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public PilotDetail getPilotDetail(String username, int id) {
 		return pilotDetailsDao.getPilotDetail(username, id);
 	}
 	
+	/**
+	 * @param username
+	 * @param id of {@link PilotDetail}
+	 * @return if pilot detail was successfully deleted
+	 */
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public boolean delete(String username, int id) {
 		return pilotDetailsDao.delete(username, id);
 	}
 	
+	/**
+	 * Creates a Set of {@link PilotDetail} objects that are nearing expiration during the current calendar month.
+	 * Compares calendar object argument with each pilot detail in the List argument. If the detail meets the expiration
+	 * criteria, it is added to the set
+	 * 
+	 * @see CFR § 61.57 - Recent flight experience: Pilot in command
+	 * @param pilotExaminationDetails
+	 * @param calendar
+	 * @return Set of pilot detail objects nearing expiration 
+	 */
 	public Set<PilotExamination> getUpcomingExpirations(List<PilotDetail> pilotExaminationDetails, Calendar calendar) {
 		Set<PilotExamination> upcomingExpirations = new LinkedHashSet<>();
 		int currentMonth = calendar.get(Calendar.MONTH) + 1; // Calendar bitmasks are zero-based
@@ -89,35 +114,36 @@ public class PilotDetailsService {
 		for (PilotDetail exam : pilotExaminationDetails) {
 			String[] date = exam.getDate().split("/");
 			
+			// Get month and year from split date string array 
 			int examMonth = Integer.parseInt(date[0]);
 			int examYear = Integer.parseInt(date[2]);
 			
 			switch(exam.getPilotExamination()) {
-			case BFR:
+			case BFR: // Expires after 24 calendar months
 				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case CFI_RENEWAL:
+			case CFI_RENEWAL: // Expires after 24 calendar months
 				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case CHECKRIDE:
+			case CHECKRIDE: // Expires after 24 calendar months
 				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case INSTRUMENT:
+			case INSTRUMENT: // Expires after 6 calendar months
 				if (((currentMonth+12) - (examMonth+12)) == 6)
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case IPC:
+			case IPC: // Expires after 6 calendar months
 				if (((currentMonth+12) - (examMonth+12)) == 6) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case NIGHT:
+			case NIGHT: // Expires after 3 calendar months
 				if (((currentMonth+12) - (examMonth+12)) == 3)
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case PIC:
+			case PIC: // Expires after 3 calendar months
 				if (((currentMonth+12) - (examMonth+12)) == 3)
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
