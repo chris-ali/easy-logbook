@@ -43,7 +43,7 @@
 		            </thead>
 		            <tbody>
 		              <tr th:each="user : ${usersList}">
-				        <td>
+				        <td data-toggle="tooltip" class="tip-bottom" title="Edit User">
 				        	<a class="btn btn-sm btn-default triggerEdit" th:id="${user.username}" th:href="@{/admin/edituser}" th:inline="text">[[${user.username}]]</a>
 				        </td>
 				        <td th:text="${user.name}">
@@ -103,6 +103,13 @@
 	        			editSubmit();
 	        			setTimeout(function() {location.reload(true)}, 250);
 	        		});
+	        		
+	        		// Tooltips
+	        		$("body").tooltip({
+	        			selector: '[data-toggle="tooltip"]',
+	                    container: 'body',
+	        	        placement : 'bottom'
+	        	    });
 	        	});
 	        	
 	        	// On press of edit button in edit modal

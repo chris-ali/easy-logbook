@@ -38,15 +38,15 @@
 	          </div>
 	          
 	          <div sec:authorize="isAuthenticated()" class="inner cover">
-	            <h1 class="cover-heading" th:inline="text">Hello, [[${user.name}]]</h1>
+	            <h1 class="cover-heading" th:inline="text">Hello, [[${user.name}]]!</h1>
 	            <p class="lead">
-	              <a th:href="@{/logbook/overview}" class="btn btn-default">View Your Logbooks</a>
+	            	Ready to log a flight? Go to your <a th:href="@{/logbook/overview}" class="btn btn-sm btn-default">Logbooks</a>
 	            </p>
 	            <p class="lead">
-	            	<a th:href="@{/aircraft/overview}" class="btn btn-default">View Aircraft</a>
+	            	Started flying a new aircraft? View your <a th:href="@{/aircraft/overview}" class="btn btn-sm btn-default">Aircraft</a>
             	</p>
             	<p class="lead">
-	              <a th:href="@{/details/view}" class="btn btn-default">View Pilot Details</a> 
+	            	Completed a checkride or refresher? Access your <a th:href="@{/details/view}" class="btn btn-sm btn-default">Pilot Information</a> 
 	            </p>
 	          </div>
 	
