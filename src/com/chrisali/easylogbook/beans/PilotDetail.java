@@ -20,6 +20,19 @@ import com.chrisali.easylogbook.beans.enums.PilotMedical;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 
+/**
+ * Bean that is tied to {@link User} to describe their flying qualifications, such as licenses, medicals, endorsements,
+ * currency, etc.
+ * 
+ * @see CategoryRating
+ * @see ClassRating
+ * @see PilotExamination
+ * @see PilotLicense
+ * @see PilotMedical
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Entity
 @Table(name="pilot_details")
 public class PilotDetail implements Serializable {

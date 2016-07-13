@@ -18,6 +18,13 @@ import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 import com.chrisali.easylogbook.validation.ValidDuration;
 
+/**
+ * Entries into {@link Logbook} object, which are tied to {@link Aircraft} object and record 
+ * a flight and the various flight experience a pilot gained; each duration is measured in hours 
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Entity
 @Table(name="logbook_entries")
 public class LogbookEntry implements Serializable {

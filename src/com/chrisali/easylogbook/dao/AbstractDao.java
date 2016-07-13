@@ -8,6 +8,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * DAO superclass that contains Hibernate Session and SessionFactory objects and common methods to
+ * open and close database connection secssions
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Transactional
 @Component("abstractDao")
 @Repository
@@ -17,6 +24,11 @@ public abstract class AbstractDao {
 	protected SessionFactory sessionFactory;
 	protected Session session;
 	
+	/**
+	 * Establishes database connection with Hibernate SessionFactory for subclass DAO objects
+	 * 
+	 * @return Hibernate session object
+	 */
 	protected Session getSession() {
 		session = null;
 		
@@ -26,5 +38,8 @@ public abstract class AbstractDao {
 		return session;
 	}
 	
+	/**
+	 * Closes Hibernate session object
+	 */
 	protected void closeSession() {session.close();}
 }

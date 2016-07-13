@@ -12,12 +12,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.chrisali.easylogbook.beans.PilotDetail;
+import com.chrisali.easylogbook.beans.User;
 
+/**
+ * DAO that communicates with MySQL using Hibernate to perform CRUD operations on {@link PilotDetail} objects
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Transactional
 @Repository
 @Component("pilotDetailsDao")
 public class PilotDetailsDao extends AbstractDao {
 
+	/**
+	 * @param username
+	 * @return List of all {@link PilotDetail} objects belonging to {@link User} using Hibernate Criteria
+	 */
 	@SuppressWarnings("unchecked")
 	public List<PilotDetail> getPilotDetails(String username) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
@@ -30,6 +41,10 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotDetails;
 	}
 	
+	/**
+	 * @param username
+	 * @return List of {@link PilotDetail} objects belonging to {@link User} using HibernateHQL containing pilotMedical
+	 */
 	@SuppressWarnings("unchecked")
 	public List<PilotDetail> getPilotMedicalDetails(String username) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
@@ -43,6 +58,10 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotMedicalDetails;
 	}
 	
+	/**
+	 * @param username
+	 * @return List of {@link PilotDetail} objects belonging to {@link User} using HibernateHQL containing pilotExamination
+	 */
 	@SuppressWarnings("unchecked")
 	public List<PilotDetail> getPilotExamDetails(String username) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
@@ -56,6 +75,10 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotExamDetails;
 	}
 	
+	/**
+	 * @param username
+	 * @return List of {@link PilotDetail} objects belonging to {@link User} using HibernateHQL containing pilotLicense
+	 */
 	@SuppressWarnings("unchecked")
 	public List<PilotDetail> getPilotLicenseDetails(String username) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
@@ -72,6 +95,10 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotLicenseDetails;
 	}
 	
+	/**
+	 * @param username
+	 * @return List of {@link PilotDetail} objects belonging to {@link User} using HibernateHQL containing typeRating
+	 */
 	@SuppressWarnings("unchecked")
 	public List<PilotDetail> getPilotTypeRatingDetails(String username) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
@@ -91,6 +118,10 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotTypeRatingDetails;
 	}
 	
+	/**
+	 * @param username
+	 * @return List of {@link PilotDetail} objects belonging to {@link User} using HibernateHQL containing endorsement
+	 */
 	@SuppressWarnings("unchecked")
 	public List<PilotDetail> getPilotEndorsementDetails(String username) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
@@ -110,6 +141,11 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotTypeRatingDetails;
 	}
 	
+	/**
+	 * @param username
+	 * @param id of {@link PilotDetail}
+	 * @return specific pilot detail object belonging to {@link User} 
+	 */
 	public PilotDetail getPilotDetail(String username, int id) {
 		Criteria criteria = getSession().createCriteria(PilotDetail.class);
 		criteria.createAlias("user", "u")
@@ -122,6 +158,14 @@ public class PilotDetailsDao extends AbstractDao {
 		return pilotDetail;
 	}
 	
+	/**
+	 * Creates or updates {@link PilotDetail} in database using saveOrUpdate() from Session object. 
+	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
+	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
+	 * ACID behavior of the database
+	 * 
+	 * @param pilotDetail
+	 */
 	public void createOrUpdate(PilotDetail pilotDetail) {
 		Transaction tx = null;
 		session = sessionFactory.openSession();
@@ -137,6 +181,11 @@ public class PilotDetailsDao extends AbstractDao {
 		}
 	}
 	
+	/**
+	 * @param username
+	 * @param id of {@link PilotDetail}
+	 * @return if pilot detail object was successfully deleted from database using HQL
+	 */
 	public boolean delete(String username, int id) {
 		Query query = getSession().createQuery("delete from PilotDetail where id=:id and username=:username");
 		query.setInteger("id", id);

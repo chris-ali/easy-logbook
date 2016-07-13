@@ -15,6 +15,12 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 
+/**
+ * Aircraft bean tied to {@link LogbookEntry} objects to simplify flight logging process
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Entity
 @Table(name="aircraft")
 public class Aircraft implements Serializable {

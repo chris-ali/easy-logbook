@@ -14,6 +14,12 @@ import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 import com.chrisali.easylogbook.validation.ValidEmail;
 
+/**
+ * Easy Logbook account bean used by Spring Security for user management
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Entity
 @Table(name="users")
 public class User implements Serializable {

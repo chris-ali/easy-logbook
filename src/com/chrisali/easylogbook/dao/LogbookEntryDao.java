@@ -11,14 +11,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.chrisali.easylogbook.beans.Aircraft;
+import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.LogbookEntry;
 
-
+/**
+ * DAO that communicates with MySQL using Hibernate to perform CRUD operations on {@link LogbookEntry} objects
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Transactional
 @Repository
 @Component("logbookEntryDao")
 public class LogbookEntryDao extends AbstractDao {
 
+	/**
+	 * @return List of {@link LogbookEntry} objects in database using Hibernate Criteria
+	 */
 	@SuppressWarnings("unchecked")
 	public List<LogbookEntry> getAllLogbookEntries(int logbookId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
@@ -31,6 +41,12 @@ public class LogbookEntryDao extends AbstractDao {
 		return logbookEntries;
 	}
 	
+	/**
+	 * @param logbookId
+	 * @param pageNumber
+	 * @param resultsSize
+	 * @return paginated List of {@link LogbookEntry} objects belonging to user using Hibernate Criteria 
+	 */
 	@SuppressWarnings("unchecked")
 	public List<LogbookEntry> getPaginatedLogbookEntries(int logbookId, 
 														 int pageNumber,
@@ -48,6 +64,11 @@ public class LogbookEntryDao extends AbstractDao {
 		return logbookEntries;
 	}
 	
+	/**
+	 * @param logbookId
+	 * @param aircraftId
+	 * @return List of {@link LogbookEntry} objects tied to {@link Aircraft}
+	 */
 	@SuppressWarnings("unchecked")
 	public List<LogbookEntry> getLogbookEntriesByAircraft(int logbookId, int aircraftId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
@@ -62,6 +83,10 @@ public class LogbookEntryDao extends AbstractDao {
 		return logbookEntries;
 	}
 	
+	/**
+	 * @param logbookId
+	 * @return total number of {@link LogbookEntry} objects existing in {@link Logbook} using HQL
+	 */
 	public Long getTotalNumberLogbookEntries(int logbookId) {
 		Query criteria = getSession().createQuery("Select count (id) from LogbookEntry le where le.logbook.id = " + logbookId);
 		
@@ -72,6 +97,11 @@ public class LogbookEntryDao extends AbstractDao {
 		return count;
 	}
 	
+	/**
+	 * @param logbookId
+	 * @param entryId
+	 * @return specific {@link LogbookEntry} object
+	 */
 	public LogbookEntry getLogbookEntry(int logbookId, int entryId) {
 		Criteria criteria = getSession().createCriteria(LogbookEntry.class)
 				.add(Restrictions.eq("id", entryId))
@@ -84,12 +114,20 @@ public class LogbookEntryDao extends AbstractDao {
 		return LogbookEntry;
 	}
 	
-	public void createOrUpdate(LogbookEntry LogbookEntry) {
+	/**
+	 * Creates or updates {@link LogbookEntry} in database using saveOrUpdate() from Session object. 
+	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
+	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
+	 * ACID behavior of the database
+	 * 
+	 * @param logbookEntry
+	 */
+	public void createOrUpdate(LogbookEntry logbookEntry) {
 		Transaction tx = null;
 		session = sessionFactory.openSession();
 		try {
 			tx = session.beginTransaction();
-			session.saveOrUpdate(LogbookEntry);
+			session.saveOrUpdate(logbookEntry);
 			session.flush();
 			tx.commit();
 		} catch (Exception e) {
@@ -99,6 +137,11 @@ public class LogbookEntryDao extends AbstractDao {
 		}
 	}
 	
+	/**
+	 * @param logbookId
+	 * @param entryId
+	 * @return if {@link LogbookEntry} was successfully deleted from database using HQL
+	 */
 	public boolean delete(int logbookId, int entryId) {
 		Query query = getSession().createQuery("delete from LogbookEntry where id=:id and logbooks_id=:logbooks_id");
 		query.setLong("id", entryId);
@@ -110,6 +153,11 @@ public class LogbookEntryDao extends AbstractDao {
 		return isDeleted;
 	}
 	
+	/**
+	 * @param logbookId
+	 * @param entryId
+	 * @return if specific {@link LogbookEntry} exists in database
+	 */
 	public boolean exists(int logbookId, int entryId) {
 		return getLogbookEntry(logbookId, entryId) != null;
 	}

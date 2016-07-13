@@ -13,6 +13,12 @@ import javax.validation.constraints.Size;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 
+/**
+ * Logbook bean tied to {@link User}, which {@link LogbookEntry} beans are tied to
+ * 
+ * @author Christopher Ali
+ *
+ */
 @Entity
 @Table(name="logbooks")
 public class Logbook implements Serializable {
