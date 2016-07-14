@@ -28,7 +28,7 @@
 	
 		<div class="container">
 	
-			<form class="form-signin" th:object="${aircraft}" th:action="@{/aircraft/docreate}" method="post">
+			<form class="form-signin" id="createAircraft" th:object="${aircraft}" th:action="@{/aircraft/docreate}" method="post">
 				
 				<h2 class="form-signin-heading">Create an Aircraft</h2>
 				
@@ -50,6 +50,7 @@
 					placeholder="Model" /> 
 				<span class="label label-danger" th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
 				
+				<input type="hidden" name="fromLogbookId" th:value="${param.fromLogbookId != null} ? ${param.fromLogbookId[0]} : '' "/>
 				<p />
 				
 				<button class="btn btn-lg  btn-primary btn-block" type="submit">Submit</button>

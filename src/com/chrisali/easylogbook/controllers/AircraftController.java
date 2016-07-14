@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
@@ -70,13 +72,17 @@ public class AircraftController {
 	}
 	
 	/**
-	 * Shows create aircraft page; adds new aircraft object to model
+	 * Shows create aircraft page; adds new aircraft object to model. If fromLogbookId GET parameter
+	 * included with request, doCreateAircraft() will redirect back to {@link LogbookEntry} creation page 
 	 * 
 	 * @param model
+	 * @param fromLogbookId
 	 * @return path to createaircraft.html
 	 */
 	@RequestMapping(value="aircraft/create")
-	public String showCreateAircraft(Model model) {
+	public String showCreateAircraft(Model model,
+									 @RequestParam(value="fromLogbookId", required=false) Integer fromLogbookId) {
+		
 		model.addAttribute("aircraft", new Aircraft());
 		return "aircraft/createaircraft";
 	}
@@ -84,22 +90,24 @@ public class AircraftController {
 	/**
 	 * Does creation of {@link Aircraft} into database; if specified parameters violate BindingResult object,
 	 * aircraft already exists in database or DuplicateKeyException is thrown createaircraft.html's path
-	 * will be returned with form errors. Adds aircraft object and active CSS header class to model  
+	 * will be returned with form errors. Adds active CSS header class to model  
 	 * 
 	 * @param aircraft
 	 * @param result
 	 * @param model
 	 * @param principal
+	 * @param request
 	 * @return path to createaircraft.html or redirects to showAllAircraft()
 	 */
 	@RequestMapping(value="aircraft/docreate")
 	public String doCreateAircraft(@Validated(FormValidationGroup.class) Aircraft aircraft, 
-								  BindingResult result, Model model, Principal principal) {
+								  BindingResult result, Model model, Principal principal,
+								  HttpServletRequest request) {
 		if (result.hasErrors())
 			return "aircraft/createaircraft";
 		
 		if (aircraftService.exists(principal.getName(), aircraft.getTailNumber())) {
-			result.rejectValue("name", "DuplicateKey.aircraft.name");
+			result.rejectValue("tailNumber", "DuplicateKey.aircraft.tailNumber");
 			return "aircraft/createaircraft";
 		}
 		
@@ -108,11 +116,15 @@ public class AircraftController {
 			aircraft.getUser().setUsername(username);
 			aircraftService.createOrUpdate(aircraft);
 		} catch (DuplicateKeyException e) {
-			result.rejectValue("name", "DuplicateKey.aircraft.name");
+			result.rejectValue("tailNumber", "DuplicateKey.aircraft.tailNumber");
 			return "aircraft/createaircraft";
 		}
 		
-		model.addAttribute("aircraft", aircraft);
+		// If fromLogbookID param set in createaircraft.html's form POST, return redirect instead  
+		if (request.getParameter("fromLogbookId") != "") {
+			String logbookId = request.getParameter("fromLogbookId");
+			return "redirect:/entry/create?logbookId=" + logbookId;
+		}
 		
 		// Active class used on header fragment
 		model.addAttribute("activeClassAircraft", "active");

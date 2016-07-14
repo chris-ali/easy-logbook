@@ -147,7 +147,11 @@ public class AircraftDao extends AbstractDao {
 		Query query = getSession().createQuery("select sum(totalDuration) from LogbookEntry where aircraft_id=:id");
 		query.setInteger("id", id);
 		
-		double totalTime = (double)query.uniqueResult();
+		double totalTime = 0.0;
+		
+		if(query.uniqueResult() != null)
+			totalTime = (double)query.uniqueResult();
+		
 		closeSession();
 		
 		return (float) totalTime;

@@ -54,6 +54,7 @@
 			    <select class="form-control" id="inputAircraft" name="aircraftId" >
 			        <option th:each="aircraft : ${aircraftList}" th:value="${aircraft.id}" th:text="${aircraft.tailNumber}" />
 			    </select>
+			    <p>Flew a new aircraft? Click <a th:href="@{/aircraft/create(fromLogbookId=${param.logbookId})}">here</a> to create it</p>
 			    
 			    <div id="tabwizard" class="tabbable tabs-left">
 			    	<ul>
