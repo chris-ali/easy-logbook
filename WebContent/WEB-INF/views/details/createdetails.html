@@ -24,7 +24,7 @@
 	    <meta name="description" content="" />
 	    <meta name="author" content="" />
 	    
-	    <title>Create New Logbook Entry</title>
+	    <title>Add Pilot Information</title>
 	</head>
 	
 	<body>
@@ -33,8 +33,8 @@
 	
 			<form class="form-signin" th:object="${pilotDetail}" th:action="@{/details/docreate}" method="post">
 				
-				<h2 class="form-signin-heading" th:if="${param.edit == null}">Add Detail</h2>
-				<h2 class="form-signin-heading" th:if="${param.edit}">Edit Detail</h2>
+				<h2 class="form-signin-heading" th:if="${param.edit == null}">Adding New Information</h2>
+				<h2 class="form-signin-heading" th:if="${param.edit}">Editing Information</h2>
 				
 				<!-- Stores enum type of entry for HTTP request object in controller -->
 				
@@ -42,7 +42,7 @@
 				
 				<!-- Date -->
 				
-				<label class="sr-only" for="inputDate">Date</label>
+				<label for="inputDate">Date Completed</label>
 		        <div class="input-group">
 		        	<div class="input-group-addon">
 		         		<i class="fa fa-calendar"></i>

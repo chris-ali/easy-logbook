@@ -26,7 +26,8 @@
 		<div class="container theme-showcase" role="main">
 		
 			<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>Getting Started -</strong> Click 'Create Aircraft' below to create your first aircraft
+	        	<strong>Getting Started -</strong> Click 'Add Aircraft' below to create your first aircraft. 
+	        	Aircraft are tied to logbook entries and simplify creating new entries with the same aircraft.
 	      	</div>
 			
 			<div th:if="${aircraftList.size() > 0}" class="">
@@ -66,6 +67,12 @@
 			        </div>
 		        </div>
 	        </div>
+	        
+			<div class="page-header">
+				<a class="btn btn-primary" th:href="@{/aircraft/create}">Add Aircraft</a>
+			</div>
+		
+			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 	        
 	        <!-- JQuery to activate modal edit/delete and tooltip functions -->
 	        <script type="text/javascript">
@@ -242,12 +249,6 @@
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
-	        
-			<div class="page-header">
-				<a class="btn btn-primary" th:href="@{/aircraft/create}">Create Aircraft</a>
-			</div>
-		
-			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
 	</body>
 </html>

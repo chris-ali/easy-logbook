@@ -26,11 +26,11 @@
 		<div class="container theme-showcase" role="main">
 		
 			<div th:if="${logbookEntries.size() == 0 and aircraftList.size() > 0}" class="alert alert-info" role="alert">
-	        	<strong>Getting Started -</strong> Click 'Create Entry' below to create the first logbook entry
+	        	<strong>Getting Started -</strong> Click 'Add Entry' below to create this logbook's first entry
 	      	</div>
 
 	      	<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>First Aircraft -</strong> To create a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
+	        	<strong>First Aircraft -</strong> To add a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
 	      	</div>
 			
 			<div th:if="${logbookEntries.size() > 0}">
@@ -213,6 +213,12 @@
 			     </div>
 	        </div>
 	        
+			<div class="page-header">
+				<a th:if="${aircraftList.size() > 0}" class="btn btn-primary" th:href="@{/entry/create(logbookId=${logbook.id})}">Add Entry</a>
+			</div>
+			
+			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
+	        
 	        <!-- JQuery to activate modal edit/delete, tabbing and tooltip functions -->
 	        <script type="text/javascript">
 	        	$(document).ready(function() {
@@ -263,12 +269,6 @@
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
-	        
-			<div class="page-header">
-				<a th:if="${aircraftList.size() > 0}" class="btn btn-primary" th:href="@{/entry/create(logbookId=${logbook.id})}">Create Entry</a>
-			</div>
-			
-			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
 	</body>
 </html>

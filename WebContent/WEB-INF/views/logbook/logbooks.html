@@ -26,7 +26,7 @@
 		<div class="container theme-showcase" role="main">
 		
 			<div th:if="${logbooks.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>Getting Started -</strong> Click 'Create Logbook' below to create your first logbook
+	        	<strong>Getting Started -</strong> Click 'Add Logbook' below to create your first logbook
 	      	</div>
 			
 			<div th:if="${logbooks.size() > 0}" >
@@ -91,6 +91,12 @@
 			      </div>
 		      </div>
 	        </div>
+	        
+			<div class="page-header">
+				<a class="btn btn-primary" th:href="@{/logbook/create}">Add Logbook</a>
+			</div>
+		
+			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 	        
 	        <!-- JQuery for edit/delete and tooltip functions -->
 	        <script type="text/javascript">
@@ -222,12 +228,6 @@
 			    </div><!-- /.modal-content -->
 			  </div><!-- /.modal-dialog -->
 			</div><!-- /.modal -->
-	        
-			<div class="page-header">
-				<a class="btn btn-primary" th:href="@{/logbook/create}">Create Logbook</a>
-			</div>
-		
-			<div class="inner" th:replace="templates/footer :: 'footer'"></div>
 		</div>
 	</body>
 </html>
