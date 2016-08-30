@@ -191,4 +191,5 @@
     	<version>2.1.2.RELEASE</version>
     </dependency> 
   </dependencies>
+  <packaging>war</packaging>
 </project>
