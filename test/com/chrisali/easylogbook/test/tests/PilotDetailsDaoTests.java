@@ -101,11 +101,11 @@ public class PilotDetailsDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 		
+		jdbc.execute("delete from users");
 		jdbc.execute("delete from logbook_entries");
 		jdbc.execute("delete from logbooks");
 		jdbc.execute("delete from aircraft");
 		jdbc.execute("delete from pilot_details");
-		jdbc.execute("delete from users");
 	}
 	
 	@Test

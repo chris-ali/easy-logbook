@@ -1,12 +1,15 @@
 package com.chrisali.easylogbook.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -46,6 +49,9 @@ public class Aircraft implements Serializable {
 	@NotBlank
 	@Size(min=2, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String tailNumber;
+	
+	@OneToMany(mappedBy="aircraft", cascade=CascadeType.ALL)
+	private List<LogbookEntry> logbookEntries;
 	
 	public Aircraft() {
 		this.user = new User();
@@ -101,6 +107,14 @@ public class Aircraft implements Serializable {
 
 	public void setTailNumber(String tailNumber) {
 		this.tailNumber = tailNumber;
+	}
+		
+	public List<LogbookEntry> getLogbookEntries() {
+		return logbookEntries;
+	}
+
+	public void setLogbookEntries(List<LogbookEntry> logbookEntries) {
+		this.logbookEntries = logbookEntries;
 	}
 
 	@Override

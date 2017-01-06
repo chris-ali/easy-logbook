@@ -1,12 +1,15 @@
 package com.chrisali.easylogbook.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
@@ -32,9 +35,12 @@ public class Logbook implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="username")
 	private User user;
-	
+
 	@Size(min=5, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class}) 
 	private String name;
+		
+	@OneToMany(mappedBy="logbook", cascade=CascadeType.ALL)
+	private List<LogbookEntry> logbookEntries;
 	
 	public Logbook() {
 		this.user = new User();

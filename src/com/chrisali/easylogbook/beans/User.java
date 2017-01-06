@@ -1,9 +1,12 @@
 package com.chrisali.easylogbook.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -47,6 +50,15 @@ public class User implements Serializable {
 	
 	private boolean enabled;
 	private String authority;
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private List<Logbook> logbooks;
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private List<PilotDetail> pilotDetails;
+	
+	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	private List<Aircraft> aircraft;
 	
 	public User() {}
 	
@@ -113,6 +125,30 @@ public class User implements Serializable {
 	
 	public void setAuthority(String authority) {
 		this.authority = authority;
+	}
+		
+	public List<Logbook> getLogbooks() {
+		return logbooks;
+	}
+
+	public void setLogbooks(List<Logbook> logbooks) {
+		this.logbooks = logbooks;
+	}
+
+	public List<PilotDetail> getPilotDetails() {
+		return pilotDetails;
+	}
+
+	public void setPilotDetails(List<PilotDetail> pilotDetails) {
+		this.pilotDetails = pilotDetails;
+	}
+
+	public List<Aircraft> getAircraft() {
+		return aircraft;
+	}
+
+	public void setAircraft(List<Aircraft> aircraft) {
+		this.aircraft = aircraft;
 	}
 
 	@Override
