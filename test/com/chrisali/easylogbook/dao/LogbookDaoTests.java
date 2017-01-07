@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,79 +6,30 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.dao.LogbookDao;
-import com.chrisali.easylogbook.dao.UsersDao;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class LogbookDaoTests {
-	
-	@Autowired
-	private UsersDao usersDao;
-	
-	@Autowired
-	private LogbookDao logbookDao;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hello", "john@test.com", 
-			true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-				true, "ROLE_ADMIN");
-	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@test.com", 
-				true, "ROLE_USER");
-	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@test.com", 
-				false, "user");
-	
-	private Logbook logbook1 = new Logbook(user1, "MyLogbook");
-	private Logbook logbook2 = new Logbook(user2, "MyLogbook");
-	private Logbook logbook3 = new Logbook(user2, "MyLogbook");
-	private Logbook logbook4 = new Logbook(user3, "MyLogbook");
-	private Logbook logbook5 = new Logbook(user4, "MyLogbook");
-	
-	private void addTestData() {
-		usersDao.createOrUpdate(user1);
-		usersDao.createOrUpdate(user2);
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
-		
-		logbookDao.createOrUpdate(logbook1);
-		logbookDao.createOrUpdate(logbook2);
-		logbookDao.createOrUpdate(logbook3);
-		logbookDao.createOrUpdate(logbook4);
-		logbookDao.createOrUpdate(logbook5);
-	}
+public class LogbookDaoTests extends DaoTestData implements DaoTests {
 	
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from users");
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
+		clearDatabase();
 	}
 	
 	@Test
+	@Override
 	public void testCreateRetrieve() {
 		usersDao.createOrUpdate(user1);
 		
@@ -119,6 +70,7 @@ public class LogbookDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testExists() {
 		addTestData();
 		
@@ -127,6 +79,7 @@ public class LogbookDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testDelete() {
 		addTestData();
 		
@@ -142,6 +95,7 @@ public class LogbookDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testUpdate() {
 		addTestData();
 		

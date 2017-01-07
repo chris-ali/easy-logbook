@@ -1,114 +1,36 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.List;
-
-import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.beans.enums.CategoryRating;
 import com.chrisali.easylogbook.beans.enums.ClassRating;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.beans.enums.PilotLicense;
-import com.chrisali.easylogbook.beans.enums.PilotMedical;
-import com.chrisali.easylogbook.dao.PilotDetailsDao;
-import com.chrisali.easylogbook.dao.UsersDao;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class PilotDetailsDaoTests {
-
-	@Autowired
-	private UsersDao usersDao;
-	
-	@Autowired
-	private PilotDetailsDao pilotDetailsDao;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hellothere", "john@test.com", 
-									true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-									true, "ROLE_ADMIN");
-	
-	private PilotDetail detail1 = new PilotDetail(user1, "2016-06-02");
-	private PilotDetail detail2 = new PilotDetail(user1, "2012-04-20");
-	private PilotDetail detail3 = new PilotDetail(user1, "2010-10-15");
-	private PilotDetail detail4 = new PilotDetail(user1, "2016-06-02");
-	private PilotDetail detail5 = new PilotDetail(user1, "2012-04-20");
-	private PilotDetail detail6 = new PilotDetail(user1, "2010-10-15");
-	
-	private PilotDetail detail7 = new PilotDetail(user2, "2016-06-02");
-	private PilotDetail detail8 = new PilotDetail(user2, "2012-04-20");
-	private PilotDetail detail9 = new PilotDetail(user2, "2010-10-15");
-	
-	private void addTestData() {
-		usersDao.createOrUpdate(user1);
-		usersDao.createOrUpdate(user2);
-		
-		detail1.setPilotLicense(PilotLicense.PRIVATE);
-		detail1.setCategoryRating(CategoryRating.AIRPLANE);
-		detail1.setClassRating(ClassRating.SINGLELAND);
-		pilotDetailsDao.createOrUpdate(detail1);
-		
-		detail2.setPilotMedical(PilotMedical.FIRST_CLASS);
-		pilotDetailsDao.createOrUpdate(detail2);
-		
-		detail3.setEndorsement("Complex");
-		pilotDetailsDao.createOrUpdate(detail3);
-		
-		detail4.setPilotLicense(PilotLicense.INSTRUMENT);
-		detail4.setCategoryRating(CategoryRating.AIRPLANE);
-		pilotDetailsDao.createOrUpdate(detail4);
-		
-		detail5.setPilotLicense(PilotLicense.COMMERCIAL);
-		detail5.setCategoryRating(CategoryRating.AIRPLANE);
-		detail5.setClassRating(ClassRating.MULTILAND);
-		pilotDetailsDao.createOrUpdate(detail5);
-		
-		detail6.setTypeRating("CL600");
-		pilotDetailsDao.createOrUpdate(detail6);
-		
-		detail7.setPilotExamination(PilotExamination.CHECKRIDE);
-		pilotDetailsDao.createOrUpdate(detail7);
-		
-		detail8.setPilotLicense(PilotLicense.PRIVATE);
-		detail8.setCategoryRating(CategoryRating.AIRPLANE);
-		detail8.setClassRating(ClassRating.SINGLESEA);
-		pilotDetailsDao.createOrUpdate(detail8);
-		
-		detail9.setPilotMedical(PilotMedical.THIRD_CLASS);
-		pilotDetailsDao.createOrUpdate(detail9);
-	}
+public class PilotDetailsDaoTests extends DaoTestData implements DaoTests {
 	
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from users");
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
+		clearDatabase();
 	}
 	
 	@Test
+	@Override
 	public void testCreateRetrieve() {
 		addTestData();
 		
@@ -135,6 +57,11 @@ public class PilotDetailsDaoTests {
 	}
 	
 	@Test
+	@Override
+	public void testExists() {};
+	
+	@Test
+	@Override
 	public void testUpdate() {
 		addTestData();
 		
@@ -147,7 +74,7 @@ public class PilotDetailsDaoTests {
 		
 		assertEquals("Pilot details should be equal", detail8, updatedDetail8);
 		
-		detail6.setDate("2016-06-04");
+		detail6.setDate(LocalDate.of(2016, 6, 4));
 		pilotDetailsDao.createOrUpdate(detail6);
 		PilotDetail updatedDetail6 = pilotDetailsDao.getPilotDetail(user1.getUsername(), detail6.getId());
 		
@@ -155,6 +82,7 @@ public class PilotDetailsDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testDelete() {
 		addTestData();
 		

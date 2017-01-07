@@ -81,7 +81,7 @@ public class PilotDetailsController {
 									Model model) {
 		// Add new pilot detail to model if it hasn't already been done and error and edit aren't specified
 		if (error == null && edit == null) {
-			PilotDetail newDetail = new PilotDetail(usersService.getUser(principal.getName()), "");
+			PilotDetail newDetail = new PilotDetail(usersService.getUser(principal.getName()));
 			model.addAttribute("pilotDetail", newDetail);
 		}
 		

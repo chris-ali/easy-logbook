@@ -1,22 +1,24 @@
 package com.chrisali.easylogbook.beans;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.chrisali.easylogbook.beans.enums.CategoryRating;
 import com.chrisali.easylogbook.beans.enums.ClassRating;
 import com.chrisali.easylogbook.beans.enums.PilotExamination;
 import com.chrisali.easylogbook.beans.enums.PilotLicense;
 import com.chrisali.easylogbook.beans.enums.PilotMedical;
+import com.chrisali.easylogbook.configs.LocalDatePersistenceConverter;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 
@@ -47,8 +49,9 @@ public class PilotDetail implements Serializable {
 	@JoinColumn(name="username", referencedColumnName="username")
 	private User user;
 	
-	@NotBlank(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	private String date;
+	@NotNull(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Convert(converter=LocalDatePersistenceConverter.class)
+	private LocalDate date;
 	
 	private PilotExamination pilotExamination;
 	private PilotLicense pilotLicense;
@@ -66,12 +69,11 @@ public class PilotDetail implements Serializable {
 		this.user = new User();
 	}
 	
-	public PilotDetail(User user, String date) {
+	public PilotDetail(User user) {
 		this.user = user;
-		this.date = date;
 	}
 
-	public PilotDetail(int id, User user, String date, PilotExamination pilotExamination, PilotLicense pilotLicense,
+	public PilotDetail(int id, User user, LocalDate date, PilotExamination pilotExamination, PilotLicense pilotLicense,
 			ClassRating classRating, CategoryRating categoryRating, PilotMedical pilotMedical, String endorsement,
 			String typeRating) {
 		this.id = id;
@@ -102,11 +104,11 @@ public class PilotDetail implements Serializable {
 		this.user = user;
 	}
 
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 

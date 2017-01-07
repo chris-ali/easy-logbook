@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,13 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -26,57 +22,28 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.ServletTestExecutionListener;
 
 import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.services.UsersService;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/service-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @TestExecutionListeners(listeners={ServletTestExecutionListener.class,
 							       DependencyInjectionTestExecutionListener.class,
 							       DirtiesContextTestExecutionListener.class,
 							       TransactionalTestExecutionListener.class,
 							       WithSecurityContextTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UsersServiceTests {
-	
-	@Autowired
-	private UsersService usersService;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hello", "john@test.com", 
-			true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-				true, "ROLE_ADMIN");
-	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@test.com", 
-				true, "ROLE_USER");
-	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@test.com", 
-				false, "user");
-	
-	private void addTestData() {
-		usersService.createOrUpdate(user1);
-		usersService.createOrUpdate(user2);
-		usersService.createOrUpdate(user3);
-		usersService.createOrUpdate(user4);
-	}
+public class UsersServiceTests extends ServiceTestData implements ServiceTests {
 	
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
-		jdbc.execute("delete from users");
+		clearDatabase();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"ADMIN","USER"})
+	@Override
 	public void testCreateRetrieve() {
 		
 		usersService.createOrUpdate(user1);
@@ -94,20 +61,26 @@ public class UsersServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthCreateRetrieve() {
+	@Override
+	public void testCreateRetrieveNoAuth() {
 		testCreateRetrieve();
 	}
 	
 	@Test
+	@Override
 	public void testExists() {
-		addTestData();
+		usersService.createOrUpdate(user2);
 		
 		assertTrue("User should exist in database", usersService.exists(user2.getUsername()));
 		assertFalse("User should not exist in database", usersService.exists("notAUser"));
 	}
 	
+	@Override
+	public void testExistsNoAuth() {}
+	
 	@Test
 	@WithMockUser(username="admin", roles={"ADMIN"})
+	@Override
 	public void testDelete() {
 		addTestData();
 		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
@@ -119,12 +92,14 @@ public class UsersServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthDelete() {
+	@Override
+	public void testDeleteNoAuth() {
 		testDelete();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	@Override
 	public void testUpdate() {
 		addTestData();
 		assertEquals("Four users should be created and retrieved", 4, (long)usersService.getTotalNumberUsers());
@@ -143,7 +118,8 @@ public class UsersServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthUpdate() {
+	@Override
+	public void testUpdateNoAuth() {
 		testUpdate();
 	}
 }

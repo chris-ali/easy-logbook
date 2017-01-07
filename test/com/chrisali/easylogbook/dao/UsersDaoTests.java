@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,62 +6,29 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.dao.UsersDao;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UsersDaoTests {
-	
-	@Autowired
-	private UsersDao usersDao;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hello", "john@test.com", 
-			true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-				true, "ROLE_ADMIN");
-	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@test.com", 
-				true, "ROLE_USER");
-	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@test.com", 
-				false, "user");
-	
-	private void addTestData() {
-		usersDao.createOrUpdate(user1);
-		usersDao.createOrUpdate(user2);
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
-	}
+public class UsersDaoTests extends DaoTestData implements DaoTests {
 	
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from users");
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
+		clearDatabase();
 	}
 	
 	@Test
+	@Override
 	public void testCreateRetrieve() {
 		usersDao.createOrUpdate(user1);
 		
@@ -78,6 +45,7 @@ public class UsersDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testExists() {
 		addTestData();
 		
@@ -86,6 +54,7 @@ public class UsersDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testDelete() {
 		addTestData();
 		
@@ -98,6 +67,7 @@ public class UsersDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testUpdate() {
 		addTestData();
 

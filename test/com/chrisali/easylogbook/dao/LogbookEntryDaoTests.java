@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,131 +6,43 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.LogbookEntry;
 import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.dao.AircraftDao;
-import com.chrisali.easylogbook.dao.LogbookDao;
-import com.chrisali.easylogbook.dao.LogbookEntryDao;
-import com.chrisali.easylogbook.dao.UsersDao;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class LogbookEntryDaoTests {
-	
-	@Autowired
-	private UsersDao usersDao;
-	
-	@Autowired
-	private AircraftDao aircraftDao;
-	
-	@Autowired
-	private LogbookDao logbookDao;
-	
-	@Autowired
-	private LogbookEntryDao logbookEntryDao;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hellothere", "john@test.com", 
-									true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-									true, "ROLE_ADMIN");
-	
-	private Logbook logbook1 = new Logbook(user1, "MyLogbook");
-	private Logbook logbook2 = new Logbook(user2, "MyLogbook");
-	private Logbook logbook3 = new Logbook(user1, "MyLogbook");
-	
-	private Aircraft aircraft1 = new Aircraft(user1, "Cessna", "152", "N89061");
-	private Aircraft aircraft2 = new Aircraft(user2, "Boeing", "777", "JA6055");
-	private Aircraft aircraft3 = new Aircraft(user1, "Piper", "Seneca", "D-EATH");
-	
-	private LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, new String("2016-05-04"));
-	private LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, new String("2011-02-26"));
-	private LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, new String("1995-12-18"));
-	
-	private void addTestData() {
-		usersDao.createOrUpdate(user1);
-		usersDao.createOrUpdate(user2);
-		
-		aircraftDao.createOrUpdate(aircraft1);
-		aircraftDao.createOrUpdate(aircraft2);
-		aircraftDao.createOrUpdate(aircraft3);
-		
-		logbookDao.createOrUpdate(logbook1);
-		logbookDao.createOrUpdate(logbook2);
-		logbookDao.createOrUpdate(logbook3);
-		
-		logbookEntry1.setOrigin("KTTN");
-		logbookEntry1.setDestination("KRDG");
-		logbookEntry1.setDayLandings(1);
-		logbookEntry1.setAirplaneSel(0.8f);
-		logbookEntry1.setPilotInCommand(0.8f);
-		logbookEntry1.setDualGiven(0.8f);
-		logbookEntry1.setTotalDuration(0.8f);
-		logbookEntryDao.createOrUpdate(logbookEntry1);
-		
-		logbookEntry2.setOrigin("KEWR");
-		logbookEntry2.setDestination("RJAA");
-		logbookEntry2.setDayLandings(1);
-		logbookEntry2.setAirplaneMel(12.8f);
-		logbookEntry2.setTurbine(12.8f);
-		logbookEntry2.setActualInstrument(12.8f);
-		logbookEntry2.setPilotInCommand(12.8f);
-		logbookEntry2.setTotalDuration(12.8f);
-		logbookEntryDao.createOrUpdate(logbookEntry2);
-		
-		logbookEntry3.setOrigin("N87");
-		logbookEntry3.setDestination("CYTZ");
-		logbookEntry3.setDayLandings(1);
-		logbookEntry3.setAirplaneSel(2.8f);
-		logbookEntry3.setActualInstrument(2.8f);
-		logbookEntry3.setPilotInCommand(2.8f);
-		logbookEntry3.setTotalDuration(2.8f);
-		logbookEntryDao.createOrUpdate(logbookEntry3);
-	}
-	
+public class LogbookEntryDaoTests extends DaoTestData implements DaoTests {
+
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from users");
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
+		clearDatabase();
 	}
 	
 	@Test
+	@Override
 	public void testCreateRetrieve() {
 		addTestData();
 
 		List<Logbook> logbookList = logbookDao.getLogbooks();
 		List<User> users = usersDao.getPaginatedUsers(0, 10);
 		
-		assertEquals("Three logbooks should be created and retrieved", 3, logbookList.size());
-		assertEquals("Two users should be created and retrieved", 2, users.size());
+		assertEquals("Five logbooks should be created and retrieved", 5, logbookList.size());
+		assertEquals("Four users should be created and retrieved", 4, users.size());
 		
 		List<Logbook> logbooksUser1 = logbookDao.getLogbooks(user1.getUsername());
 		
-		assertEquals("Two logbooks should belong to user1", 2, logbooksUser1.size());
+		assertEquals("One logbook should belong to user1", 1, logbooksUser1.size());
 		
 		Logbook logbook = logbookDao.getLogbook(user1.getUsername(), logbook1.getId());
 		assertEquals("User 1's retrieved aircraft should match logbook1", logbook, logbook1);
@@ -153,6 +65,7 @@ public class LogbookEntryDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testExists() {
 		addTestData();
 		
@@ -161,11 +74,12 @@ public class LogbookEntryDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testDelete() {
 		addTestData();
 		
 		List<Logbook> logbookList1 = logbookDao.getLogbooks();
-		assertEquals("Three logbooks should be created and retrieved", 3, logbookList1.size());
+		assertEquals("Five logbooks should be created and retrieved", 5, logbookList1.size());
 		
 		List<LogbookEntry> logbookEntryList1 = logbookEntryDao.getAllLogbookEntries(logbook2.getId());
 		assertEquals("One logbook entry should be in logbook2", 1, logbookEntryList1.size());
@@ -181,11 +95,12 @@ public class LogbookEntryDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testUpdate() {
 		addTestData();
 		
 		List<Logbook> logbookList1 = logbookDao.getLogbooks();
-		assertEquals("Three logbooks should be created and retrieved", 3, logbookList1.size());
+		assertEquals("Five logbooks should be created and retrieved", 5, logbookList1.size());
 		
 		logbookEntry2.setOrigin("KSFO");
 		logbookEntry2.setSecondInCommand(3.8f);

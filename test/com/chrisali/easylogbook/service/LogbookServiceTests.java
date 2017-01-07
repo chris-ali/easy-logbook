@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,13 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -27,73 +23,28 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
 
 import com.chrisali.easylogbook.beans.Logbook;
 import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.services.LogbookService;
-import com.chrisali.easylogbook.services.UsersService;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/service-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @TestExecutionListeners(listeners={ServletTestExecutionListener.class,
 							       DependencyInjectionTestExecutionListener.class,
 							       DirtiesContextTestExecutionListener.class,
 							       TransactionalTestExecutionListener.class,
 							       WithSecurityContextTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class LogbookServiceTests {
-	
-	@Autowired
-	private UsersService usersService;
-	
-	@Autowired
-	private LogbookService logbookService;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hello", "john@test.com", 
-			true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-				true, "ROLE_ADMIN");
-	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@test.com", 
-				true, "ROLE_USER");
-	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@test.com", 
-				false, "user");
-	
-	private Logbook logbook1 = new Logbook(user1, "MyLogbook");
-	private Logbook logbook2 = new Logbook(user2, "MyLogbook");
-	private Logbook logbook3 = new Logbook(user2, "MyLogbook");
-	private Logbook logbook4 = new Logbook(user3, "MyLogbook");
-	private Logbook logbook5 = new Logbook(user4, "MyLogbook");
-	
-	private void addTestData() {
-		usersService.createOrUpdate(user1);
-		usersService.createOrUpdate(user2);
-		usersService.createOrUpdate(user3);
-		usersService.createOrUpdate(user4);
-		
-		logbookService.createOrUpdate(logbook1);
-		logbookService.createOrUpdate(logbook2);
-		logbookService.createOrUpdate(logbook3);
-		logbookService.createOrUpdate(logbook4);
-		logbookService.createOrUpdate(logbook5);
-	}
+public class LogbookServiceTests extends ServiceTestData implements ServiceTests {
 	
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
-		jdbc.execute("delete from users");
+		clearDatabase();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	@Override
 	public void testCreateRetrieve() {
 		usersService.createOrUpdate(user1);
 		
@@ -134,12 +85,14 @@ public class LogbookServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthCreateRetrieve() {
+	@Override
+	public void testCreateRetrieveNoAuth() {
 		testCreateRetrieve();
 	}
 	
 	@Test
 	@WithMockUser(username="test", roles="USER")
+	@Override
 	public void testExists() {
 		addTestData();
 		
@@ -148,12 +101,14 @@ public class LogbookServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthExists() {
+	@Override
+	public void testExistsNoAuth() {
 		testExists();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	@Override
 	public void testDelete() {
 		addTestData();
 		
@@ -169,12 +124,14 @@ public class LogbookServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthDelete() {
+	@Override
+	public void testDeleteNoAuth() {
 		testDelete();
 	}
 	
 	@Test
 	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	@Override
 	public void testUpdate() {
 		addTestData();
 		
@@ -189,7 +146,8 @@ public class LogbookServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthUpdate() {
+	@Override
+	public void testUpdateNoAuth() {
 		testUpdate();
 	}
 }

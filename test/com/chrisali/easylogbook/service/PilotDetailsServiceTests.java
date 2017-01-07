@@ -1,23 +1,16 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-import java.util.SimpleTimeZone;
-
-import javax.sql.DataSource;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
@@ -31,120 +24,31 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.ServletTestExecutionListener;
 
 import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.beans.enums.CategoryRating;
 import com.chrisali.easylogbook.beans.enums.ClassRating;
 import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.beans.enums.PilotLicense;
-import com.chrisali.easylogbook.beans.enums.PilotMedical;
-import com.chrisali.easylogbook.services.PilotDetailsService;
 import com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType;
-import com.chrisali.easylogbook.services.UsersService;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/service-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @TestExecutionListeners(listeners={ServletTestExecutionListener.class,
 							       DependencyInjectionTestExecutionListener.class,
 							       DirtiesContextTestExecutionListener.class,
 							       TransactionalTestExecutionListener.class,
 							       WithSecurityContextTestExecutionListener.class})
 @RunWith(SpringJUnit4ClassRunner.class)
-public class PilotDetailsServiceTests {
-
-	@Autowired
-	private UsersService usersService;
-	
-	@Autowired
-	private PilotDetailsService pilotDetailsService;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hellothere", "john@test.com", 
-									true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-									true, "ROLE_ADMIN");
-	
-	private PilotDetail detail1 = new PilotDetail(user1, "06/02/2016");
-	private PilotDetail detail2 = new PilotDetail(user1, "04/20/2012");
-	private PilotDetail detail3 = new PilotDetail(user1, "10/15/2010");
-	private PilotDetail detail4 = new PilotDetail(user1, "06/02/2016");
-	private PilotDetail detail5 = new PilotDetail(user1, "04/20/2012");
-	private PilotDetail detail6 = new PilotDetail(user1, "10/15/2010");
-	
-	private PilotDetail detail7 = new PilotDetail(user2, "06/02/2016");
-	private PilotDetail detail8 = new PilotDetail(user2, "04/20/2012");
-	private PilotDetail detail9 = new PilotDetail(user2, "10/15/2010");
-	
-	private PilotDetail detail10 = new PilotDetail(user2, "06/15/2014");
-	private PilotDetail detail11 = new PilotDetail(user2, "03/15/2016");
-	
-	private Calendar calendar;
-	
-	private void addTestData() {
-		usersService.createOrUpdate(user1);
-		usersService.createOrUpdate(user2);
-		
-		detail1.setPilotLicense(PilotLicense.PRIVATE);
-		detail1.setCategoryRating(CategoryRating.AIRPLANE);
-		detail1.setClassRating(ClassRating.SINGLELAND);
-		pilotDetailsService.createOrUpdate(detail1);
-		
-		detail2.setPilotMedical(PilotMedical.FIRST_CLASS);
-		pilotDetailsService.createOrUpdate(detail2);
-		
-		detail3.setEndorsement("Complex");
-		pilotDetailsService.createOrUpdate(detail3);
-		
-		detail4.setPilotLicense(PilotLicense.INSTRUMENT);
-		detail4.setCategoryRating(CategoryRating.AIRPLANE);
-		pilotDetailsService.createOrUpdate(detail4);
-		
-		detail5.setPilotLicense(PilotLicense.COMMERCIAL);
-		detail5.setCategoryRating(CategoryRating.AIRPLANE);
-		detail5.setClassRating(ClassRating.MULTILAND);
-		pilotDetailsService.createOrUpdate(detail5);
-		
-		detail6.setTypeRating("CL600");
-		pilotDetailsService.createOrUpdate(detail6);
-		
-		detail7.setPilotExamination(PilotExamination.CHECKRIDE);
-		pilotDetailsService.createOrUpdate(detail7);
-		
-		detail8.setPilotLicense(PilotLicense.PRIVATE);
-		detail8.setCategoryRating(CategoryRating.AIRPLANE);
-		detail8.setClassRating(ClassRating.SINGLESEA);
-		pilotDetailsService.createOrUpdate(detail8);
-		
-		detail9.setPilotMedical(PilotMedical.THIRD_CLASS);
-		pilotDetailsService.createOrUpdate(detail9);
-		
-		detail10.setPilotExamination(PilotExamination.BFR);
-		pilotDetailsService.createOrUpdate(detail10);
-		detail11.setPilotExamination(PilotExamination.PIC);
-		pilotDetailsService.createOrUpdate(detail11);
-		
-		calendar = new GregorianCalendar(new SimpleTimeZone(0, "Zulu"));
-		calendar.setTime(new Date(1465839829000L)); // 06/13/2014
-	}
+public class PilotDetailsServiceTests extends ServiceTestData implements ServiceTests {
 	
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
-		jdbc.execute("delete from users");
+		clearDatabase();
 	}
 	
 	@Test
 	@WithMockUser(username="user", roles={"USER"})
+	@Override
 	public void testCreateRetrieve() {
 		addTestData();
 		
@@ -171,12 +75,14 @@ public class PilotDetailsServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthCreateRetrieve() {
+	@Override
+	public void testCreateRetrieveNoAuth() {
 		testCreateRetrieve();
 	}
 	
 	@Test
 	@WithMockUser(username="user", roles={"USER"})
+	@Override
 	public void testUpdate() {
 		addTestData();
 		
@@ -189,7 +95,7 @@ public class PilotDetailsServiceTests {
 		
 		assertEquals("Pilot details should be equal", detail8, updatedDetail8);
 		
-		detail6.setDate("2016-06-04");
+		detail6.setDate(LocalDate.of(2016, 6, 4));
 		pilotDetailsService.createOrUpdate(detail6);
 		PilotDetail updatedDetail6 = pilotDetailsService.getPilotDetail(user1.getUsername(), detail6.getId());
 		
@@ -197,12 +103,20 @@ public class PilotDetailsServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthUpdate() {
+	@Override
+	public void testUpdateNoAuth() {
 		testUpdate();
 	}
 	
+	@Override
+	public void testExists() {}
+	
+	@Override
+	public void testExistsNoAuth() {}
+	
 	@Test
 	@WithMockUser(username="user", roles={"USER"})
+	@Override
 	public void testDelete() {
 		addTestData();
 		
@@ -220,7 +134,8 @@ public class PilotDetailsServiceTests {
 	}
 	
 	@Test(expected = AuthenticationCredentialsNotFoundException.class)
-	public void testNoAuthDelete() {
+	@Override
+	public void testDeleteNoAuth() {
 		testDelete();
 	}
 	

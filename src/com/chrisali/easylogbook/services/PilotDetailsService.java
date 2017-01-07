@@ -103,20 +103,24 @@ public class PilotDetailsService {
 	 * 
 	 * @see CFR § 61.57 - Recent flight experience: Pilot in command
 	 * @param pilotExaminationDetails
-	 * @param calendar
+	 * @param currentCalendar
 	 * @return Set of pilot detail objects nearing expiration 
 	 */
-	public Set<PilotExamination> getUpcomingExpirations(List<PilotDetail> pilotExaminationDetails, Calendar calendar) {
+	public Set<PilotExamination> getUpcomingExpirations(List<PilotDetail> pilotExaminationDetails, Calendar currentCalendar) {
+		
 		Set<PilotExamination> upcomingExpirations = new LinkedHashSet<>();
-		int currentMonth = calendar.get(Calendar.MONTH) + 1; // Calendar bitmasks are zero-based
-		int currentYear = calendar.get(Calendar.YEAR);
+		int currentMonth = currentCalendar.get(Calendar.MONTH) + 1; // Calendar bitmasks are zero-based
+		int currentYear = currentCalendar.get(Calendar.YEAR);
+		
+		int examMonth = 0;
+		int examYear = 0;
 		
 		for (PilotDetail exam : pilotExaminationDetails) {
-			String[] date = exam.getDate().split("/");
-			
-			// Get month and year from split date string array 
-			int examMonth = Integer.parseInt(date[0]);
-			int examYear = Integer.parseInt(date[2]);
+					
+			if (exam != null) {
+				examMonth = exam.getDate().getMonth().getValue();
+				examYear = exam.getDate().getYear();
+			}
 			
 			switch(exam.getPilotExamination()) {
 			case BFR: // Expires after 24 calendar months

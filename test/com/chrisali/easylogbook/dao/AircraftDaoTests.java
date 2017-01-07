@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.test.tests;
+package com.chrisali.easylogbook.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,83 +6,30 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import javax.sql.DataSource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.chrisali.easylogbook.beans.Aircraft;
 import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.dao.AircraftDao;
-import com.chrisali.easylogbook.dao.UsersDao;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
 									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/test/config/datasource.xml" })
+									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class AircraftDaoTests {
-	
-	@Autowired
-	private UsersDao usersDao;
-	
-	@Autowired
-	private AircraftDao aircraftDao;
-	
-	@Autowired
-	private DataSource dataSource;
-	
-	// Test Users
-	private User user1 = new User("johnwpurcell", "John Purcell", "hello", "john@test.com", 
-				true, "ROLE_USER");
-	private User user2 = new User("richardhannay", "Richard Hannay", "the39steps", "richard@test.com", 
-				true, "ROLE_ADMIN");
-	private User user3 = new User("iloveviolins", "Sue Black", "suetheviolinist", "sue@test.com", 
-				true, "ROLE_USER");
-	private User user4 = new User("liberator", "Rog Blake", "rogerblake", "rog@test.com", 
-				true, "user");
-	
-	private Aircraft aircraft1 = new Aircraft(user1, "Cessna", "152", "N89061");
-	private Aircraft aircraft2 = new Aircraft(user1, "Cessna", "172", "N6379F");
-	private Aircraft aircraft3 = new Aircraft(user2, "Piper", "Seneca", "D-EATH");
-	private Aircraft aircraft4 = new Aircraft(user3, "Piper", "Archer", "N12345");
-	private Aircraft aircraft5 = new Aircraft(user4, "Boeing", "777", "JA7065");
-	private Aircraft aircraft6 = new Aircraft(user4, "Airbus", "A321", "G-CLLD");
-	private Aircraft aircraft7 = new Aircraft(user4, "Piper", "Archer", "C-TOPS");
-	
-	private void addTestData() {
-		usersDao.createOrUpdate(user1);
-		usersDao.createOrUpdate(user2);
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
-		
-		aircraftDao.createOrUpdate(aircraft1);
-		aircraftDao.createOrUpdate(aircraft2);
-		aircraftDao.createOrUpdate(aircraft3);
-		aircraftDao.createOrUpdate(aircraft4);
-		aircraftDao.createOrUpdate(aircraft5);
-		aircraftDao.createOrUpdate(aircraft6);
-		aircraftDao.createOrUpdate(aircraft7);
-	}
-	
+public class AircraftDaoTests extends DaoTestData implements DaoTests {
+
 	@Before
 	public void init() {
-		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
-		
-		jdbc.execute("delete from users");
-		jdbc.execute("delete from logbook_entries");
-		jdbc.execute("delete from logbooks");
-		jdbc.execute("delete from aircraft");
-		jdbc.execute("delete from pilot_details");
+		clearDatabase();
 	}
 	
 	@Test
+	@Override
 	public void testCreateRetrieve() {
 		usersDao.createOrUpdate(user1);
 		
@@ -92,7 +39,7 @@ public class AircraftDaoTests {
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
 		aircraftDao.createOrUpdate(aircraft1);
-		aircraftDao.createOrUpdate(aircraft2);
+		aircraftDao.createOrUpdate(aircraft3);
 		
 		List<Aircraft> aircraftList1 = aircraftDao.getAircraft();
 		
@@ -102,7 +49,7 @@ public class AircraftDaoTests {
 		usersDao.createOrUpdate(user3);
 		usersDao.createOrUpdate(user4);
 		
-		aircraftDao.createOrUpdate(aircraft3);
+		aircraftDao.createOrUpdate(aircraft2);
 		aircraftDao.createOrUpdate(aircraft4);
 		aircraftDao.createOrUpdate(aircraft5);
 		aircraftDao.createOrUpdate(aircraft6);
@@ -118,11 +65,12 @@ public class AircraftDaoTests {
 		
 		assertEquals("Three aircraft should belong to user 4", 3, aircraftUser4.size());
 		
-		Aircraft aircraft = aircraftDao.getAircraft(user1.getUsername(), aircraft2.getId());
-		assertEquals("User 1's retrieved aircraft should match aircraft2", aircraft, aircraft2);
+		Aircraft aircraft = aircraftDao.getAircraft(user1.getUsername(), aircraft1.getId());
+		assertEquals("User 1's retrieved aircraft should match aircraft2", aircraft, aircraft1);
 	}
 	
 	@Test
+	@Override
 	public void testExists() {
 		addTestData();
 		
@@ -131,6 +79,7 @@ public class AircraftDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testDelete() {
 		addTestData();
 		
@@ -146,6 +95,7 @@ public class AircraftDaoTests {
 	}
 	
 	@Test
+	@Override
 	public void testUpdate() {
 		addTestData();
 		
