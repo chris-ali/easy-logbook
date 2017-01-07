@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -25,6 +24,15 @@ import com.chrisali.easylogbook.beans.User;
 @Component("aircraftDao")
 public class AircraftDao extends AbstractDao {
 	
+	/**
+	 * Implementation of {@link AbstractDao#createOrUpdate(Object)}
+	 * 
+	 * @param aircraft
+	 */
+	public void createOrUpdateIntoDb(Aircraft aircraft) {
+		createOrUpdate(aircraft);
+	}
+		
 	/**
 	 * @return List of all {@link Aircraft} in database using Hibernate ORM Criteria
 	 */
@@ -90,30 +98,7 @@ public class AircraftDao extends AbstractDao {
 		
 		return aircraft;
 	}
-	
-	/**
-	 * Creates or updates {@link Aircraft} in database using saveOrUpdate() from Session object. 
-	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
-	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
-	 * ACID behavior of the database
-	 * 
-	 * @param aircraft
-	 */
-	public void createOrUpdate(Aircraft aircraft) {
-		Transaction tx = null;
-		session = sessionFactory.openSession();
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(aircraft);
-			session.flush();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null) tx.rollback();
-		} finally {
-			session.close();
-		}
-	}
-	
+
 	/**
 	 * @param username
 	 * @param id of {@link Aircraft}

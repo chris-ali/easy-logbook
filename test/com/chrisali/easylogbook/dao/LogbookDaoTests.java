@@ -31,7 +31,7 @@ public class LogbookDaoTests extends DaoTestData implements DaoTests {
 	@Test
 	@Override
 	public void testCreateRetrieve() {
-		usersDao.createOrUpdate(user1);
+		usersDao.createOrUpdateIntoDb(user1);
 		
 		
 		List<User> users1 = usersDao.getPaginatedUsers(0, 10);
@@ -39,21 +39,21 @@ public class LogbookDaoTests extends DaoTestData implements DaoTests {
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
-		usersDao.createOrUpdate(user2);
+		usersDao.createOrUpdateIntoDb(user2);
 		
-		logbookDao.createOrUpdate(logbook1);
-		logbookDao.createOrUpdate(logbook2);
+		logbookDao.createOrUpdateIntoDb(logbook1);
+		logbookDao.createOrUpdateIntoDb(logbook2);
 		
 		List<Logbook> logbookList1 = logbookDao.getLogbooks();
 		
 		assertEquals("Two logbooks should be created and retrieved", 2, logbookList1.size());
 		
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
+		usersDao.createOrUpdateIntoDb(user3);
+		usersDao.createOrUpdateIntoDb(user4);
 		
-		logbookDao.createOrUpdate(logbook3);
-		logbookDao.createOrUpdate(logbook4);
-		logbookDao.createOrUpdate(logbook5);
+		logbookDao.createOrUpdateIntoDb(logbook3);
+		logbookDao.createOrUpdateIntoDb(logbook4);
+		logbookDao.createOrUpdateIntoDb(logbook5);
 
 		List<Logbook> logbookList2 = logbookDao.getLogbooks();
 		List<User> users2 = usersDao.getPaginatedUsers(0, 10);
@@ -103,7 +103,7 @@ public class LogbookDaoTests extends DaoTestData implements DaoTests {
 		assertEquals("Five logbooks should be created and retrieved", 5, logbookList2.size());
 		
 		logbook2.setName("MyUpdatedLogbook");
-		logbookDao.createOrUpdate(logbook2);
+		logbookDao.createOrUpdateIntoDb(logbook2);
 		Logbook updatedLogbook = logbookDao.getLogbook(user2.getUsername(), logbook2.getId());
 		
 		assertEquals("Logbooks should be equal", logbook2, updatedLogbook);

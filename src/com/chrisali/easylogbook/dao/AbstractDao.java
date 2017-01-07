@@ -3,6 +3,7 @@ package com.chrisali.easylogbook.dao;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -42,4 +43,27 @@ public abstract class AbstractDao {
 	 * Closes Hibernate session object
 	 */
 	protected void closeSession() {session.close();}
+	
+	/**
+	 * Creates or updates Object in database using saveOrUpdate() from Session object. 
+	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
+	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
+	 * ACID behavior of the database
+	 * 
+	 * @param obj
+	 */
+	protected void createOrUpdate(Object obj) {
+		Transaction tx = null;
+		session = sessionFactory.openSession();
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(obj);
+			session.flush();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null) tx.rollback();
+		} finally {
+			session.close();
+		}
+	}
 }

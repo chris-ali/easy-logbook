@@ -31,29 +31,29 @@ public class AircraftDaoTests extends DaoTestData implements DaoTests {
 	@Test
 	@Override
 	public void testCreateRetrieve() {
-		usersDao.createOrUpdate(user1);
+		usersDao.createOrUpdateIntoDb(user1);
 		
 		List<User> users1 = usersDao.getPaginatedUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
-		aircraftDao.createOrUpdate(aircraft1);
-		aircraftDao.createOrUpdate(aircraft3);
+		aircraftDao.createOrUpdateIntoDb(aircraft1);
+		aircraftDao.createOrUpdateIntoDb(aircraft3);
 		
 		List<Aircraft> aircraftList1 = aircraftDao.getAircraft();
 		
 		assertEquals("Two aircraft should be created and retrieved", 2, aircraftList1.size());
 		
-		usersDao.createOrUpdate(user2);
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
+		usersDao.createOrUpdateIntoDb(user2);
+		usersDao.createOrUpdateIntoDb(user3);
+		usersDao.createOrUpdateIntoDb(user4);
 		
-		aircraftDao.createOrUpdate(aircraft2);
-		aircraftDao.createOrUpdate(aircraft4);
-		aircraftDao.createOrUpdate(aircraft5);
-		aircraftDao.createOrUpdate(aircraft6);
-		aircraftDao.createOrUpdate(aircraft7);
+		aircraftDao.createOrUpdateIntoDb(aircraft2);
+		aircraftDao.createOrUpdateIntoDb(aircraft4);
+		aircraftDao.createOrUpdateIntoDb(aircraft5);
+		aircraftDao.createOrUpdateIntoDb(aircraft6);
+		aircraftDao.createOrUpdateIntoDb(aircraft7);
 
 		List<Aircraft> aircraftList2 = aircraftDao.getAircraft();
 		List<User> users2 = usersDao.getPaginatedUsers(0, 10);
@@ -104,13 +104,13 @@ public class AircraftDaoTests extends DaoTestData implements DaoTests {
 		
 		aircraft5.setMake("Lockheed");
 		aircraft5.setMake("L1011");
-		aircraftDao.createOrUpdate(aircraft5);
+		aircraftDao.createOrUpdateIntoDb(aircraft5);
 		Aircraft updatedAircraft1 = aircraftDao.getAircraft(user4.getUsername(), aircraft5.getId());
 		
 		assertEquals("Aircraft should be equal", aircraft5, updatedAircraft1);
 		
 		aircraft1.setTailNumber("N6267Q");
-		aircraftDao.createOrUpdate(aircraft1);
+		aircraftDao.createOrUpdateIntoDb(aircraft1);
 		Aircraft updatedAircraft2 = aircraftDao.getAircraft(user1.getUsername(), aircraft1.getId());
 		
 		assertEquals("Aircraft should be equal", aircraft1, updatedAircraft2);

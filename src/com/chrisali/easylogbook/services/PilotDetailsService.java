@@ -45,7 +45,7 @@ public class PilotDetailsService {
 	 */
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public void createOrUpdate(PilotDetail pilotDetail) {
-		pilotDetailsDao.createOrUpdate(pilotDetail);
+		pilotDetailsDao.createOrUpdateIntoDb(pilotDetail);
 	}
 	
 	/**

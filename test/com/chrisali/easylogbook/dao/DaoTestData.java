@@ -1,5 +1,7 @@
 package com.chrisali.easylogbook.dao;
 
+import java.time.LocalDate;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,24 +85,24 @@ public class DaoTestData {
 	 * Adds all data to database needed for a test
 	 */
 	protected void addTestData() {
-		usersDao.createOrUpdate(user1);
-		usersDao.createOrUpdate(user2);
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
+		usersDao.createOrUpdateIntoDb(user1);
+		usersDao.createOrUpdateIntoDb(user2);
+		usersDao.createOrUpdateIntoDb(user3);
+		usersDao.createOrUpdateIntoDb(user4);
 		
-		aircraftDao.createOrUpdate(aircraft1);
-		aircraftDao.createOrUpdate(aircraft2);
-		aircraftDao.createOrUpdate(aircraft3);
-		aircraftDao.createOrUpdate(aircraft4);
-		aircraftDao.createOrUpdate(aircraft5);
-		aircraftDao.createOrUpdate(aircraft6);
-		aircraftDao.createOrUpdate(aircraft7);
+		aircraftDao.createOrUpdateIntoDb(aircraft1);
+		aircraftDao.createOrUpdateIntoDb(aircraft2);
+		aircraftDao.createOrUpdateIntoDb(aircraft3);
+		aircraftDao.createOrUpdateIntoDb(aircraft4);
+		aircraftDao.createOrUpdateIntoDb(aircraft5);
+		aircraftDao.createOrUpdateIntoDb(aircraft6);
+		aircraftDao.createOrUpdateIntoDb(aircraft7);
 		
-		logbookDao.createOrUpdate(logbook1);
-		logbookDao.createOrUpdate(logbook2);
-		logbookDao.createOrUpdate(logbook3);
-		logbookDao.createOrUpdate(logbook4);
-		logbookDao.createOrUpdate(logbook5);
+		logbookDao.createOrUpdateIntoDb(logbook1);
+		logbookDao.createOrUpdateIntoDb(logbook2);
+		logbookDao.createOrUpdateIntoDb(logbook3);
+		logbookDao.createOrUpdateIntoDb(logbook4);
+		logbookDao.createOrUpdateIntoDb(logbook5);
 		
 		logbookEntry1.setOrigin("KTTN");
 		logbookEntry1.setDestination("KRDG");
@@ -109,7 +111,7 @@ public class DaoTestData {
 		logbookEntry1.setPilotInCommand(0.8f);
 		logbookEntry1.setDualGiven(0.8f);
 		logbookEntry1.setTotalDuration(0.8f);
-		logbookEntryDao.createOrUpdate(logbookEntry1);
+		logbookEntryDao.createOrUpdateIntoDb(logbookEntry1);
 		
 		logbookEntry2.setOrigin("KEWR");
 		logbookEntry2.setDestination("RJAA");
@@ -119,7 +121,7 @@ public class DaoTestData {
 		logbookEntry2.setActualInstrument(12.8f);
 		logbookEntry2.setPilotInCommand(12.8f);
 		logbookEntry2.setTotalDuration(12.8f);
-		logbookEntryDao.createOrUpdate(logbookEntry2);
+		logbookEntryDao.createOrUpdateIntoDb(logbookEntry2);
 		
 		logbookEntry3.setOrigin("N87");
 		logbookEntry3.setDestination("CYTZ");
@@ -128,39 +130,48 @@ public class DaoTestData {
 		logbookEntry3.setActualInstrument(2.8f);
 		logbookEntry3.setPilotInCommand(2.8f);
 		logbookEntry3.setTotalDuration(2.8f);
-		logbookEntryDao.createOrUpdate(logbookEntry3);
+		logbookEntryDao.createOrUpdateIntoDb(logbookEntry3);
 		
+		detail1.setDate(LocalDate.of(2016, 6, 2));
 		detail1.setPilotLicense(PilotLicense.PRIVATE);
 		detail1.setCategoryRating(CategoryRating.AIRPLANE);
 		detail1.setClassRating(ClassRating.SINGLELAND);
 		pilotDetailsDao.createOrUpdate(detail1);
 		
+		detail2.setDate(LocalDate.of(2012, 4, 20));
 		detail2.setPilotMedical(PilotMedical.FIRST_CLASS);
 		pilotDetailsDao.createOrUpdate(detail2);
 		
+		detail3.setDate(LocalDate.of(2010, 10, 15));
 		detail3.setEndorsement("Complex");
 		pilotDetailsDao.createOrUpdate(detail3);
 		
+		detail4.setDate(LocalDate.of(2016, 6, 2));
 		detail4.setPilotLicense(PilotLicense.INSTRUMENT);
 		detail4.setCategoryRating(CategoryRating.AIRPLANE);
 		pilotDetailsDao.createOrUpdate(detail4);
 		
+		detail5.setDate(LocalDate.of(2012, 4, 20));
 		detail5.setPilotLicense(PilotLicense.COMMERCIAL);
 		detail5.setCategoryRating(CategoryRating.AIRPLANE);
 		detail5.setClassRating(ClassRating.MULTILAND);
 		pilotDetailsDao.createOrUpdate(detail5);
 		
+		detail6.setDate(LocalDate.of(2010, 10, 15));
 		detail6.setTypeRating("CL600");
 		pilotDetailsDao.createOrUpdate(detail6);
 		
+		detail7.setDate(LocalDate.of(2016, 6, 2));
 		detail7.setPilotExamination(PilotExamination.CHECKRIDE);
 		pilotDetailsDao.createOrUpdate(detail7);
 		
+		detail8.setDate(LocalDate.of(2012, 4, 20));
 		detail8.setPilotLicense(PilotLicense.PRIVATE);
 		detail8.setCategoryRating(CategoryRating.AIRPLANE);
 		detail8.setClassRating(ClassRating.SINGLESEA);
 		pilotDetailsDao.createOrUpdate(detail8);
 		
+		detail9.setDate(LocalDate.of(2010, 6, 2));
 		detail9.setPilotMedical(PilotMedical.THIRD_CLASS);
 		pilotDetailsDao.createOrUpdate(detail9);
 	}

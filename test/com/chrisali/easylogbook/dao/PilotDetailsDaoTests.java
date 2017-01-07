@@ -69,13 +69,13 @@ public class PilotDetailsDaoTests extends DaoTestData implements DaoTests {
 		assertEquals("Three pilot details entries should exist", 3, pilotDetailsList1.size());
 		
 		detail8.setClassRating(ClassRating.SINGLELAND);
-		pilotDetailsDao.createOrUpdate(detail8);
+		pilotDetailsDao.createOrUpdateIntoDb(detail8);
 		PilotDetail updatedDetail8 = pilotDetailsDao.getPilotDetail(user2.getUsername(), detail8.getId());
 		
 		assertEquals("Pilot details should be equal", detail8, updatedDetail8);
 		
 		detail6.setDate(LocalDate.of(2016, 6, 4));
-		pilotDetailsDao.createOrUpdate(detail6);
+		pilotDetailsDao.createOrUpdateIntoDb(detail6);
 		PilotDetail updatedDetail6 = pilotDetailsDao.getPilotDetail(user1.getUsername(), detail6.getId());
 		
 		assertEquals("Pilot details should be equal", detail6, updatedDetail6);

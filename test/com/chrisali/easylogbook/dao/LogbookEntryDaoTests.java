@@ -105,13 +105,13 @@ public class LogbookEntryDaoTests extends DaoTestData implements DaoTests {
 		logbookEntry2.setOrigin("KSFO");
 		logbookEntry2.setSecondInCommand(3.8f);
 		logbookEntry2.setPilotInCommand(9.0f);
-		logbookEntryDao.createOrUpdate(logbookEntry2);
+		logbookEntryDao.createOrUpdateIntoDb(logbookEntry2);
 		LogbookEntry updatedLogbookEntry1 = logbookEntryDao.getLogbookEntry(logbook2.getId(), logbookEntry2.getId());
 		
 		assertEquals("Logbook entries should be equal", logbookEntry2, updatedLogbookEntry1);
 		
 		logbookEntry3.setAircraft(aircraft1);
-		logbookEntryDao.createOrUpdate(logbookEntry3);
+		logbookEntryDao.createOrUpdateIntoDb(logbookEntry3);
 		LogbookEntry updatedLogbookEntry2 = logbookEntryDao.getLogbookEntry(logbook1.getId(), logbookEntry3.getId());
 		
 		assertEquals("Logbook entries should be equal", logbookEntry3, updatedLogbookEntry2);

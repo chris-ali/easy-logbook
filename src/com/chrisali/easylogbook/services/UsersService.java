@@ -21,7 +21,7 @@ public class UsersService {
 	 * @param user
 	 */
 	public void createOrUpdate(User user) {
-		usersDao.createOrUpdate(user);
+		usersDao.createOrUpdateIntoDb(user);
 	}
 	
 	/**

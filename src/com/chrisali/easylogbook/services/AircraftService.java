@@ -24,7 +24,7 @@ public class AircraftService {
 	 */
 	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	public void createOrUpdate(Aircraft aircraft) {
-		aircraftDao.createOrUpdate(aircraft);
+		aircraftDao.createOrUpdateIntoDb(aircraft);
 	}
 	
 	/**

@@ -27,7 +27,7 @@ public class LogbookService {
 	 */
 	@Secured({"ROLE_ADMIN","ROLE_USER"})
 	public void createOrUpdate(Logbook logbook) {
-		logbookDao.createOrUpdate(logbook);
+		logbookDao.createOrUpdateIntoDb(logbook);
 	}
 	
 	/**

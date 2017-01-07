@@ -30,16 +30,16 @@ public class UsersDaoTests extends DaoTestData implements DaoTests {
 	@Test
 	@Override
 	public void testCreateRetrieve() {
-		usersDao.createOrUpdate(user1);
+		usersDao.createOrUpdateIntoDb(user1);
 		
 		List<User> users1 = usersDao.getPaginatedUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, (long)usersDao.getTotalNumberUsers());
 		assertEquals("Inserted user should match retrieved", user1, users1.get(0));
 		
-		usersDao.createOrUpdate(user2);
-		usersDao.createOrUpdate(user3);
-		usersDao.createOrUpdate(user4);
+		usersDao.createOrUpdateIntoDb(user2);
+		usersDao.createOrUpdateIntoDb(user3);
+		usersDao.createOrUpdateIntoDb(user4);
 		
 		assertEquals("Four users should be created and retrieved", 4, (long)usersDao.getTotalNumberUsers());
 	}
@@ -74,13 +74,13 @@ public class UsersDaoTests extends DaoTestData implements DaoTests {
 		assertEquals("Four users should be created and retrieved", 4, (long)usersDao.getTotalNumberUsers());
 		
 		user2.setName("Chris Ali");
-		usersDao.createOrUpdate(user2);
+		usersDao.createOrUpdateIntoDb(user2);
 		User updatedUser2 = usersDao.getUser(user2.getUsername());
 		
 		assertEquals("Users should be equal", user2, updatedUser2);
 		
 		user3.setEmail("test@test.com");
-		usersDao.createOrUpdate(user3);
+		usersDao.createOrUpdateIntoDb(user3);
 		User updatedUser3 = usersDao.getUser(user3.getUsername());
 		
 		assertEquals("Users should be equal", user3, updatedUser3);

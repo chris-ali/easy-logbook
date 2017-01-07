@@ -6,7 +6,6 @@ import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -24,7 +23,16 @@ import com.chrisali.easylogbook.beans.User;
 @Repository
 @Component("pilotDetailsDao")
 public class PilotDetailsDao extends AbstractDao {
-
+	
+	/**
+	 * Implementation of {@link AbstractDao#createOrUpdate(Object)}
+	 * 
+	 * @param pilotDetail
+	 */
+	public void createOrUpdateIntoDb(PilotDetail pilotDetail) {
+		createOrUpdate(pilotDetail);
+	}
+	
 	/**
 	 * @param username
 	 * @return List of all {@link PilotDetail} objects belonging to {@link User} using Hibernate Criteria
@@ -157,30 +165,7 @@ public class PilotDetailsDao extends AbstractDao {
 		
 		return pilotDetail;
 	}
-	
-	/**
-	 * Creates or updates {@link PilotDetail} in database using saveOrUpdate() from Session object. 
-	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
-	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
-	 * ACID behavior of the database
-	 * 
-	 * @param pilotDetail
-	 */
-	public void createOrUpdate(PilotDetail pilotDetail) {
-		Transaction tx = null;
-		session = sessionFactory.openSession();
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(pilotDetail);
-			session.flush();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null) tx.rollback();
-		} finally {
-			session.close();
-		}
-	}
-	
+
 	/**
 	 * @param username
 	 * @param id of {@link PilotDetail}

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Component;
@@ -25,7 +24,16 @@ import com.chrisali.easylogbook.beans.LogbookEntry;
 @Repository
 @Component("logbookEntryDao")
 public class LogbookEntryDao extends AbstractDao {
-
+	
+	/**
+	 * Implementation of {@link AbstractDao#createOrUpdate(Object)}
+	 * 
+	 * @param logbookEntry
+	 */
+	public void createOrUpdateIntoDb(LogbookEntry logbookEntry) {
+		createOrUpdate(logbookEntry);
+	}
+	
 	/**
 	 * @return List of {@link LogbookEntry} objects in database using Hibernate Criteria
 	 */
@@ -113,30 +121,7 @@ public class LogbookEntryDao extends AbstractDao {
 		
 		return LogbookEntry;
 	}
-	
-	/**
-	 * Creates or updates {@link LogbookEntry} in database using saveOrUpdate() from Session object. 
-	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
-	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
-	 * ACID behavior of the database
-	 * 
-	 * @param logbookEntry
-	 */
-	public void createOrUpdate(LogbookEntry logbookEntry) {
-		Transaction tx = null;
-		session = sessionFactory.openSession();
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(logbookEntry);
-			session.flush();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null) tx.rollback();
-		} finally {
-			session.close();
-		}
-	}
-	
+
 	/**
 	 * @param logbookId
 	 * @param entryId

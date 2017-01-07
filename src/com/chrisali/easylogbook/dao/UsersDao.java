@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,27 +29,13 @@ public class UsersDao extends AbstractDao {
 	private PasswordEncoder passwordEncoder;
 	
 	/**
-	 * Creates or updates {@link User} in database using saveOrUpdate() from Session object. Password is encoded using PasswordEncoder.
-	 * beginTransaction() starts the process, flush() is called after saveOrUpdate(), then the Transaction
-	 * is committed as long as no exception is thrown, in which case the transaction is rolled back, ensuring
-	 * ACID behavior of the database
+	 * Implementation of {@link AbstractDao#createOrUpdate(Object)}. Password is encoded using Spring's PasswordEncoder.
 	 * 
 	 * @param user
 	 */
-	public void createOrUpdate(User user) {
-		Transaction tx = null;
-		session = sessionFactory.openSession();
-		try {
-			tx = session.beginTransaction();
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			session.saveOrUpdate(user);
-			session.flush();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null) tx.rollback();
-		} finally {
-			session.close();
-		}
+	public void createOrUpdateIntoDb(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		createOrUpdate(user);
 	}
 	
 	/**
