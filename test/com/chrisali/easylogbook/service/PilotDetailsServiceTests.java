@@ -145,7 +145,7 @@ public class PilotDetailsServiceTests extends ServiceTestData implements Service
 		addTestData();
 		
 		List<PilotDetail> pilotExaminationDetails = pilotDetailsService.getPilotDetails(user2.getUsername(), PilotDetailsType.EXAMINATIONS);
-		Set<PilotExamination> upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, calendar);
+		Set<PilotExamination> upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, LocalDate.of(2016, 6, 2));
 		
 		assertTrue("Set of upcoming expirations contains BFR", upcomingExpirations.contains(PilotExamination.BFR));
 		assertTrue("Set of upcoming expirations contains PIC", upcomingExpirations.contains(PilotExamination.PIC));

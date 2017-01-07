@@ -1,13 +1,10 @@
 package com.chrisali.easylogbook.controllers;
 
 import java.security.Principal;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.SimpleTimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,12 +44,8 @@ public class HomeController {
 			String username = principal.getName();
 			User user = usersService.getUser(username);
 			
-			SimpleTimeZone timeZone = new SimpleTimeZone(0, "Zulu");
-			Calendar calendar = new GregorianCalendar(timeZone);
-			calendar.setTime(new Date());
-			
 			List<PilotDetail> pilotExaminationDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.EXAMINATIONS);
-			upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, calendar);
+			upcomingExpirations = pilotDetailsService.getUpcomingExpirations(pilotExaminationDetails, LocalDate.now());
 			
 			model.addAttribute("user", user);
 		}

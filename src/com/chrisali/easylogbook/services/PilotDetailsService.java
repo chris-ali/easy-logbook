@@ -1,7 +1,8 @@
 package com.chrisali.easylogbook.services;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -98,57 +99,60 @@ public class PilotDetailsService {
 	
 	/**
 	 * Creates a Set of {@link PilotDetail} objects that are nearing expiration during the current calendar month.
-	 * Compares calendar object argument with each pilot detail in the List argument. If the detail meets the expiration
+	 * Compares current date with each pilot detail in the List argument. If the detail meets the expiration
 	 * criteria, it is added to the set
 	 * 
 	 * @see CFR § 61.57 - Recent flight experience: Pilot in command
 	 * @param pilotExaminationDetails
-	 * @param currentCalendar
+	 * @param currentDate
 	 * @return Set of pilot detail objects nearing expiration 
 	 */
-	public Set<PilotExamination> getUpcomingExpirations(List<PilotDetail> pilotExaminationDetails, Calendar currentCalendar) {
+	public Set<PilotExamination> getUpcomingExpirations(List<PilotDetail> pilotExaminationDetails, LocalDate currentDate) {
 		
 		Set<PilotExamination> upcomingExpirations = new LinkedHashSet<>();
-		int currentMonth = currentCalendar.get(Calendar.MONTH) + 1; // Calendar bitmasks are zero-based
-		int currentYear = currentCalendar.get(Calendar.YEAR);
-		
-		int examMonth = 0;
-		int examYear = 0;
+		LocalDate examDate = LocalDate.now();
+		Period period = Period.between(examDate, currentDate);
+
+		int yearsBetween = 1;
+		int monthsBetween = 1;
 		
 		for (PilotDetail exam : pilotExaminationDetails) {
-					
+			
 			if (exam != null) {
-				examMonth = exam.getDate().getMonth().getValue();
-				examYear = exam.getDate().getYear();
+				examDate = exam.getDate();
+				period = Period.between(examDate, currentDate);
+
+				yearsBetween = period.getYears();
+				monthsBetween = period.getMonths();
 			}
 			
 			switch(exam.getPilotExamination()) {
 			case BFR: // Expires after 24 calendar months
-				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
+				if (yearsBetween == 1 && monthsBetween >= 11) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
 			case CFI_RENEWAL: // Expires after 24 calendar months
-				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
+				if (yearsBetween == 1 && monthsBetween >= 11) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
 			case CHECKRIDE: // Expires after 24 calendar months
-				if ((currentMonth == examMonth) && (currentYear-examYear == 2)) 
+				if (yearsBetween == 1 && monthsBetween >= 11) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
 			case INSTRUMENT: // Expires after 6 calendar months
-				if (((currentMonth+12) - (examMonth+12)) == 6)
+				if (monthsBetween <= 6 && monthsBetween >= 5)
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
 			case IPC: // Expires after 6 calendar months
-				if (((currentMonth+12) - (examMonth+12)) == 6) 
+				if (monthsBetween <= 6 && monthsBetween >= 5) 
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case NIGHT: // Expires after 3 calendar months
-				if (((currentMonth+12) - (examMonth+12)) == 3)
+			case NIGHT: // Expires after 90 days
+				if (monthsBetween <= 3 && monthsBetween >= 2)
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
-			case PIC: // Expires after 3 calendar months
-				if (((currentMonth+12) - (examMonth+12)) == 3)
+			case PIC: // Expires after 90 days
+				if (monthsBetween <= 3 && monthsBetween >= 2)
 					upcomingExpirations.add(exam.getPilotExamination());
 				break;
 			default:

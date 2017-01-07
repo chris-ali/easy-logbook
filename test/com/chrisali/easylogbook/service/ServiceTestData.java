@@ -1,10 +1,6 @@
 package com.chrisali.easylogbook.service;
 
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.SimpleTimeZone;
 
 import javax.sql.DataSource;
 
@@ -92,7 +88,6 @@ public class ServiceTestData {
 	protected PilotDetail detail10 = new PilotDetail(user2);
 	protected PilotDetail detail11 = new PilotDetail(user2);
 	
-	protected Calendar calendar;
 	protected LocalDate examDate;
 	
 	/**
@@ -196,9 +191,6 @@ public class ServiceTestData {
 		detail11.setDate(LocalDate.of(2016, 3, 15));
 		detail11.setPilotExamination(PilotExamination.PIC);
 		pilotDetailsService.createOrUpdate(detail11);
-		
-		calendar = new GregorianCalendar(new SimpleTimeZone(0, "Zulu"));
-		calendar.setTime(new Date(1465839829000L)); // 06/13/2014
 	}
 	
 	/**
