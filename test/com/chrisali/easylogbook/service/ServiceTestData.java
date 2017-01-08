@@ -7,21 +7,21 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.chrisali.easylogbook.beans.Aircraft;
-import com.chrisali.easylogbook.beans.Logbook;
-import com.chrisali.easylogbook.beans.LogbookEntry;
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.beans.enums.CategoryRating;
-import com.chrisali.easylogbook.beans.enums.ClassRating;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.beans.enums.PilotLicense;
-import com.chrisali.easylogbook.beans.enums.PilotMedical;
-import com.chrisali.easylogbook.services.AircraftService;
-import com.chrisali.easylogbook.services.LogbookEntryService;
-import com.chrisali.easylogbook.services.LogbookService;
-import com.chrisali.easylogbook.services.PilotDetailsService;
-import com.chrisali.easylogbook.services.UsersService;
+import com.chrisali.easylogbook.model.Aircraft;
+import com.chrisali.easylogbook.model.Logbook;
+import com.chrisali.easylogbook.model.LogbookEntry;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.model.User;
+import com.chrisali.easylogbook.model.enums.CategoryRating;
+import com.chrisali.easylogbook.model.enums.ClassRating;
+import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.model.enums.PilotLicense;
+import com.chrisali.easylogbook.model.enums.PilotMedical;
+import com.chrisali.easylogbook.service.AircraftService;
+import com.chrisali.easylogbook.service.LogbookEntryService;
+import com.chrisali.easylogbook.service.LogbookService;
+import com.chrisali.easylogbook.service.PilotDetailsService;
+import com.chrisali.easylogbook.service.UsersService;
 
 /**
  * Contains all Service and dataSource beans, and contains preparation methods for DAO unit testing  

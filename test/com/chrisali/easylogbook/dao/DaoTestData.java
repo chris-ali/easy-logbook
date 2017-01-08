@@ -7,16 +7,16 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import com.chrisali.easylogbook.beans.Aircraft;
-import com.chrisali.easylogbook.beans.Logbook;
-import com.chrisali.easylogbook.beans.LogbookEntry;
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.beans.enums.CategoryRating;
-import com.chrisali.easylogbook.beans.enums.ClassRating;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.beans.enums.PilotLicense;
-import com.chrisali.easylogbook.beans.enums.PilotMedical;
+import com.chrisali.easylogbook.model.Aircraft;
+import com.chrisali.easylogbook.model.Logbook;
+import com.chrisali.easylogbook.model.LogbookEntry;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.model.User;
+import com.chrisali.easylogbook.model.enums.CategoryRating;
+import com.chrisali.easylogbook.model.enums.ClassRating;
+import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.model.enums.PilotLicense;
+import com.chrisali.easylogbook.model.enums.PilotMedical;
 
 /**
  * Contains all DAO and dataSource beans, and contains preparation methods for DAO unit testing  

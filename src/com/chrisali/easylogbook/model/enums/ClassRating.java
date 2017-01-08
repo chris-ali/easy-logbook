@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.beans.enums;
+package com.chrisali.easylogbook.model.enums;
 
 public enum ClassRating {
 	SINGLELAND  ("Single Engine Land"),

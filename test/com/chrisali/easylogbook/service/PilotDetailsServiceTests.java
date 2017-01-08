@@ -23,10 +23,10 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.ServletTestExecutionListener;
 
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.enums.ClassRating;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.model.enums.ClassRating;
+import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",

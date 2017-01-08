@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chrisali.easylogbook.beans.User;
+import com.chrisali.easylogbook.model.User;
 
 /**
  * DAO that communicates with MySQL using Hibernate to perform CRUD operations on {@link User} objects

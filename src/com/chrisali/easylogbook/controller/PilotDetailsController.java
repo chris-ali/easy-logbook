@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.controllers;
+package com.chrisali.easylogbook.controller;
 
 import java.security.Principal;
 import java.util.List;
@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.services.PilotDetailsService;
-import com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType;
-import com.chrisali.easylogbook.services.UsersService;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.service.PilotDetailsService;
+import com.chrisali.easylogbook.service.UsersService;
+import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller

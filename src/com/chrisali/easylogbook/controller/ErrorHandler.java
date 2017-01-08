@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.controllers;
+package com.chrisali.easylogbook.controller;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.access.AccessDeniedException;

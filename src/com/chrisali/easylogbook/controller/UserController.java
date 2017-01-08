@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.controllers;
+package com.chrisali.easylogbook.controller;
 
 import java.security.Principal;
 import java.util.List;
@@ -12,17 +12,17 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.chrisali.easylogbook.beans.Aircraft;
-import com.chrisali.easylogbook.beans.Logbook;
-import com.chrisali.easylogbook.beans.LogbookEntry;
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.services.AircraftService;
-import com.chrisali.easylogbook.services.LogbookEntryService;
-import com.chrisali.easylogbook.services.LogbookService;
-import com.chrisali.easylogbook.services.PilotDetailsService;
-import com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType;
-import com.chrisali.easylogbook.services.UsersService;
+import com.chrisali.easylogbook.model.Aircraft;
+import com.chrisali.easylogbook.model.Logbook;
+import com.chrisali.easylogbook.model.LogbookEntry;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.model.User;
+import com.chrisali.easylogbook.service.AircraftService;
+import com.chrisali.easylogbook.service.LogbookEntryService;
+import com.chrisali.easylogbook.service.LogbookService;
+import com.chrisali.easylogbook.service.PilotDetailsService;
+import com.chrisali.easylogbook.service.UsersService;
+import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller

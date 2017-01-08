@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.services;
+package com.chrisali.easylogbook.service;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
 import com.chrisali.easylogbook.dao.PilotDetailsDao;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.model.enums.PilotExamination;
 
 @Service("pilotDetailsService")
 public class PilotDetailsService {

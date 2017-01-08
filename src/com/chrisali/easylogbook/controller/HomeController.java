@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.controllers;
+package com.chrisali.easylogbook.controller;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.chrisali.easylogbook.beans.PilotDetail;
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.services.PilotDetailsService;
-import com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType;
-import com.chrisali.easylogbook.services.UsersService;
+import com.chrisali.easylogbook.model.PilotDetail;
+import com.chrisali.easylogbook.model.User;
+import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.service.PilotDetailsService;
+import com.chrisali.easylogbook.service.UsersService;
+import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
 
 @Controller
 public class HomeController {

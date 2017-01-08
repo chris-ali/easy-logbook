@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.services;
+package com.chrisali.easylogbook.service;
 
 import java.util.List;
 
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 
-import com.chrisali.easylogbook.beans.Aircraft;
-import com.chrisali.easylogbook.beans.LogbookEntry;
-import com.chrisali.easylogbook.beans.User;
 import com.chrisali.easylogbook.dao.AircraftDao;
+import com.chrisali.easylogbook.model.Aircraft;
+import com.chrisali.easylogbook.model.LogbookEntry;
+import com.chrisali.easylogbook.model.User;
 
 @Service("aircraftService")
 public class AircraftService {

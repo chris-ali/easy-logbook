@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.configs;
+package com.chrisali.easylogbook.model.utilities;
 
 import java.sql.Date;
 import java.time.LocalDate;

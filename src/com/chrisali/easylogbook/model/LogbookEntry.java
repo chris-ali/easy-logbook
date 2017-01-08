@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.beans;
+package com.chrisali.easylogbook.model;
 
 import java.io.Serializable;
 

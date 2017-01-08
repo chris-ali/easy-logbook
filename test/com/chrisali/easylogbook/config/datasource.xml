@@ -34,9 +34,9 @@
 			</property>
 			<property name="packagesToScan">
 				<list>
-					<value>com.chrisali.easylogbook.beans</value>
+					<value>com.chrisali.easylogbook.model</value>
 					<value>com.chrisali.easylogbook.dao</value>
-					<value>com.chrisali.easylogbook.services</value>
+					<value>com.chrisali.easylogbook.service</value>
 				</list>
 			</property>
 		</bean>

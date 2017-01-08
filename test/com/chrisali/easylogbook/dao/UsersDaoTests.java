@@ -13,7 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.chrisali.easylogbook.beans.User;
+import com.chrisali.easylogbook.model.User;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",

@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.controllers;
+package com.chrisali.easylogbook.controller;
 
 import java.security.Principal;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.chrisali.easylogbook.beans.User;
-import com.chrisali.easylogbook.services.UsersService;
+import com.chrisali.easylogbook.model.User;
+import com.chrisali.easylogbook.service.UsersService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller

@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.beans;
+package com.chrisali.easylogbook.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,12 +13,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.chrisali.easylogbook.beans.enums.CategoryRating;
-import com.chrisali.easylogbook.beans.enums.ClassRating;
-import com.chrisali.easylogbook.beans.enums.PilotExamination;
-import com.chrisali.easylogbook.beans.enums.PilotLicense;
-import com.chrisali.easylogbook.beans.enums.PilotMedical;
-import com.chrisali.easylogbook.configs.LocalDatePersistenceConverter;
+import com.chrisali.easylogbook.model.enums.CategoryRating;
+import com.chrisali.easylogbook.model.enums.ClassRating;
+import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.model.enums.PilotLicense;
+import com.chrisali.easylogbook.model.enums.PilotMedical;
+import com.chrisali.easylogbook.model.utilities.LocalDatePersistenceConverter;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 

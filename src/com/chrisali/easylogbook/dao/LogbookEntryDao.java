@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.chrisali.easylogbook.beans.Aircraft;
-import com.chrisali.easylogbook.beans.Logbook;
-import com.chrisali.easylogbook.beans.LogbookEntry;
+import com.chrisali.easylogbook.model.Aircraft;
+import com.chrisali.easylogbook.model.Logbook;
+import com.chrisali.easylogbook.model.LogbookEntry;
 
 /**
  * DAO that communicates with MySQL using Hibernate to perform CRUD operations on {@link LogbookEntry} objects

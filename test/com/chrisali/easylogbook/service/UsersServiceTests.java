@@ -21,7 +21,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.test.context.web.ServletTestExecutionListener;
 
-import com.chrisali.easylogbook.beans.User;
+import com.chrisali.easylogbook.model.User;
 
 @ActiveProfiles("test")
 @ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",

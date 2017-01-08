@@ -1,4 +1,4 @@
-package com.chrisali.easylogbook.controllers;
+package com.chrisali.easylogbook.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.chrisali.easylogbook.beans.Aircraft;
-import com.chrisali.easylogbook.beans.Logbook;
-import com.chrisali.easylogbook.beans.LogbookEntry;
-import com.chrisali.easylogbook.services.AircraftService;
-import com.chrisali.easylogbook.services.LogbookEntryService;
-import com.chrisali.easylogbook.services.LogbookService;
+import com.chrisali.easylogbook.model.Aircraft;
+import com.chrisali.easylogbook.model.Logbook;
+import com.chrisali.easylogbook.model.LogbookEntry;
+import com.chrisali.easylogbook.service.AircraftService;
+import com.chrisali.easylogbook.service.LogbookEntryService;
+import com.chrisali.easylogbook.service.LogbookService;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
