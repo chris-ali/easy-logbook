@@ -22,6 +22,7 @@ import org.springframework.test.context.transaction.TransactionalTestExecutionLi
 import org.springframework.test.context.web.ServletTestExecutionListener;
 
 import com.chrisali.easylogbook.model.Logbook;
+import com.chrisali.easylogbook.model.LogbookEntry;
 import com.chrisali.easylogbook.model.User;
 
 @ActiveProfiles("test")
@@ -149,5 +150,41 @@ public class LogbookServiceTests extends ServiceTestData implements ServiceTests
 	@Override
 	public void testUpdateNoAuth() {
 		testUpdate();
+	}
+	
+	@Test
+	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	public void testLogbookTotals() {
+		addTestData();
+		
+		LogbookEntry totals = logbookService.logbookTotals(user1.getUsername(), logbook1.getId());
+		
+		assertEquals("Total landings in logbook should be 2", 2, totals.getDayLandings());
+		assertEquals("Total PIC in logbook should be 3.6", 3.6f, totals.getPilotInCommand(), 0.1f);
+		assertEquals("Total single engine time in logbook should be 3.6", 3.6f, totals.getAirplaneSel(), 0.1f);
+		assertEquals("Total dual given in logbook should be 0.8", 0.8f, totals.getDualGiven(), 0.1f);
+	}
+	
+	@Test(expected = AuthenticationCredentialsNotFoundException.class)
+	public void testLogbookTotalsNoAuth() {
+		testLogbookTotals();
+	}
+	
+	@Test
+	@WithMockUser(username="admin", roles={"USER","ADMIN"})
+	public void testOverallLogbookTotals() {
+		addTestData();
+		
+		LogbookEntry overallTotals = logbookService.overallLogbookTotals(user2.getUsername());
+		
+		assertEquals("Total landings in logbooks should be 1", 1, overallTotals.getDayLandings());
+		assertEquals("Total PIC in logbooks should be 12.8", 12.8f, overallTotals.getPilotInCommand(), 0.1f);
+		assertEquals("Total insturment time logbooks should be 12.8", 12.8f, overallTotals.getActualInstrument(), 0.1f);
+		assertEquals("Total time logbooks should be 12.8", 12.8f, overallTotals.getTotalDuration(), 0.1f);
+	}
+	
+	@Test(expected = AuthenticationCredentialsNotFoundException.class)
+	public void testOverallLogbookTotalsNoAuth() {
+		testLogbookTotals();
 	}
 }
