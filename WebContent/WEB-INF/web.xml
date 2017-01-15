@@ -26,6 +26,10 @@
     <display-name>easylogbook</display-name>
     <servlet-name>easylogbook</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:com/chrisali/easylogbook/configs/servlet-context.xml</param-value>
+    </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   
