@@ -18,9 +18,8 @@ import com.chrisali.easylogbook.model.PilotDetail;
 import com.chrisali.easylogbook.model.enums.ClassRating;
 
 @ActiveProfiles("test")
-@ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
-									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
+@ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/config/dao-context.xml",
+									"classpath:com/chrisali/easylogbook/config/security-context.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class PilotDetailsDaoTests extends DaoTestData implements DaoTests {
 	

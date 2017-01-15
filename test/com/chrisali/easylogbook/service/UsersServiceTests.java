@@ -24,15 +24,14 @@ import org.springframework.test.context.web.ServletTestExecutionListener;
 import com.chrisali.easylogbook.model.User;
 
 @ActiveProfiles("test")
-@ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/configs/dao-context.xml",
-									"classpath:com/chrisali/easylogbook/configs/service-context.xml",
-									"classpath:com/chrisali/easylogbook/configs/security-context.xml",
-									"classpath:com/chrisali/easylogbook/config/datasource.xml" })
-@TestExecutionListeners(listeners={ServletTestExecutionListener.class,
-							       DependencyInjectionTestExecutionListener.class,
-							       DirtiesContextTestExecutionListener.class,
-							       TransactionalTestExecutionListener.class,
-							       WithSecurityContextTestExecutionListener.class})
+@ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/config/dao-context.xml",
+									"classpath:com/chrisali/easylogbook/config/service-context.xml",
+									"classpath:com/chrisali/easylogbook/config/security-context.xml" })
+@TestExecutionListeners(listeners = { ServletTestExecutionListener.class,
+							       	  DependencyInjectionTestExecutionListener.class,
+							          DirtiesContextTestExecutionListener.class,
+							          TransactionalTestExecutionListener.class,
+							          WithSecurityContextTestExecutionListener.class })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UsersServiceTests extends ServiceTestData implements ServiceTests {
 	

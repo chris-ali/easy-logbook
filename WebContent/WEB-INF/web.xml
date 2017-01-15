@@ -28,7 +28,7 @@
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:com/chrisali/easylogbook/configs/servlet-context.xml</param-value>
+        <param-value>classpath:com/chrisali/easylogbook/config/servlet-context.xml</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -41,9 +41,9 @@
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
-		classpath:com/chrisali/easylogbook/configs/dao-context.xml
-		classpath:com/chrisali/easylogbook/configs/service-context.xml
-		classpath:com/chrisali/easylogbook/configs/security-context.xml
+		classpath:com/chrisali/easylogbook/config/dao-context.xml
+		classpath:com/chrisali/easylogbook/config/service-context.xml
+		classpath:com/chrisali/easylogbook/config/security-context.xml
 	</param-value>
   </context-param>
   

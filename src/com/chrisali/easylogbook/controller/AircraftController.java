@@ -133,7 +133,7 @@ public class AircraftController {
 	}
 	
 	/**
-	 * Deletes specified {@link Aircraft} from database; deletes all {@link LogbookEntry} tied to aircraft object beforehand.
+	 * Deletes specified {@link Aircraft} from database, which cascade deletes all {@link LogbookEntry} tied to aircraft.
 	 * Adds active CSS header class to model.
 	 * 
 	 * @param principal
@@ -143,20 +143,6 @@ public class AircraftController {
 	 */
 	@RequestMapping(value="aircraft/delete")
 	public String deleteAircraft(Principal principal, Model model, @RequestParam("id") int aircraftId){
-		
-		// Get all logbooks tied to user
-		String username = principal.getName();
-		Aircraft aircraft = aircraftService.getAircraft(username, aircraftId);
-		List<Logbook> logbooks = logbookService.getLogbooks(username);
-		
-		// Delete all logbook entries tied to aircraft before deleting aircraft
-		for (Logbook logbook : logbooks) {
-			List<LogbookEntry> logbookEntries = logbookEntryService.getLogbookEntriesByAircraft(logbook.getId(), aircraft.getId());
-			
-			for(LogbookEntry entry : logbookEntries)
-				logbookEntryService.delete(logbook.getId(), entry.getId());
-		}
-		
 		aircraftService.delete(principal.getName(), aircraftId);
 		
 		// Active class used on header fragment

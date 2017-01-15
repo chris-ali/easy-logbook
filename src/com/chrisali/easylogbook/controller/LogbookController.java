@@ -143,7 +143,7 @@ public class LogbookController {
 	}
 	
 	/**
-	 * Does delete of {@link Logbook} object. Deletes all {@link LogbookEntry} tied to logbook beforehand. Adds
+	 * Does delete of {@link Logbook} object and cascade deletes all {@link LogbookEntry} tied to logbook. Adds
 	 * active CSS header class to Model.
 	 * 
 	 * @param principal
@@ -153,16 +153,6 @@ public class LogbookController {
 	 */
 	@RequestMapping(value="logbook/delete", method=RequestMethod.GET)
 	public String deleteLogbook(Principal principal, @RequestParam("id") int id, Model model){
-		// Get logbook attached to user
-		Logbook logbook = logbookService.getLogbook(principal.getName(), id);
-		model.addAttribute("logbook", logbook);
-		
-		// Delete all entries in logbook before deleting logbook 
-		List<LogbookEntry> logbookEntries = logbookEntryService.getAllLogbookEntries(logbook.getId());
-		
-		for(LogbookEntry entry : logbookEntries)
-			logbookEntryService.delete(id, entry.getId());
-		
 		logbookService.delete(principal.getName(), id);
 		
 		// Active class used on header fragment

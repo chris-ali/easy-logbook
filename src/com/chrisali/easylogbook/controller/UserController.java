@@ -1,7 +1,6 @@
 package com.chrisali.easylogbook.controller;
 
 import java.security.Principal;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,17 +11,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.chrisali.easylogbook.model.Aircraft;
-import com.chrisali.easylogbook.model.Logbook;
-import com.chrisali.easylogbook.model.LogbookEntry;
-import com.chrisali.easylogbook.model.PilotDetail;
 import com.chrisali.easylogbook.model.User;
-import com.chrisali.easylogbook.service.AircraftService;
-import com.chrisali.easylogbook.service.LogbookEntryService;
-import com.chrisali.easylogbook.service.LogbookService;
-import com.chrisali.easylogbook.service.PilotDetailsService;
 import com.chrisali.easylogbook.service.UsersService;
-import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
 import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
@@ -30,18 +20,6 @@ public class UserController {
 	
 	@Autowired
 	private UsersService usersService;
-	
-	@Autowired
-	private LogbookService logbookService;
-	
-	@Autowired
-	private AircraftService aircraftService;
-	
-	@Autowired
-	private LogbookEntryService logbookEntryService;
-	
-	@Autowired
-	private PilotDetailsService pilotDetailsService;
 	
 	/**
 	 * Shows {@link User} creation page. Adds new user object to model
@@ -91,35 +69,14 @@ public class UserController {
 	}
 
 	/**
-	 * Does deletion of {@link User} from database. Removes all {@link Logbook}, {@link LogbookEntry}, 
-	 * {@link Aircraft} and {@link PilotDetail} data tied to account
+	 * Does deletion of {@link User} from database and all data tied to account
 	 * 
 	 * @param principal
 	 * @return path to home.html
 	 */
 	@RequestMapping("user/close")
 	public String doCloseAccount(Principal principal) {
-		String username = principal.getName();
-		
-		List<Logbook> logbooks = logbookService.getLogbooks(username);
-		for (Logbook logbook : logbooks) {
-			List<LogbookEntry> entries = logbookEntryService.getAllLogbookEntries(logbook.getId());
-
-			for (LogbookEntry entry : entries)
-				logbookEntryService.delete(logbook.getId(), entry.getId());
-			
-			logbookService.delete(username, logbook.getId());
-		}
-		
-		List<Aircraft> aircraftList = aircraftService.getAircraft(username);
-		for (Aircraft aircraft : aircraftList) 
-			aircraftService.delete(username, aircraft.getId());
-		
-		List<PilotDetail> pilotDetails = pilotDetailsService.getPilotDetails(username, PilotDetailsType.ALL);
-		for (PilotDetail detail : pilotDetails)
-			pilotDetailsService.delete(username, detail.getId());
-		
-		usersService.delete(username);
+		usersService.delete(principal.getName());
 		
 		return "home/home";
 	}
