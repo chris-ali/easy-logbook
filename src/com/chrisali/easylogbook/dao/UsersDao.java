@@ -29,12 +29,13 @@ public class UsersDao extends AbstractDao {
 	private PasswordEncoder passwordEncoder;
 	
 	/**
-	 * Implementation of {@link AbstractDao#createOrUpdate(Object)}. Password is encoded using Spring's PasswordEncoder.
+	 * Implementation of {@link AbstractDao#createOrUpdate(Object)}. rawPassword is encoded using Spring's PasswordEncoder.
 	 * 
 	 * @param user
 	 */
 	public void createOrUpdateIntoDb(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setPassword(passwordEncoder.encode(user.getRawPassword()));
+		user.setOldPassword(user.getPassword());
 		createOrUpdate(user);
 	}
 	

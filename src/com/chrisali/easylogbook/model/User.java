@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -39,16 +40,20 @@ public class User implements Serializable {
 	@Size(min=5, max= 100, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String name;
 	
-	@NotBlank(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	//@Pattern(regexp="^\\S+$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
-	@Size(min=5, max=20, groups={FormValidationGroup.class})
 	private String password;
+	
+	@Pattern(regexp="^\\S+$")
+	@Size(min=5, max=20, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Transient
+	private String rawPassword;
+
 	private String oldPassword;
 	
 	@ValidEmail(min=6, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
 	private String email;
 	
 	private boolean enabled;
+	
 	private String authority;
 	
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
@@ -62,10 +67,10 @@ public class User implements Serializable {
 	
 	public User() {}
 	
-	public User(String username, String name, String password, String email, boolean enabled, String authority) {
+	public User(String username, String name, String rawPassword, String email, boolean enabled, String authority) {
 		this.username = username;
 		this.name = name;
-		this.password = password;
+		this.rawPassword = rawPassword;
 		this.email = email;
 		this.enabled = enabled;
 		this.authority = authority;
@@ -95,6 +100,14 @@ public class User implements Serializable {
 		this.password = password;
 	}
 	
+	public String getRawPassword() {
+		return rawPassword;
+	}
+
+	public void setRawPassword(String rawPassword) {
+		this.rawPassword = rawPassword;
+	}
+
 	public String getOldPassword() {
 		return oldPassword;
 	}
@@ -153,8 +166,8 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", name=" + name + ", password=" + password + ", oldPassword="
-				+ oldPassword + ", email=" + email + ", enabled=" + enabled + ", authority=" + authority + "]";
+		return "User [username=" + username + ", name=" + name + ", password=" + password + ", email=" + email
+				+ ", enabled=" + enabled + ", authority=" + authority + "]";
 	}
 
 	@Override
@@ -165,8 +178,6 @@ public class User implements Serializable {
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((oldPassword == null) ? 0 : oldPassword.hashCode());
-		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -196,16 +207,6 @@ public class User implements Serializable {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (oldPassword == null) {
-			if (other.oldPassword != null)
-				return false;
-		} else if (!oldPassword.equals(other.oldPassword))
-			return false;
-		if (password == null) {
-			if (other.password != null)
-				return false;
-		} else if (!password.equals(other.password))
 			return false;
 		if (username == null) {
 			if (other.username != null)

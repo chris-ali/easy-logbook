@@ -104,7 +104,7 @@
 					
 				<label for="inputPassword" class="sr-only">Password</label>
 				<input type="password" name='password' id="inputPassword" class="form-control"	
-					th:field="*{password}" 
+					th:field="*{rawPassword}" 
 					placeholder="Password" />
 				<span class="label label-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 					

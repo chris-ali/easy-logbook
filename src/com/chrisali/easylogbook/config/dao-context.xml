@@ -48,7 +48,7 @@
 	</beans>
 	
 	<beans profile="test">
-		<context:property-placeholder location="com/chrisali/easylogbook/config/jdbc.properties" />
+		<context:property-placeholder location="classpath:com/chrisali/easylogbook/config/jdbc.properties" />
 	
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 			<property name="driverClassName" value="${jdbc.driver}"></property>
