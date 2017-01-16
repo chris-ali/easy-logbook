@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.chrisali.easylogbook.model.User;
 import com.chrisali.easylogbook.service.UsersService;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
 @SessionAttributes("user")
@@ -52,7 +51,7 @@ public class ProfileController {
 	 * @return redirect to showProfile() with GET parameters showing update of user info succeeded or path to profile.html
 	 */
 	@RequestMapping("profile/update")
-	public String doUpdateProfile(@Validated(FormValidationGroup.class) @ModelAttribute("user") User user, BindingResult result, Model model) {
+	public String doUpdateProfile(@Validated @ModelAttribute("user") User user, BindingResult result, Model model) {
 		if (result.hasFieldErrors("username") || result.hasFieldErrors("name") || result.hasFieldErrors("email"))
 			return "profile/profile";
 		
@@ -71,7 +70,7 @@ public class ProfileController {
 	 * @return redirect to showProfile() with GET parameters showing update of password succeeded or path to profile.html
 	 */
 	@RequestMapping("profile/password")
-	public String doUpdatePassword(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
+	public String doUpdatePassword(@Validated User user, BindingResult result, Model model) {
 		User userFromDatabase = usersService.getUser(user.getUsername());
 		
 		if (!passwordEncoder.matches(user.getOldPassword(), userFromDatabase.getPassword())) {

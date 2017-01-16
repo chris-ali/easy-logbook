@@ -47,8 +47,7 @@ public class LogbookServiceTests extends ServiceTestData implements ServiceTests
 	@Override
 	public void testCreateRetrieve() {
 		usersService.createOrUpdate(user1);
-		
-		
+				
 		List<User> users1 = usersService.getPaginatedUsers(0, 10);
 		
 		assertEquals("One user should be created and retrieved", 1, users1.size());

@@ -18,9 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.chrisali.easylogbook.model.PilotDetail;
 import com.chrisali.easylogbook.service.PilotDetailsService;
-import com.chrisali.easylogbook.service.UsersService;
 import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
+import com.chrisali.easylogbook.service.UsersService;
 
 @Controller
 @SessionAttributes("pilotDetail")
@@ -108,7 +107,7 @@ public class PilotDetailsController {
 	 * @return redirect to showPilotDetails() or to showCreateDetails() if errors found
 	 */
 	@RequestMapping("details/docreate")
-	public String doCreateDetails(@Validated(FormValidationGroup.class) @ModelAttribute("pilotDetail") PilotDetail pilotDetail, 
+	public String doCreateDetails(@Validated @ModelAttribute("pilotDetail") PilotDetail pilotDetail, 
 								  BindingResult result,
 								  RedirectAttributes redirect,
 								  HttpServletRequest request,

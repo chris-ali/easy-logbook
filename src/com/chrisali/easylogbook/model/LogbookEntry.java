@@ -14,8 +14,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
 
-import com.chrisali.easylogbook.validation.FormValidationGroup;
-import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 import com.chrisali.easylogbook.validation.ValidDuration;
 
 /**
@@ -49,62 +47,62 @@ public class LogbookEntry implements Serializable {
 	private Aircraft aircraft;
 	
 	//TODO Needs a pattern matching regexp
-	@NotBlank(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@NotBlank()
 	private String date;
 	
 	// Route
 	@NotBlank
-	@Size(min=2, max=4, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=2, max=4)
 	private String origin;
 	@NotBlank
-	@Size(min=2, max=4, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=2, max=4)
 	private String destination;
 	
-	@Range(min=0, max=255, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Range(min=0, max=255)
 	private int instrumentApproaches = 0;
-	@Range(min=0, max=255, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Range(min=0, max=255)
 	private int dayLandings = 0;
-	@Range(min=0, max=255, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Range(min=0, max=255)
 	private int nightLandings = 0;
 	
 	// Category/Class
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float airplaneSel = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float airplaneMel = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float turbine = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float glider = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float rotorcraft = 0.0f;
 
 	// Conditions of Flight
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float night = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float actualInstrument = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float simulatedInstrument = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float groundTrainer = 0.0f;
 	
 	// Type of Piloting
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float crossCountry = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float dualReceived = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float dualGiven = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float pilotInCommand = 0.0f;
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float secondInCommand = 0.0f;
 	
-	@ValidDuration(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidDuration
 	private float totalDuration = 0.0f;
 	
-	@Size(max=200, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(max=200)
 	private String remarks = "";
 	
 	public LogbookEntry() {

@@ -53,10 +53,10 @@
 		        
 		        <p/>
 		        
-		        <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()}">
+		        <div th:if="${type == T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).LICENSES.name()}">
 					<label class="sr-only" for="inputPilotLicense">License/Rating Type</label>
 				    <select class="form-control" id="inputPilotLicense" name="pilotLicense" >
-				        <option th:each="pilotLicense : ${T(com.chrisali.easylogbook.beans.enums.PilotLicense).values()}" 
+				        <option th:each="pilotLicense : ${T(com.chrisali.easylogbook.model.enums.PilotLicense).values()}" 
 				        		th:value="${pilotLicense}" th:text="${pilotLicense.getLicense()}" />
 				    </select>
 				    
@@ -64,7 +64,7 @@
 				     
 				    <label class="sr-only" for="inputCategoryRating">Category</label>
 				    <select class="form-control" id="inputCategoryRating" name="categoryRating" >
-				        <option th:each="categoryRating : ${T(com.chrisali.easylogbook.beans.enums.CategoryRating).values()}" 
+				        <option th:each="categoryRating : ${T(com.chrisali.easylogbook.model.enums.CategoryRating).values()}" 
 				        		th:value="${categoryRating}" th:text="${categoryRating.getCategoryRating()}" />
 				    </select>
 				    
@@ -72,34 +72,34 @@
 				     
 				    <label class="sr-only" for="inputClassRating">Class</label>
 				    <select class="form-control" id="inputClassRating" name="classRating" >
-				        <option th:each="classRating : ${T(com.chrisali.easylogbook.beans.enums.ClassRating).values()}" 
+				        <option th:each="classRating : ${T(com.chrisali.easylogbook.model.enums.ClassRating).values()}" 
 				        		th:value="${classRating}" th:text="${classRating.getClassRating()}" />
 				    </select>
 			    </div>
 			    
 			    <p/>
 			    
-			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()}">
+			    <div th:if="${type == T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()}">
 				    <label class="sr-only" for="inputExamination">Currency/Review</label>
 				    <select class="form-control" id="inputExamination" name="pilotExamination" >
-				        <option th:each="pilotExam : ${T(com.chrisali.easylogbook.beans.enums.PilotExamination).values()}" 
+				        <option th:each="pilotExam : ${T(com.chrisali.easylogbook.model.enums.PilotExamination).values()}" 
 				        		th:value="${pilotExam}" th:text="${pilotExam.getExam()}" />
 				    </select>
 			    </div>
 			    
 			    <p/>
 			    
-			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()}">
+			    <div th:if="${type == T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).MEDICALS.name()}">
 				    <label class="sr-only" for="inputMedical">Medical</label>
 				    <select class="form-control" id="inputMedical" name="pilotMedical" >
-				        <option th:each="pilotMedical : ${T(com.chrisali.easylogbook.beans.enums.PilotMedical).values()}" 
+				        <option th:each="pilotMedical : ${T(com.chrisali.easylogbook.model.enums.PilotMedical).values()}" 
 				        		th:value="${pilotMedical}" th:text="${pilotMedical.getMedical()}" />
 				    </select>
 			    </div>
 			    
 			    <p/>
 			    
-			    <div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()}">
+			    <div th:if="${type == T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()}">
 					<label class="sr-only" for="inputTypeRating">Type Rating</label> 
 					<input type="text" name='typeRating' id="inputTypeRating" class="form-control"
 						th:field="*{typeRating}"
@@ -109,7 +109,7 @@
 				
 				<p/>
 				
-				<div th:if="${type == T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()}">
+				<div th:if="${type == T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()}">
 					<label class="sr-only" for="inputEndorsement">Endorsement</label> 
 					<input type="text" name='endorsement' id="inputEndorsement" class="form-control"
 						th:field="*{endorsement}"

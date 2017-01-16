@@ -15,9 +15,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.chrisali.easylogbook.validation.FormValidationGroup;
-import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
-
 /**
  * Aircraft bean tied to {@link LogbookEntry} objects to simplify flight logging process
  * 
@@ -39,15 +36,15 @@ public class Aircraft implements Serializable {
 	private User user;
 	
 	@NotBlank
-	@Size(min=2, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=2, max= 45)
 	private String make;
 	
 	@NotBlank
-	@Size(min=2, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=2, max= 45)
 	private String model;
 
 	@NotBlank
-	@Size(min=2, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=2, max= 45)
 	private String tailNumber;
 	
 	@OneToMany(mappedBy="aircraft", cascade=CascadeType.ALL)

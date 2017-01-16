@@ -24,7 +24,6 @@ import com.chrisali.easylogbook.model.LogbookEntry;
 import com.chrisali.easylogbook.service.AircraftService;
 import com.chrisali.easylogbook.service.LogbookEntryService;
 import com.chrisali.easylogbook.service.LogbookService;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
 @SessionAttributes("logbookEntry")
@@ -94,7 +93,7 @@ public class LogbookEntryController {
 	 * @return redirect to showCreateLogbookEntry(), or showCreateLogbookEntry() if errors in binding result
 	 */
 	@RequestMapping(value="entry/docreate", method=RequestMethod.POST)
-	public String doCreateLogbookEntry(@Validated(FormValidationGroup.class) @ModelAttribute("logbookEntry") LogbookEntry logbookEntry, 
+	public String doCreateLogbookEntry(@Validated @ModelAttribute("logbookEntry") LogbookEntry logbookEntry, 
 								  		BindingResult result, 
 								  		RedirectAttributes redirect, 
 								  		Model model, 

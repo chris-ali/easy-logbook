@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.chrisali.easylogbook.model.User;
 import com.chrisali.easylogbook.service.UsersService;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
 public class UserController {
@@ -44,7 +43,7 @@ public class UserController {
 	 * @return path to accountcreated.html
 	 */
 	@RequestMapping(value="user/docreate", method=RequestMethod.POST)
-	public String doCreateAccount(@Validated(FormValidationGroup.class) User user, BindingResult result, Model model) {
+	public String doCreateAccount(@Validated User user, BindingResult result, Model model) {
 		if (result.hasErrors())
 			return "user/createaccount";
 		

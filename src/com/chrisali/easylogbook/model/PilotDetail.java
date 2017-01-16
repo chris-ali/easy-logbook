@@ -2,6 +2,7 @@ package com.chrisali.easylogbook.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -19,8 +20,6 @@ import com.chrisali.easylogbook.model.enums.PilotExamination;
 import com.chrisali.easylogbook.model.enums.PilotLicense;
 import com.chrisali.easylogbook.model.enums.PilotMedical;
 import com.chrisali.easylogbook.model.utilities.LocalDatePersistenceConverter;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
-import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 
 /**
  * Bean that is tied to {@link User} to describe their flying qualifications, such as licenses, medicals, endorsements,
@@ -49,7 +48,7 @@ public class PilotDetail implements Serializable {
 	@JoinColumn(name="username", referencedColumnName="username")
 	private User user;
 	
-	@NotNull(groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@NotNull
 	@Convert(converter=LocalDatePersistenceConverter.class)
 	private LocalDate date;
 	
@@ -59,10 +58,10 @@ public class PilotDetail implements Serializable {
 	private CategoryRating categoryRating;
 	private PilotMedical pilotMedical;
 	
-	@Size(min=0, max=60, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=0, max=60)
 	private String endorsement;
 	
-	@Size(min=0, max=60, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=0, max=60)
 	private String typeRating;
 	
 	public PilotDetail() {
@@ -110,6 +109,10 @@ public class PilotDetail implements Serializable {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
+	}
+
+	public void setDate(String date) {
+		this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 	}
 
 	public PilotExamination getPilotExamination() {

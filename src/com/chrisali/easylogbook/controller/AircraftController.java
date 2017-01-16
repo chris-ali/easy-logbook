@@ -25,7 +25,6 @@ import com.chrisali.easylogbook.model.LogbookEntry;
 import com.chrisali.easylogbook.service.AircraftService;
 import com.chrisali.easylogbook.service.LogbookEntryService;
 import com.chrisali.easylogbook.service.LogbookService;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
 public class AircraftController {
@@ -100,7 +99,7 @@ public class AircraftController {
 	 * @return path to createaircraft.html or redirects to showAllAircraft()
 	 */
 	@RequestMapping(value="aircraft/docreate")
-	public String doCreateAircraft(@Validated(FormValidationGroup.class) Aircraft aircraft, 
+	public String doCreateAircraft(@Validated Aircraft aircraft, 
 								  BindingResult result, Model model, Principal principal,
 								  HttpServletRequest request) {
 		if (result.hasErrors())

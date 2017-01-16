@@ -113,7 +113,7 @@
 						              <tr th:each="licenseDetail : ${pilotLicenseDetails}">
 								        <td data-toggle="tooltip" class="tip-bottom" title="Edit License Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
-								        		th:href="@{/details/create(id=${licenseDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}" 
+								        		th:href="@{/details/create(id=${licenseDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).LICENSES.name()})}" 
 								        		th:inline="text">[[${licenseDetail.pilotLicense.getLicense()}]]</a>
 								        </td>
 								        <td th:text="${licenseDetail.classRating.getClassRating()}">
@@ -134,7 +134,7 @@
 				        
 				        <div class="page-header">
 							<a class="btn btn-primary" th:if="${pilotLicenseDetails.size() &lt; 10}"
-								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).LICENSES.name()})}">Add License/Rating</a>
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).LICENSES.name()})}">Add License/Rating</a>
 						</div>
 		    		</div>
 		    		
@@ -163,7 +163,7 @@
 						              <tr th:each="medicalDetail : ${pilotMedicalDetails}">
 								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Medical Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
-								        		th:href="@{/details/create(id=${medicalDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}" 
+								        		th:href="@{/details/create(id=${medicalDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}" 
 								        		th:inline="text">[[${medicalDetail.pilotMedical.getMedical()}]]</a>
 								        </td>
 								        <td th:text="${medicalDetail.date}">
@@ -180,7 +180,7 @@
 				        
 				        <div class="page-header">
 							<a class="btn btn-primary" th:if="${pilotMedicalDetails.size() &lt; 1}" 
-								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}">Add Medical Certificate</a>
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}">Add Medical Certificate</a>
 						</div>
 		    		</div>
 		    		
@@ -209,7 +209,7 @@
 						              <tr th:each="examDetail : ${pilotExamDetails}">
 								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Checkride Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
-								        		th:href="@{/details/create(id=${examDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}" 
+								        		th:href="@{/details/create(id=${examDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}" 
 								        		th:inline="text">[[${examDetail.pilotExamination.getExam()}]]</a>
 								        </td>
 								        <td th:text="${examDetail.date}">
@@ -226,7 +226,7 @@
 				        
 				        <div class="page-header">
 							<a class="btn btn-primary" th:if="${pilotExamDetails.size() &lt; 20}" 
-								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}">Add Checkride / Refresher</a>
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}">Add Checkride / Refresher</a>
 						</div>
 		    		</div>
 		    		
@@ -255,7 +255,7 @@
 						              <tr th:each="pilotTypeRating : ${pilotTypeRatingDetails}">
 								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Type Rating Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
-								        		th:href="@{/details/create(id=${pilotTypeRating.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}" 
+								        		th:href="@{/details/create(id=${pilotTypeRating.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}" 
 								        		th:inline="text">[[${pilotTypeRating.typeRating}]]</a>
 								        </td>
 								        <td th:text="${pilotTypeRating.date}">
@@ -272,7 +272,7 @@
 				        
 				        <div class="page-header">
 							<a class="btn btn-primary" th:if="${pilotTypeRatingDetails.size() &lt; 20}" 
-								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}">Add Type Rating</a>
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}">Add Type Rating</a>
 						</div>
 		    		</div>
 		    		
@@ -301,7 +301,7 @@
 						              <tr th:each="pilotEndorsement : ${pilotEndorsementDetails}">
 								        <td data-toggle="tooltip" class="tip-bottom" title="Edit Endorsement Information">
 								        	<a class="btn btn-sm btn-default triggerEdit" 
-								        		th:href="@{/details/create(id=${pilotEndorsement.id}, edit=true, type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}" 
+								        		th:href="@{/details/create(id=${pilotEndorsement.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}" 
 								        		th:inline="text">[[${pilotEndorsement.endorsement}]]</a>
 								        </td>
 								        <td th:text="${pilotEndorsement.date}">
@@ -318,7 +318,7 @@
 				        
 				        <div class="page-header">
 							<a class="btn btn-primary" th:if="${pilotEndorsementDetails.size() &lt; 10}" 
-								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.services.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}">Add Endorsement</a>
+								th:href="@{/details/create(type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}">Add Endorsement</a>
 						</div>
 		    		</div>
 		    	</div>

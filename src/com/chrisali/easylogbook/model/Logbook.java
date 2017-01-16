@@ -13,9 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import com.chrisali.easylogbook.validation.FormValidationGroup;
-import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
-
 /**
  * Logbook bean tied to {@link User}, which {@link LogbookEntry} beans are tied to
  * 
@@ -36,7 +33,7 @@ public class Logbook implements Serializable {
 	@JoinColumn(name="username")
 	private User user;
 
-	@Size(min=5, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class}) 
+	@Size(min=5, max= 45) 
 	private String name;
 		
 	@OneToMany(mappedBy="logbook", cascade=CascadeType.ALL)

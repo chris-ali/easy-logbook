@@ -35,7 +35,6 @@ public class UsersDao extends AbstractDao {
 	 */
 	public void createOrUpdateIntoDb(User user) {
 		user.setPassword(passwordEncoder.encode(user.getRawPassword()));
-		user.setOldPassword(user.getPassword());
 		createOrUpdate(user);
 	}
 	

@@ -23,7 +23,6 @@ import com.chrisali.easylogbook.model.LogbookEntry;
 import com.chrisali.easylogbook.service.AircraftService;
 import com.chrisali.easylogbook.service.LogbookEntryService;
 import com.chrisali.easylogbook.service.LogbookService;
-import com.chrisali.easylogbook.validation.FormValidationGroup;
 
 @Controller
 public class LogbookController {
@@ -118,7 +117,7 @@ public class LogbookController {
 	}
 	
 	@RequestMapping(value="logbook/docreate")
-	public String doCreateLogbook(@Validated(FormValidationGroup.class) Logbook logbook, 
+	public String doCreateLogbook(@Validated Logbook logbook, 
 								  BindingResult result, Model model, Principal principal) {
 		if (result.hasErrors())
 			return "logbook/createlogbook";

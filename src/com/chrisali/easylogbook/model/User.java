@@ -14,8 +14,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.chrisali.easylogbook.validation.FormValidationGroup;
-import com.chrisali.easylogbook.validation.PersistenceValidationGroup;
 import com.chrisali.easylogbook.validation.ValidEmail;
 
 /**
@@ -32,24 +30,24 @@ public class User implements Serializable {
 	
 	@Id
 	@NotBlank
-	@Size(min=5, max= 45, groups={PersistenceValidationGroup.class, FormValidationGroup.class}) 
-	@Pattern(regexp="^\\w{5,}$", groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=5, max= 45) 
+	@Pattern(regexp="^\\w{5,}$")
 	private String username;
 	
 	@NotBlank
-	@Size(min=5, max= 100, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=5, max= 100)
 	private String name;
 	
 	private String password;
 	
 	@Pattern(regexp="^\\S+$")
-	@Size(min=5, max=20, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@Size(min=5, max=20)
 	@Transient
 	private String rawPassword;
 
 	private String oldPassword;
 	
-	@ValidEmail(min=6, groups={PersistenceValidationGroup.class, FormValidationGroup.class})
+	@ValidEmail(min=6)
 	private String email;
 	
 	private boolean enabled;
