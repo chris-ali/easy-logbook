@@ -45,13 +45,13 @@
 	</beans>
 	
 	<beans profile="test">
-		<context:property-placeholder location="classpath:com/chrisali/easylogbook/config/jdbc.properties" />
+		<context:property-placeholder location="classpath:com/chrisali/easylogbook/config/datasource.properties" />
 	
 		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-			<property name="driverClassName" value="${jdbc.driver}"></property>
-			<property name="url" value="${jdbc.url}"></property>
-			<property name="username" value="${jdbc.username}"></property>
-			<property name="password" value="${jdbc.password}"></property>
+			<property name="driverClassName" value="${jdbc.test.driver}"></property>
+			<property name="url" value="${jdbc.test.url}"></property>
+			<property name="username" value="${jdbc.test.username}"></property>
+			<property name="password" value="${jdbc.test.password}"></property>
 		</bean>
 		
 		<bean id="sessionFactory"
