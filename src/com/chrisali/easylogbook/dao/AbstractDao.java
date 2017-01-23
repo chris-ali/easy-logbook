@@ -33,7 +33,7 @@ public abstract class AbstractDao {
 	protected Session getSession() {
 		session = null;
 		
-		try {session = sessionFactory.getCurrentSession();} 
+		try {session = sessionFactory.openSession();} 
 		catch (HibernateException e) {session = sessionFactory.openSession();}
 		
 		return session;
