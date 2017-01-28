@@ -12,13 +12,23 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 
+import com.chrisali.easylogbook.config.ApplicationConfig;
+import com.chrisali.easylogbook.config.DataSourceTestConfig;
+import com.chrisali.easylogbook.config.SecurityConfig;
+import com.chrisali.easylogbook.config.WebAppInitializer;
+import com.chrisali.easylogbook.config.WebMvcConfig;
 import com.chrisali.easylogbook.model.Aircraft;
 import com.chrisali.easylogbook.model.User;
 
 @ActiveProfiles("test")
-@ContextConfiguration(locations = { "classpath:com/chrisali/easylogbook/config/dao-context.xml",
-									"classpath:com/chrisali/easylogbook/config/security-context.xml" })
+@ContextConfiguration(classes = { ApplicationConfig.class, 
+								  DataSourceTestConfig.class, 
+								  SecurityConfig.class, 
+								  WebMvcConfig.class, 
+								  WebAppInitializer.class })
+@WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
 public class AircraftDaoTests extends DaoTestData implements DaoTests {
 

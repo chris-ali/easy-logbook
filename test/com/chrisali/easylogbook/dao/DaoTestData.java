@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import com.chrisali.easylogbook.model.Aircraft;
@@ -27,6 +28,7 @@ import com.chrisali.easylogbook.model.enums.PilotMedical;
 public class DaoTestData {
 	
 	@Autowired
+	@Qualifier("testDataSource")
 	protected DataSource dataSource;
 
 	@Autowired
