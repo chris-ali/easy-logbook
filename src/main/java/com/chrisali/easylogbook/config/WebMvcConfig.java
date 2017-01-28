@@ -3,7 +3,6 @@ package com.chrisali.easylogbook.config;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.validation.Validator;
@@ -20,20 +19,19 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.chrisali.easylogbook"})
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	private static final Logger logger = Logger.getRootLogger();
-	
+
+	private static final String RESOURCES_LOCATION = "/resources/";
+    private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
+    
 	private static final String MESSAGE_SOURCE = "com.chrisali.easylogbook.messages.messages";
 	private static final String MESSAGE_ENCODING = "UTF-8";
 	
-	private static final String VIEW_PREFIX = "WEB-INF/views/";
+	private static final String VIEW_PREFIX = "/templates/";
 	private static final String VIEW_SUFFIX = ".html";
 	private static final String TEMPLATE_MODE = "HTML5";
-	
-	private static final String RESOURCES_LOCATION = "/resources/";
-    private static final String RESOURCES_HANDLER = RESOURCES_LOCATION + "**";
 	
 	// ================================ Thymeleaf Setup ==============================
 	
