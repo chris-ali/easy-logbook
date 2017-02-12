@@ -69,9 +69,9 @@ public class DaoTestData {
 	protected Aircraft aircraft6 = new Aircraft(user4, "Airbus", "A321", "G-CLLD");
 	protected Aircraft aircraft7 = new Aircraft(user4, "Piper", "Archer", "C-TOPS");
 	
-	protected LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, new String("2016-05-04"));
-	protected LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, new String("2011-02-26"));
-	protected LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, new String("1995-12-18"));
+	protected LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, LocalDate.of(2016, 05, 04));
+	protected LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, LocalDate.of(2011, 02, 26));
+	protected LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, LocalDate.of(1995, 12, 18));
 	
 	protected PilotDetail detail1 = new PilotDetail(user1);
 	protected PilotDetail detail2 = new PilotDetail(user1);

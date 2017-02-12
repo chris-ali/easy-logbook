@@ -2,7 +2,6 @@ package com.chrisali.easylogbook.model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -13,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.chrisali.easylogbook.model.enums.CategoryRating;
 import com.chrisali.easylogbook.model.enums.ClassRating;
@@ -50,6 +51,7 @@ public class PilotDetail implements Serializable {
 	
 	@NotNull
 	@Convert(converter=LocalDatePersistenceConverter.class)
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
 	private LocalDate date;
 	
 	private PilotExamination pilotExamination;
@@ -109,10 +111,6 @@ public class PilotDetail implements Serializable {
 
 	public void setDate(LocalDate date) {
 		this.date = date;
-	}
-
-	public void setDate(String date) {
-		this.date = LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 	}
 
 	public PilotExamination getPilotExamination() {

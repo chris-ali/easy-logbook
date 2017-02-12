@@ -30,7 +30,7 @@
 	      	</div>
 
 	      	<div th:if="${aircraftList.size() == 0}" class="alert alert-info" role="alert">
-	        	<strong>First Aircraft -</strong> To add a logbook entry you need to have at least one aircraft. Click <a th:href="@{aircraft/create}">here</a> to create one
+	        	<strong>First Aircraft -</strong> To add a logbook entry you need to have at least one aircraft. Click <a th:href="@{/aircraft/create}">here</a> to create one
 	      	</div>
 			
 			<div th:if="${logbookEntries.size() > 0}">

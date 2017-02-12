@@ -1,7 +1,9 @@
 package com.chrisali.easylogbook.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -9,11 +11,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import com.chrisali.easylogbook.model.utilities.LocalDatePersistenceConverter;
 import com.chrisali.easylogbook.validation.ValidDuration;
 
 /**
@@ -46,9 +51,10 @@ public class LogbookEntry implements Serializable {
 	})
 	private Aircraft aircraft;
 	
-	//TODO Needs a pattern matching regexp
-	@NotBlank()
-	private String date;
+	@NotNull
+	@Convert(converter=LocalDatePersistenceConverter.class)
+	@DateTimeFormat(pattern = "MM/dd/yyyy")
+	private LocalDate date;
 	
 	// Route
 	@NotBlank
@@ -109,12 +115,12 @@ public class LogbookEntry implements Serializable {
 		this.aircraft = new Aircraft();
 	}
 
-	public LogbookEntry(int id, Logbook logbook, Aircraft aircraft, String date) {
+	public LogbookEntry(int id, Logbook logbook, Aircraft aircraft, LocalDate date) {
 		this(logbook, aircraft, date);
 		this.id = id;
 	}
 	
-	public LogbookEntry(Logbook logbook, Aircraft aircraft, String date) {
+	public LogbookEntry(Logbook logbook, Aircraft aircraft, LocalDate date) {
 		this.logbook = logbook;
 		this.aircraft = aircraft;
 		this.date = date;
@@ -144,11 +150,11 @@ public class LogbookEntry implements Serializable {
 		this.aircraft = aircraft;
 	}
 
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
