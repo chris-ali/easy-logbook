@@ -1,9 +1,8 @@
 package com.chrisali.easylogbook.model;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.Date;
 
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,7 +19,6 @@ import com.chrisali.easylogbook.model.enums.ClassRating;
 import com.chrisali.easylogbook.model.enums.PilotExamination;
 import com.chrisali.easylogbook.model.enums.PilotLicense;
 import com.chrisali.easylogbook.model.enums.PilotMedical;
-import com.chrisali.easylogbook.model.utilities.LocalDatePersistenceConverter;
 
 /**
  * Bean that is tied to {@link User} to describe their flying qualifications, such as licenses, medicals, endorsements,
@@ -50,9 +48,8 @@ public class PilotDetail implements Serializable {
 	private User user;
 	
 	@NotNull
-	@Convert(converter=LocalDatePersistenceConverter.class)
 	@DateTimeFormat(pattern = "MM/dd/yyyy")
-	private LocalDate date;
+	private Date date;
 	
 	private PilotExamination pilotExamination;
 	private PilotLicense pilotLicense;
@@ -74,7 +71,7 @@ public class PilotDetail implements Serializable {
 		this.user = user;
 	}
 
-	public PilotDetail(int id, User user, LocalDate date, PilotExamination pilotExamination, PilotLicense pilotLicense,
+	public PilotDetail(int id, User user, Date date, PilotExamination pilotExamination, PilotLicense pilotLicense,
 			ClassRating classRating, CategoryRating categoryRating, PilotMedical pilotMedical, String endorsement,
 			String typeRating) {
 		this.id = id;
@@ -105,11 +102,11 @@ public class PilotDetail implements Serializable {
 		this.user = user;
 	}
 
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 

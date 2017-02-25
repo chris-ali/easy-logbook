@@ -120,7 +120,7 @@
 								        </td>
 								        <td th:text="${licenseDetail.categoryRating.getCategoryRating()}">
 								        </td>
-								        <td th:text="${licenseDetail.date}">
+								        <td th:text="${#dates.format(licenseDetail.date, 'MMM dd yyyy')}">
 								        </td>
 								        <td>
 								        	<a class="btn btn-sm btn-danger triggerLicenseDelete" th:href="@{/details/delete(id=${licenseDetail.id})}">Delete</a>
@@ -166,7 +166,7 @@
 								        		th:href="@{/details/create(id=${medicalDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).MEDICALS.name()})}" 
 								        		th:inline="text">[[${medicalDetail.pilotMedical.getMedical()}]]</a>
 								        </td>
-								        <td th:text="${medicalDetail.date}">
+								        <td th:text="${#dates.format(medicalDetail.date, 'MMM dd yyyy')}">
 								        </td>
 								        <td>
 								        	<a class="btn btn-sm btn-danger triggerMedicalDelete" th:href="@{/details/delete(id=${medicalDetail.id})}">Delete</a>
@@ -212,7 +212,7 @@
 								        		th:href="@{/details/create(id=${examDetail.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).EXAMINATIONS.name()})}" 
 								        		th:inline="text">[[${examDetail.pilotExamination.getExam()}]]</a>
 								        </td>
-								        <td th:text="${examDetail.date}">
+								        <td th:text="${#dates.format(examDetail.date, 'MMM dd yyyy')}">
 								        </td>
 								        <td>
 								        	<a class="btn btn-sm btn-danger triggerExamDelete" th:href="@{/details/delete(id=${examDetail.id})}">Delete</a>
@@ -258,7 +258,7 @@
 								        		th:href="@{/details/create(id=${pilotTypeRating.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).TYPERATINGS.name()})}" 
 								        		th:inline="text">[[${pilotTypeRating.typeRating}]]</a>
 								        </td>
-								        <td th:text="${pilotTypeRating.date}">
+								        <td th:text="${#dates.format(pilotTypeRating.date, 'MMM dd yyyy')}">
 								        </td>
 								        <td>
 								        	<a class="btn btn-sm btn-danger triggerTypeRatingDelete" th:href="@{/details/delete(id=${pilotTypeRating.id})}">Delete</a>
@@ -304,7 +304,7 @@
 								        		th:href="@{/details/create(id=${pilotEndorsement.id}, edit=true, type=${T(com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType).ENDORSEMENTS.name()})}" 
 								        		th:inline="text">[[${pilotEndorsement.endorsement}]]</a>
 								        </td>
-								        <td th:text="${pilotEndorsement.date}">
+								        <td th:text="${#dates.format(pilotEndorsement.date, 'MMM dd yyyy')}">
 								        </td>
 								        <td>
 								        	<a class="btn btn-sm btn-danger triggerEndorsementDelete" th:href="@{/details/delete(id=${pilotEndorsement.id})}">Delete</a>

@@ -26,6 +26,7 @@ import com.chrisali.easylogbook.config.WebMvcConfig;
 import com.chrisali.easylogbook.model.PilotDetail;
 import com.chrisali.easylogbook.model.enums.ClassRating;
 import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.model.utilities.DateUtilities;
 import com.chrisali.easylogbook.service.PilotDetailsService.PilotDetailsType;
 
 @ActiveProfiles("test")
@@ -92,7 +93,7 @@ public class PilotDetailsServiceTests extends ServiceTestData implements Service
 		
 		assertEquals("Pilot details should be equal", detail8, updatedDetail8);
 		
-		detail6.setDate(LocalDate.of(2016, 6, 4));
+		detail6.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 4));
 		pilotDetailsService.createOrUpdate(detail6);
 		PilotDetail updatedDetail6 = pilotDetailsService.getPilotDetail(user1.getUsername(), detail6.getId());
 		

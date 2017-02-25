@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -22,6 +21,7 @@ import com.chrisali.easylogbook.config.WebAppInitializer;
 import com.chrisali.easylogbook.config.WebMvcConfig;
 import com.chrisali.easylogbook.model.PilotDetail;
 import com.chrisali.easylogbook.model.enums.ClassRating;
+import com.chrisali.easylogbook.model.utilities.DateUtilities;
 
 @ActiveProfiles("test")
 @ContextConfiguration(classes = { ApplicationConfig.class, 
@@ -83,7 +83,7 @@ public class PilotDetailsDaoTests extends DaoTestData implements DaoTests {
 		
 		assertEquals("Pilot details should be equal", detail8, updatedDetail8);
 		
-		detail6.setDate(LocalDate.of(2016, 6, 4));
+		detail6.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 4));
 		pilotDetailsDao.createOrUpdateIntoDb(detail6);
 		PilotDetail updatedDetail6 = pilotDetailsDao.getPilotDetail(user1.getUsername(), detail6.getId());
 		

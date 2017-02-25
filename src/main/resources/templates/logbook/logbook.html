@@ -6,7 +6,7 @@
 	    <link href="http://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
 	    <link href="http://getbootstrap.com/examples/theme/theme.css" rel="stylesheet" />
-	    <link href="../resources/static/css/logbook.css" rel="stylesheet" />
+	    <link href="../../static/css/logbook.css" rel="stylesheet" />
 		
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,7 +16,7 @@
 	    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
 	    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
 	    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap-wizard/1.2/jquery.bootstrap.wizard.js" type="text/javascript"></script>
-	    <script src="../resources/static/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
+	    <script src="../../static/js/jquery.twbsPagination.min.js" type="text/javascript"></script>
 		
 		<title>Logbook</title>
 	</head>
@@ -68,7 +68,7 @@
 							              <tr th:each="entry : ${logbookEntries}">
 									        <td data-toggle="tooltip" class="tip-bottom" title="Edit Entry">
 									        	<a class="btn btn-sm btn-default" th:href="@{/entry/create(logbookId=${logbook.id}, edit=true, entryId=${entry.id})}" 
-									        		th:inline="text">[[${entry.date}]]</a>
+									        		th:inline="text">[[${#dates.format(entry.date, 'MMM dd yyyy')}]]</a>
 											</td>
 									        <td th:text="${entry.origin + ' to ' + entry.destination}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.remarks}"></td>
 									        <td th:text="${entry.aircraft.tailNumber}" data-toggle="tooltip" class="tip-bottom" th:title="${entry.aircraft.make + ' ' + entry.aircraft.model}"></td>

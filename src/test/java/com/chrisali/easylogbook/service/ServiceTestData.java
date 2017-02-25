@@ -18,11 +18,7 @@ import com.chrisali.easylogbook.model.enums.ClassRating;
 import com.chrisali.easylogbook.model.enums.PilotExamination;
 import com.chrisali.easylogbook.model.enums.PilotLicense;
 import com.chrisali.easylogbook.model.enums.PilotMedical;
-import com.chrisali.easylogbook.service.AircraftService;
-import com.chrisali.easylogbook.service.LogbookEntryService;
-import com.chrisali.easylogbook.service.LogbookService;
-import com.chrisali.easylogbook.service.PilotDetailsService;
-import com.chrisali.easylogbook.service.UsersService;
+import com.chrisali.easylogbook.model.utilities.DateUtilities;
 
 /**
  * Contains all Service and dataSource beans, and contains preparation methods for DAO unit testing  
@@ -74,9 +70,9 @@ public class ServiceTestData {
 	protected Aircraft aircraft6 = new Aircraft(user4, "Airbus", "A321", "G-CLLD");
 	protected Aircraft aircraft7 = new Aircraft(user4, "Piper", "Archer", "C-TOPS");
 	
-	protected LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, LocalDate.of(2016, 05, 04));
-	protected LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, LocalDate.of(2011, 02, 26));
-	protected LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, LocalDate.of(1995, 12, 18));
+	protected LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, DateUtilities.dateFromYearMonthDay(2016, 05, 04));
+	protected LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, DateUtilities.dateFromYearMonthDay(2011, 02, 26));
+	protected LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, DateUtilities.dateFromYearMonthDay(1995, 12, 18));
 	
 	protected PilotDetail detail1 = new PilotDetail(user1);
 	protected PilotDetail detail2 = new PilotDetail(user1);
@@ -143,54 +139,54 @@ public class ServiceTestData {
 		logbookEntry3.setTotalDuration(2.8f);
 		logbookEntryService.createOrUpdate(logbookEntry3);
 		
-		detail1.setDate(LocalDate.of(2016, 6, 2));
+		detail1.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 2));
 		detail1.setPilotLicense(PilotLicense.PRIVATE);
 		detail1.setCategoryRating(CategoryRating.AIRPLANE);
 		detail1.setClassRating(ClassRating.SINGLELAND);
 		pilotDetailsService.createOrUpdate(detail1);
 		
-		detail2.setDate(LocalDate.of(2012, 4, 20));
+		detail2.setDate(DateUtilities.dateFromYearMonthDay(2012, 4, 20));
 		detail2.setPilotMedical(PilotMedical.FIRST_CLASS);
 		pilotDetailsService.createOrUpdate(detail2);
 		
-		detail3.setDate(LocalDate.of(2010, 10, 15));
+		detail3.setDate(DateUtilities.dateFromYearMonthDay(2010, 10, 15));
 		detail3.setEndorsement("Complex");
 		pilotDetailsService.createOrUpdate(detail3);
 		
-		detail4.setDate(LocalDate.of(2016, 6, 2));
+		detail4.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 2));
 		detail4.setPilotLicense(PilotLicense.INSTRUMENT);
 		detail4.setCategoryRating(CategoryRating.AIRPLANE);
 		pilotDetailsService.createOrUpdate(detail4);
 		
-		detail5.setDate(LocalDate.of(2012, 4, 20));
+		detail5.setDate(DateUtilities.dateFromYearMonthDay(2012, 4, 20));
 		detail5.setPilotLicense(PilotLicense.COMMERCIAL);
 		detail5.setCategoryRating(CategoryRating.AIRPLANE);
 		detail5.setClassRating(ClassRating.MULTILAND);
 		pilotDetailsService.createOrUpdate(detail5);
 		
-		detail6.setDate(LocalDate.of(2010, 10, 15));
+		detail6.setDate(DateUtilities.dateFromYearMonthDay(2010, 10, 15));
 		detail6.setTypeRating("CL600");
 		pilotDetailsService.createOrUpdate(detail6);
 		
-		detail7.setDate(LocalDate.of(2016, 6, 2));
+		detail7.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 2));
 		detail7.setPilotExamination(PilotExamination.CHECKRIDE);
 		pilotDetailsService.createOrUpdate(detail7);
 		
-		detail8.setDate(LocalDate.of(2012, 4, 20));
+		detail8.setDate(DateUtilities.dateFromYearMonthDay(2012, 4, 20));
 		detail8.setPilotLicense(PilotLicense.PRIVATE);
 		detail8.setCategoryRating(CategoryRating.AIRPLANE);
 		detail8.setClassRating(ClassRating.SINGLESEA);
 		pilotDetailsService.createOrUpdate(detail8);
 		
-		detail9.setDate(LocalDate.of(2010, 6, 2));
+		detail9.setDate(DateUtilities.dateFromYearMonthDay(2010, 6, 2));
 		detail9.setPilotMedical(PilotMedical.THIRD_CLASS);
 		pilotDetailsService.createOrUpdate(detail9);
 		
-		detail10.setDate(LocalDate.of(2014, 6, 15));
+		detail10.setDate(DateUtilities.dateFromYearMonthDay(2014, 6, 15));
 		detail10.setPilotExamination(PilotExamination.BFR);
 		pilotDetailsService.createOrUpdate(detail10);
 		
-		detail11.setDate(LocalDate.of(2016, 3, 15));
+		detail11.setDate(DateUtilities.dateFromYearMonthDay(2016, 3, 15));
 		detail11.setPilotExamination(PilotExamination.PIC);
 		pilotDetailsService.createOrUpdate(detail11);
 	}

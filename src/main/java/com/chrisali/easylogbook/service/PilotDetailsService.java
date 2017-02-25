@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.chrisali.easylogbook.dao.PilotDetailsDao;
 import com.chrisali.easylogbook.model.PilotDetail;
 import com.chrisali.easylogbook.model.enums.PilotExamination;
+import com.chrisali.easylogbook.model.utilities.DateUtilities;
 
 @Service("pilotDetailsService")
 public class PilotDetailsService {
@@ -102,7 +103,7 @@ public class PilotDetailsService {
 	 * Compares current date with each pilot detail in the List argument. If the detail meets the expiration
 	 * criteria, it is added to the set
 	 * 
-	 * @see CFR § 61.57 - Recent flight experience: Pilot in command
+	 * @see CFR ï¿½ 61.57 - Recent flight experience: Pilot in command
 	 * @param pilotExaminationDetails
 	 * @param currentDate
 	 * @return Set of pilot detail objects nearing expiration 
@@ -119,7 +120,7 @@ public class PilotDetailsService {
 		for (PilotDetail exam : pilotExaminationDetails) {
 			
 			if (exam != null) {
-				examDate = exam.getDate();
+				examDate = DateUtilities.dateToLocalDate(exam.getDate());
 				period = Period.between(examDate, currentDate);
 
 				yearsBetween = period.getYears();

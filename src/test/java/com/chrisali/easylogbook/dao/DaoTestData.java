@@ -1,7 +1,5 @@
 package com.chrisali.easylogbook.dao;
 
-import java.time.LocalDate;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import com.chrisali.easylogbook.model.enums.ClassRating;
 import com.chrisali.easylogbook.model.enums.PilotExamination;
 import com.chrisali.easylogbook.model.enums.PilotLicense;
 import com.chrisali.easylogbook.model.enums.PilotMedical;
+import com.chrisali.easylogbook.model.utilities.DateUtilities;
 
 /**
  * Contains all DAO and dataSource beans, and contains preparation methods for DAO unit testing  
@@ -69,9 +68,9 @@ public class DaoTestData {
 	protected Aircraft aircraft6 = new Aircraft(user4, "Airbus", "A321", "G-CLLD");
 	protected Aircraft aircraft7 = new Aircraft(user4, "Piper", "Archer", "C-TOPS");
 	
-	protected LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, LocalDate.of(2016, 05, 04));
-	protected LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, LocalDate.of(2011, 02, 26));
-	protected LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, LocalDate.of(1995, 12, 18));
+	protected LogbookEntry logbookEntry1 = new LogbookEntry(logbook1, aircraft1, DateUtilities.dateFromYearMonthDay(2016, 05, 04));
+	protected LogbookEntry logbookEntry2 = new LogbookEntry(logbook2, aircraft2, DateUtilities.dateFromYearMonthDay(2011, 02, 26));
+	protected LogbookEntry logbookEntry3 = new LogbookEntry(logbook1, aircraft3, DateUtilities.dateFromYearMonthDay(1995, 12, 18));
 	
 	protected PilotDetail detail1 = new PilotDetail(user1);
 	protected PilotDetail detail2 = new PilotDetail(user1);
@@ -134,46 +133,46 @@ public class DaoTestData {
 		logbookEntry3.setTotalDuration(2.8f);
 		logbookEntryDao.createOrUpdateIntoDb(logbookEntry3);
 		
-		detail1.setDate(LocalDate.of(2016, 6, 2));
+		detail1.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 2));
 		detail1.setPilotLicense(PilotLicense.PRIVATE);
 		detail1.setCategoryRating(CategoryRating.AIRPLANE);
 		detail1.setClassRating(ClassRating.SINGLELAND);
 		pilotDetailsDao.createOrUpdate(detail1);
 		
-		detail2.setDate(LocalDate.of(2012, 4, 20));
+		detail2.setDate(DateUtilities.dateFromYearMonthDay(2012, 4, 20));
 		detail2.setPilotMedical(PilotMedical.FIRST_CLASS);
 		pilotDetailsDao.createOrUpdate(detail2);
 		
-		detail3.setDate(LocalDate.of(2010, 10, 15));
+		detail3.setDate(DateUtilities.dateFromYearMonthDay(2010, 10, 15));
 		detail3.setEndorsement("Complex");
 		pilotDetailsDao.createOrUpdate(detail3);
 		
-		detail4.setDate(LocalDate.of(2016, 6, 2));
+		detail4.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 2));
 		detail4.setPilotLicense(PilotLicense.INSTRUMENT);
 		detail4.setCategoryRating(CategoryRating.AIRPLANE);
 		pilotDetailsDao.createOrUpdate(detail4);
 		
-		detail5.setDate(LocalDate.of(2012, 4, 20));
+		detail5.setDate(DateUtilities.dateFromYearMonthDay(2012, 4, 20));
 		detail5.setPilotLicense(PilotLicense.COMMERCIAL);
 		detail5.setCategoryRating(CategoryRating.AIRPLANE);
 		detail5.setClassRating(ClassRating.MULTILAND);
 		pilotDetailsDao.createOrUpdate(detail5);
 		
-		detail6.setDate(LocalDate.of(2010, 10, 15));
+		detail6.setDate(DateUtilities.dateFromYearMonthDay(2010, 10, 15));
 		detail6.setTypeRating("CL600");
 		pilotDetailsDao.createOrUpdate(detail6);
 		
-		detail7.setDate(LocalDate.of(2016, 6, 2));
+		detail7.setDate(DateUtilities.dateFromYearMonthDay(2016, 6, 2));
 		detail7.setPilotExamination(PilotExamination.CHECKRIDE);
 		pilotDetailsDao.createOrUpdate(detail7);
 		
-		detail8.setDate(LocalDate.of(2012, 4, 20));
+		detail8.setDate(DateUtilities.dateFromYearMonthDay(2012, 4, 20));
 		detail8.setPilotLicense(PilotLicense.PRIVATE);
 		detail8.setCategoryRating(CategoryRating.AIRPLANE);
 		detail8.setClassRating(ClassRating.SINGLESEA);
 		pilotDetailsDao.createOrUpdate(detail8);
 		
-		detail9.setDate(LocalDate.of(2010, 6, 2));
+		detail9.setDate(DateUtilities.dateFromYearMonthDay(2010, 6, 2));
 		detail9.setPilotMedical(PilotMedical.THIRD_CLASS);
 		pilotDetailsDao.createOrUpdate(detail9);
 	}
