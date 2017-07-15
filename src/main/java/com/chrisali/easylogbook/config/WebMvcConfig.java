@@ -37,9 +37,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean
 	public ViewResolver viewResolver() {
-		logger.debug("==================================");
-		logger.debug("Setting up Thymeleaf View Resolver");
-		logger.debug("==================================");
+		logger.info("==================================");
+		logger.info("Setting up Thymeleaf View Resolver");
+		logger.info("==================================");
 		
 		ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
 		viewResolver.setTemplateEngine(templateEngine());
@@ -74,9 +74,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean(name = "messageSource")
 	public MessageSource messageSource() {
-		logger.debug("==================================");
-		logger.debug("Setting up Message Source");
-		logger.debug("==================================");
+		logger.info("==================================");
+		logger.info("Setting up Message Source");
+		logger.info("==================================");
 		
 		ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
 		messageSource.setBasename(MESSAGE_SOURCE);
@@ -96,9 +96,9 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		logger.debug("==================================");
-		logger.debug("Setting up Resource Handlers");
-		logger.debug("==================================");
+		logger.info("==================================");
+		logger.info("Setting up Resource Handlers");
+		logger.info("==================================");
 		
 		registry.addResourceHandler(RESOURCES_HANDLER)
 				.addResourceLocations(RESOURCES_LOCATION);

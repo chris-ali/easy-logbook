@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.rememberme.PersistentToke
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private static final Logger logger = Logger.getRootLogger();
+	private static final Logger log = Logger.getRootLogger();
 	private static final int TOKEN_VALIDITY = 3600 * 24 * 14; // Token is valid for two weeks
 	
 	@Autowired
@@ -42,9 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		logger.debug("==================================");
-		logger.debug("Setting up Authentication Manager");
-		logger.debug("==================================");
+		log.info("==================================");
+		log.info("Setting up Authentication Manager");
+		log.info("==================================");
 		
 		auth
 			.jdbcAuthentication()
@@ -56,9 +56,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		logger.debug("==================================");
-		logger.debug("Setting up Web Security");
-		logger.debug("==================================");
+		log.info("==================================");
+		log.info("Setting up Web Security");
+		log.info("==================================");
 		
 		http
 			.httpBasic()
